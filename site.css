@@ -280,18 +280,16 @@ body[data-page="team"] .team-hero__title {
 .team-card__media--initials {
   display: grid;
   place-items: center;
-  background:
-    radial-gradient(circle at 78% 18%, rgba(255, 180, 67, 0.48), transparent 26%),
-    linear-gradient(145deg, #16294d, #245ed3 64%, #68b8f4);
+  background: linear-gradient(145deg, #eee7dc, #ddd2c1);
 }
 
 .team-card__media--initials span {
-  color: #fffdf9;
+  color: #1e4fd8;
   font-family: "Bricolage Grotesque", sans-serif;
   font-size: clamp(64px, 8vw, 92px);
   font-weight: 600;
   letter-spacing: -0.06em;
-  text-shadow: 0 14px 34px rgba(11, 18, 32, 0.34);
+  text-shadow: none;
 }
 
 .team-card__body {
