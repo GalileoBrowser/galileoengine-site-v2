@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Team — Volt Browser</title>
+<meta name="description" content="Meet the collaborators working on Volt and the Stepper Browser codebase.">
+<meta name="theme-color" content="#f8f4ed">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" href="volt-symbol-on-light.png" type="image/png">
+<link rel="stylesheet" href="site.css?v=20260806-team">
+<script src="site.js?v=20260806-menu" defer></script>
+<style>
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: #f8f4ed; color: #191512; font-family: "IBM Plex Sans", system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+  a { color: #1e4fd8; text-decoration-color: rgba(30,79,216,.3); text-underline-offset: 3px; }
+  a:hover { color: #c8760c; text-decoration-color: rgba(200,118,12,.5); }
+  ::selection { background: #2f6bff; color: #fff; }
+</style>
+</head>
+<body data-page="team">
+<a class="skip-link" href="#main-content">Skip to content</a>
+<div style="min-height:100vh;background:#f8f4ed">
+  <header class="site-header" style="position:sticky;top:0;z-index:50;background:rgba(248,244,237,.88);backdrop-filter:blur(12px);border-bottom:1px solid #e8dfd1">
+    <div class="site-header__inner" style="max-width:1200px;margin:0 auto;padding:0 32px;height:70px;display:flex;align-items:center;justify-content:space-between;gap:24px">
+      <a class="site-brand" href="index.html" aria-label="Volt home" style="display:flex;align-items:center;gap:12px;text-decoration:none">
+        <img class="site-brand__symbol" src="volt-symbol-on-light.png" alt="Volt" width="44" height="44">
+      </a>
+      <nav class="site-nav" id="primary-navigation" aria-label="Primary navigation" style="display:flex;align-items:center;gap:8px;font-size:14px">
+        <a href="Goals.dc.html" style="text-decoration:none;color:#6b6154;padding:8px 14px;border-radius:999px">Goals</a>
+        <a href="Status.dc.html" style="text-decoration:none;color:#6b6154;padding:8px 14px;border-radius:999px">Status</a>
+        <a href="Build.dc.html" style="text-decoration:none;color:#6b6154;padding:8px 14px;border-radius:999px">Build</a>
+        <a href="Contribute.dc.html" style="text-decoration:none;color:#6b6154;padding:8px 14px;border-radius:999px">Contribute</a>
+        <a href="About.dc.html" style="text-decoration:none;color:#6b6154;padding:8px 14px;border-radius:999px">About</a>
+        <a href="Team.dc.html" aria-current="page" style="text-decoration:none;color:#191512;font-weight:500;background:#efe8dc;padding:8px 14px;border-radius:999px">Team</a>
+        <a href="https://github.com/lolren/stepper-browser" aria-label="Open the Volt repository on GitHub" style="text-decoration:none;margin-left:8px;background:#191512;color:#f8f4ed;padding:10px 18px;border-radius:999px;font-size:13.5px;font-weight:500">GitHub ↗</a>
+      </nav>
+      <button class="menu-toggle" type="button" aria-label="Toggle navigation" aria-controls="primary-navigation" aria-expanded="false"><span class="menu-toggle__icon" aria-hidden="true"></span></button>
+    </div>
+  </header>
+
+  <main class="page-main" id="main-content">
+    <section class="team-hero" style="position:relative;overflow:hidden">
+      <div style="position:absolute;top:-280px;right:-140px;width:760px;height:620px;background:radial-gradient(circle at center, rgba(47,107,255,.13), rgba(248,244,237,0) 62%);pointer-events:none"></div>
+      <div style="position:absolute;top:-260px;left:-260px;width:680px;height:580px;background:radial-gradient(circle at center, rgba(227,138,18,.11), rgba(248,244,237,0) 64%);pointer-events:none"></div>
+      <div class="team-hero__inner" style="position:relative;max-width:1200px;margin:0 auto;padding:64px 32px 40px">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#2f6bff;margin-bottom:20px">Team</div>
+        <h1 class="team-hero__title" style="font-family:'Bricolage Grotesque',sans-serif;font-weight:600;font-size:56px;line-height:1.04;letter-spacing:-.035em;margin:0 0 20px;max-width:22ch;color:#191512;text-wrap:balance">The people behind Volt.</h1>
+        <p style="font-size:19px;line-height:1.58;color:#5a5145;max-width:64ch;margin:0;text-wrap:pretty">Three collaborators working across the Stepper Browser codebase, product direction, and verifiable delivery.</p>
+      </div>
+    </section>
+
+    <section class="team-people" aria-labelledby="team-heading" style="max-width:1200px;margin:0 auto;padding:8px 32px 64px">
+      <h2 id="team-heading" class="sr-only">Project collaborators</h2>
+      <div class="team-grid">
+        <article class="team-card">
+          <div class="team-card__media">
+            <img src="team-loren.png" alt="GitHub profile image of Loren Bufanu" width="460" height="460">
+          </div>
+          <div class="team-card__body">
+            <div class="team-card__role">Repository maintainer</div>
+            <h3>Loren Bufanu</h3>
+            <p>Maintains the repository and leads day-to-day engine and browser-shell work.</p>
+            <a class="team-card__link" href="https://github.com/lolren" aria-label="Loren Bufanu on GitHub">@lolren <span aria-hidden="true">↗</span></a>
+          </div>
+        </article>
+
+        <article class="team-card">
+          <div class="team-card__media">
+            <img src="team-silviu.png" alt="GitHub profile image of Ionel Silviu Ghimpau" width="460" height="460">
+          </div>
+          <div class="team-card__body">
+            <div class="team-card__role">Contributor</div>
+            <h3>Ionel Silviu Ghimpau</h3>
+            <p>Contributes implementation, verification, and product-delivery work.</p>
+            <a class="team-card__link" href="https://github.com/Silviu3369" aria-label="Ionel Silviu Ghimpau on GitHub">@Silviu3369 <span aria-hidden="true">↗</span></a>
+          </div>
+        </article>
+
+        <article class="team-card">
+          <div class="team-card__media team-card__media--initials" aria-hidden="true">
+            <span>MC</span>
+          </div>
+          <div class="team-card__body">
+            <div class="team-card__role">Project collaborator</div>
+            <h3>Manuel Condurache</h3>
+            <p>Works with the team on the project’s ongoing delivery and development.</p>
+          </div>
+        </article>
+      </div>
+      <p class="team-profile-note">The two photographs come from the linked public GitHub profiles. Manuel is shown with initials because no verified public GitHub profile was found.</p>
+    </section>
+
+    <section class="team-method" style="background:#0b1220">
+      <div style="max-width:1200px;margin:0 auto;padding:64px 32px">
+        <div class="team-method__heading">
+          <div>How the team works</div>
+          <h2>Small scopes. Clear evidence. Clean handoffs.</h2>
+          <p>The project separates ownership and records what was actually tested. That keeps a large browser codebase reviewable and makes progress reproducible.</p>
+        </div>
+        <div class="team-method__grid">
+          <article><span>01</span><h3>Explicit ownership</h3><p>Each track has a bounded scope so collaborators can move independently without overwriting one another.</p></article>
+          <article><span>02</span><h3>Evidence before claims</h3><p>Builds, tests, and retained results determine status; a merged change alone is not a finished gate.</p></article>
+          <article><span>03</span><h3>Upstream-quality work</h3><p>General engine improvements are kept reusable and suitable for contribution back to Servo.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="team-cta" style="max-width:1200px;margin:0 auto;padding:56px 32px 64px">
+      <div style="background:#fffdf9;border:1px solid #e8dfd1;border-radius:26px;padding:40px 42px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:36px;align-items:center">
+        <div>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#2f6bff;margin-bottom:14px">Work with us</div>
+          <h2 style="font-family:'Bricolage Grotesque',sans-serif;font-size:34px;line-height:1.08;letter-spacing:-.03em;margin:0 0 12px">Start with a measurable task.</h2>
+          <p style="font-size:16px;line-height:1.6;color:#5a5145;margin:0;max-width:58ch">Read the contribution workflow, choose a bounded issue, and define how the result will be verified.</p>
+        </div>
+        <a href="Contribute.dc.html" style="text-decoration:none;background:#2f6bff;color:#fff;padding:15px 26px;font-size:15px;font-weight:600;border-radius:999px;white-space:nowrap">How to contribute</a>
+      </div>
+    </section>
+
+    <nav class="page-pager" aria-label="Page navigation" style="max-width:1200px;margin:0 auto;padding:0 32px 64px;display:flex;justify-content:space-between;gap:24px;font-size:15px">
+      <a href="About.dc.html" style="text-decoration:none;color:#6b6154;background:#fffdf9;border:1px solid #e8dfd1;padding:14px 24px;border-radius:999px">← About</a>
+      <a href="Goals.dc.html" style="text-decoration:none;color:#191512;font-weight:500;background:#fffdf9;border:1px solid #e8dfd1;padding:14px 24px;border-radius:999px">Goals →</a>
+    </nav>
+  </main>
+
+  <footer class="site-footer" style="border-top:1px solid #e8dfd1;background:#f2ece1">
+    <div style="max-width:1200px;margin:0 auto;padding:64px 32px 40px;display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr) minmax(0,1fr);gap:56px">
+      <div>
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:18px">
+          <span style="width:34px;height:34px;display:flex;align-items:center;justify-content:center"><img src="volt-symbol-on-light.png" alt="" width="32" height="32" style="width:32px;height:32px;display:block"></span>
+          <span style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:17px;color:#191512">Volt</span>
+        </div>
+        <p style="margin:0;font-size:14.5px;line-height:1.65;max-width:46ch;color:#6b6154">An independent, experimental desktop browser built on the Servo web engine. Licensed under the <a href="https://github.com/lolren/stepper-browser/blob/main/LICENSE">Mozilla Public License 2.0</a>.</p>
+      </div>
+      <div style="display:grid;gap:11px;align-content:start;font-size:14.5px">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#8b8071;margin-bottom:4px">Pages</div>
+        <a href="About.dc.html" style="text-decoration:none;color:#6b6154">About</a>
+        <a href="Goals.dc.html" style="text-decoration:none;color:#6b6154">Goals</a>
+        <a href="Status.dc.html" style="text-decoration:none;color:#6b6154">Status</a>
+        <a href="Build.dc.html" style="text-decoration:none;color:#6b6154">Build &amp; run</a>
+        <a href="Contribute.dc.html" style="text-decoration:none;color:#6b6154">Contribute</a>
+        <a href="Team.dc.html" style="text-decoration:none;color:#6b6154">Team</a>
+      </div>
+      <div style="display:grid;gap:11px;align-content:start;font-size:14.5px">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#8b8071;margin-bottom:4px">Upstream</div>
+        <a href="https://github.com/lolren/stepper-browser" style="text-decoration:none;color:#6b6154">Repository</a>
+        <a href="https://github.com/servo/servo" style="text-decoration:none;color:#6b6154">Servo engine</a>
+        <a href="https://book.servo.org/" style="text-decoration:none;color:#6b6154">Servo Book</a>
+        <a href="https://web-platform-tests.org/" style="text-decoration:none;color:#6b6154">Web Platform Tests</a>
+      </div>
+    </div>
+    <div style="max-width:1200px;margin:0 auto;padding:0 32px 56px">
+      <p style="margin:0;padding-top:28px;border-top:1px solid #e0d5c3;font-size:13.5px;line-height:1.65;color:#8b8071;max-width:94ch">Volt is not affiliated with or endorsed by the Servo project, Linux Foundation Europe, Mozilla, Firefox, Google, or Chrome. Those names are used only for attribution and compatibility reference.</p>
+    </div>
+  </footer>
+</div>
+</body>
+</html>

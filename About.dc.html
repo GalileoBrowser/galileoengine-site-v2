@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>About — Volt Browser</title>
+<meta name="description" content="How Volt separates its browser product from the Servo engine and keeps upstream boundaries explicit.">
+<meta name="theme-color" content="#f8f4ed">
+<link rel="icon" href="volt-symbol-on-light.png" type="image/png">
+<link rel="stylesheet" href="site.css?v=20260806-team">
+<script src="./support.js"></script>
+<script src="./site.js?v=20260806-menu" defer></script>
+</head>
+<body data-page="about">
+<a class="skip-link" href="#main-content">Skip to content</a>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: #f8f4ed; color: #191512; font-family: "IBM Plex Sans", system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+  a { color: #1e4fd8; text-decoration-color: rgba(30,79,216,.3); text-underline-offset: 3px; }
+  a:hover { color: #c8760c; text-decoration-color: rgba(200,118,12,.5); }
+  ::selection { background: #2f6bff; color: #fff; }
+</style>
+</helmet>
+
+<div style="min-height:100vh;background:#f8f4ed">
+
+  <header class="site-header" style="position:sticky;top:0;z-index:50;background:rgba(248,244,237,.88);backdrop-filter:blur(12px);border-bottom:1px solid #e8dfd1">
+    <div class="site-header__inner" style="max-width:1200px;margin:0 auto;padding:0 32px;height:70px;display:flex;align-items:center;justify-content:space-between;gap:24px">
+      <a class="site-brand" href="index.html" aria-label="Volt home" style="display:flex;align-items:center;gap:12px;text-decoration:none">
+        <img class="site-brand__symbol" src="volt-symbol-on-light.png" alt="Volt" width="44" height="44" />
+      </a>
+      <nav class="site-nav" id="primary-navigation" aria-label="Primary navigation" style="display:flex;align-items:center;gap:8px;font-size:14px">
+        <a href="Goals.dc.html" style="text-decoration:none;color:#6b6154;padding:8px 14px;border-radius:999px" style-hover="background:#efe8dc;color:#191512">Goals</a>
+        <a href="Status.dc.html" style="text-decoration:none;color:#6b6154;padding:8px 14px;border-radius:999px" style-hover="background:#efe8dc;color:#191512">Status</a>
+        <a href="Build.dc.html" style="text-decoration:none;color:#6b6154;padding:8px 14px;border-radius:999px" style-hover="background:#efe8dc;color:#191512">Build</a>
+        <a href="Contribute.dc.html" style="text-decoration:none;color:#6b6154;padding:8px 14px;border-radius:999px" style-hover="background:#efe8dc;color:#191512">Contribute</a>
+        <a href="About.dc.html" aria-current="page" style="text-decoration:none;color:#191512;font-weight:500;background:#efe8dc;padding:8px 14px;border-radius:999px">About</a>
+        <a href="Team.dc.html" style="text-decoration:none;color:#6b6154;padding:8px 14px;border-radius:999px" style-hover="background:#efe8dc;color:#191512">Team</a>
+        <a href="https://github.com/lolren/stepper-browser" style="text-decoration:none;margin-left:8px;background:#191512;color:#f8f4ed;padding:10px 18px;border-radius:999px;font-size:13.5px;font-weight:500" style-hover="background:#2f6bff">GitHub ↗</a>
+      </nav>
+      <button class="menu-toggle" type="button" aria-label="Toggle navigation" aria-controls="primary-navigation" aria-expanded="false"><span class="menu-toggle__icon" aria-hidden="true"></span></button>
+    </div>
+  </header>
+
+  <main class="page-main" id="main-content">
+  <section class="about-hero" style="position:relative;overflow:hidden">
+    <div style="position:absolute;top:-260px;left:-180px;width:760px;height:620px;background:radial-gradient(circle at center, rgba(227,138,18,.13), rgba(248,244,237,0) 62%);pointer-events:none"></div>
+    <div class="about-hero__inner" style="position:relative;max-width:1200px;margin:0 auto;padding:64px 32px 40px">
+      <div data-reveal="" style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#2f6bff;margin-bottom:20px">About</div>
+      <h1 class="about-hero__title" data-reveal="" style="font-family:'Bricolage Grotesque',sans-serif;font-weight:600;font-size:56px;line-height:1.04;letter-spacing:-.035em;margin:0 0 20px;max-width:24ch;color:#191512;text-wrap:balance">The browser and its engine.</h1>
+      <p data-reveal="" style="font-size:19px;line-height:1.58;color:#5a5145;max-width:64ch;margin:0;text-wrap:pretty">Volt is the visual identity used by this website. The repository and current source still name the product Stepper Browser, while Servo remains the engine and embedding API. The distinction is explicit so branding never masquerades as completed product work.</p>
+    </div>
+  </section>
+
+  <section class="about-boundaries" style="max-width:1200px;margin:0 auto;padding:8px 32px 28px">
+    <div data-reveal="" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px">
+      <div style="background:#fffdf9;border:1px solid #e8dfd1;border-radius:22px;padding:30px 28px">
+        <h2 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:600;font-size:24px;letter-spacing:-.025em;margin:0 0 12px;color:#191512">A thin fork with clear boundaries</h2>
+        <p style="font-size:16px;line-height:1.62;color:#5a5145;margin:0">Internal crates and engine symbols are not renamed merely for branding — that reduces breakage and makes upstream merges and contributions practical.</p>
+      </div>
+      <div style="background:#fffdf9;border:1px solid #e8dfd1;border-radius:22px;padding:30px 28px">
+        <h2 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:600;font-size:24px;letter-spacing:-.025em;margin:0 0 12px;color:#191512">Fixes go home to Servo</h2>
+        <p style="font-size:16px;line-height:1.62;color:#5a5145;margin:0">Generally useful engine work is written as upstream-quality Servo changes and proposed upstream first, or in parallel. Volt-only product code stays behind clear shell, service, and branding boundaries.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="about-facts" style="max-width:1200px;margin:0 auto;padding:0 32px 64px">
+    <div data-reveal="" style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:#e8dfd1;border:1px solid #e8dfd1;border-radius:20px;overflow:hidden">
+      <div style="background:#fffdf9;padding:24px">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#8b8071;margin-bottom:9px">Site identity</div>
+        <div style="font-size:15.5px;font-weight:500">Volt</div>
+        <div style="font-size:13.5px;color:#8b8071;margin-top:5px">codebase product: <span style="font-family:'IBM Plex Mono',monospace;font-size:13px">Stepper Browser</span></div>
+      </div>
+      <div style="background:#fffdf9;padding:24px">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#8b8071;margin-bottom:9px">Repository</div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:14px"><a href="https://github.com/lolren/stepper-browser">lolren/stepper-browser</a></div>
+      </div>
+      <div style="background:#fffdf9;padding:24px">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#8b8071;margin-bottom:9px">Engine</div>
+        <div style="font-size:15.5px;font-weight:500">Servo</div>
+        <div style="font-size:13.5px;color:#8b8071;margin-top:5px">tracking <span style="font-family:'IBM Plex Mono',monospace;font-size:13px">servo/servo</span></div>
+      </div>
+      <div style="background:#fffdf9;padding:24px">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#8b8071;margin-bottom:9px">Upstream base</div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:13px;word-break:break-all;color:#5a5145">93d8f85503e0f0ef29115827dc1023174aeeaff1</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="about-compatibility" style="background:#0b1220;border-radius:0">
+    <div style="max-width:1200px;margin:0 auto;padding:64px 32px">
+      <div data-reveal="" style="max-width:64ch;margin-bottom:34px">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#ffb443;margin-bottom:18px">Compatibility</div>
+        <h2 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:600;font-size:42px;line-height:1.08;letter-spacing:-.03em;margin:0 0 18px;color:#fbf8f2">The compatibility contract</h2>
+        <p style="font-size:17.5px;line-height:1.6;color:#a3adc2;margin:0;text-wrap:pretty">Firefox and Chrome are products, not specifications, and they do not behave identically. Volt does not define success as impersonating either one. Its compatibility contract is:</p>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px">
+        <sc-for list="{{ contract }}" as="c" hint-placeholder-count="4">
+          <div data-reveal="" style="background:#131c2e;border:1px solid #1f2a41;border-radius:20px;padding:28px 26px">
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#7ca6ff;margin-bottom:14px">{{ c.n }}</div>
+            <p style="margin:0;font-size:16.5px;line-height:1.6;color:#d5dbe7">{{ c.text }}</p>
+          </div>
+        </sc-for>
+      </div>
+      <p data-reveal="" style="margin:30px 0 0;font-size:15.5px;line-height:1.6;color:#7c8aa5;max-width:70ch">An exact clone of both browsers is neither possible nor desirable. Extensions, account sync, stores, DRM, codecs, safe-browsing services, and vendor-specific APIs require separate technical, licensing, privacy, and product decisions.</p>
+    </div>
+  </section>
+
+  <section class="about-repository" style="max-width:1200px;margin:0 auto;padding:64px 32px">
+    <div data-reveal="" style="max-width:64ch;margin-bottom:30px">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#2f6bff;margin-bottom:18px">Repository</div>
+      <h2 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:600;font-size:40px;line-height:1.08;letter-spacing:-.03em;margin:0;color:#191512">How the repository is laid out</h2>
+    </div>
+    <div class="about-repo-layout" data-reveal="" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px">
+      <sc-for list="{{ layout }}" as="row" hint-placeholder-count="12">
+        <div style="display:grid;grid-template-columns:minmax(0,190px) minmax(0,1fr);gap:20px;padding:18px 20px;border:1px solid #e8dfd1;border-radius:16px;background:#fffdf9;align-items:baseline">
+          <code style="font-family:'IBM Plex Mono',monospace;font-size:13.5px;color:#1e4fd8;overflow-wrap:anywhere">{{ row.path }}</code>
+          <span style="color:#5a5145;line-height:1.55;font-size:15.5px">{{ row.desc }}</span>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <section class="about-security" style="max-width:1200px;margin:0 auto;padding:0 32px 64px">
+    <div data-reveal="" style="background:#fdf1dc;border:1px solid #f0d9ac;border-radius:24px;padding:40px 40px 42px;max-width:none">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#9a5f06;margin-bottom:18px">Security</div>
+      <h2 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:600;font-size:34px;line-height:1.1;letter-spacing:-.03em;margin:0 0 18px;color:#191512;max-width:24ch">Do not use this build to protect sensitive data</h2>
+      <p style="font-size:16.5px;line-height:1.65;color:#5a5145;margin:0 0 16px;max-width:72ch;text-wrap:pretty">A browser should not be called production-ready until its threat model, sandbox, dependency response, signing, update path, privacy behavior, and security reporting process have been audited. Those are release blockers in the roadmap.</p>
+      <p style="font-size:16.5px;line-height:1.65;color:#5a5145;margin:0;max-width:72ch;text-wrap:pretty">Security problems inherited from Servo should be reported privately through Servo's <a href="https://github.com/servo/servo/security/advisories/new">security advisory form</a>. A separate private Volt reporting channel will be established before public alpha distribution.</p>
+    </div>
+  </section>
+
+  <nav class="page-pager" style="max-width:1200px;margin:0 auto;padding:0 32px 64px;display:flex;justify-content:space-between;gap:24px;font-size:15px">
+    <a href="index.html" style="text-decoration:none;color:#6b6154;background:#fffdf9;border:1px solid #e8dfd1;padding:14px 24px;border-radius:999px" style-hover="border-color:#191512;color:#191512">← Home</a>
+    <a href="Team.dc.html" style="text-decoration:none;color:#191512;font-weight:500;background:#fffdf9;border:1px solid #e8dfd1;padding:14px 24px;border-radius:999px" style-hover="border-color:#191512">Team →</a>
+  </nav>
+
+  </main>
+
+  <footer class="site-footer" style="border-top:1px solid #e8dfd1;background:#f2ece1">
+    <div style="max-width:1200px;margin:0 auto;padding:64px 32px 40px;display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr) minmax(0,1fr);gap:56px">
+      <div>
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:18px">
+          <span style="width:34px;height:34px;display:flex;align-items:center;justify-content:center">
+            <img src="volt-symbol-on-light.png" alt="" width="32" height="32" style="width:32px;height:32px;display:block" />
+          </span>
+          <span style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:17px;color:#191512">Volt</span>
+        </div>
+        <p style="margin:0;font-size:14.5px;line-height:1.65;max-width:46ch;color:#6b6154">An independent, experimental desktop browser built on the Servo web engine. Licensed under the <a href="https://github.com/lolren/stepper-browser/blob/main/LICENSE">Mozilla Public License 2.0</a>.</p>
+      </div>
+      <div style="display:grid;gap:11px;align-content:start;font-size:14.5px">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#8b8071;margin-bottom:4px">Pages</div>
+        <a href="About.dc.html" style="text-decoration:none;color:#6b6154" style-hover="color:#191512">About</a>
+        <a href="Goals.dc.html" style="text-decoration:none;color:#6b6154" style-hover="color:#191512">Goals</a>
+        <a href="Status.dc.html" style="text-decoration:none;color:#6b6154" style-hover="color:#191512">Status</a>
+        <a href="Build.dc.html" style="text-decoration:none;color:#6b6154" style-hover="color:#191512">Build &amp; run</a>
+        <a href="Contribute.dc.html" style="text-decoration:none;color:#6b6154" style-hover="color:#191512">Contribute</a>
+        <a href="Team.dc.html" style="text-decoration:none;color:#6b6154" style-hover="color:#191512">Team</a>
+      </div>
+      <div style="display:grid;gap:11px;align-content:start;font-size:14.5px">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#8b8071;margin-bottom:4px">Upstream</div>
+        <a href="https://github.com/lolren/stepper-browser" style="text-decoration:none;color:#6b6154" style-hover="color:#191512">Repository</a>
+        <a href="https://github.com/servo/servo" style="text-decoration:none;color:#6b6154" style-hover="color:#191512">Servo engine</a>
+        <a href="https://book.servo.org/" style="text-decoration:none;color:#6b6154" style-hover="color:#191512">Servo Book</a>
+        <a href="https://web-platform-tests.org/" style="text-decoration:none;color:#6b6154" style-hover="color:#191512">Web Platform Tests</a>
+      </div>
+    </div>
+    <div style="max-width:1200px;margin:0 auto;padding:0 32px 56px">
+      <p style="margin:0;padding-top:28px;border-top:1px solid #e0d5c3;font-size:13.5px;line-height:1.65;color:#8b8071;max-width:94ch">Volt is not affiliated with or endorsed by the Servo project, Linux Foundation Europe, Mozilla, Firefox, Google, or Chrome. Those names are used only for attribution and compatibility reference.</p>
+    </div>
+  </footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  componentDidMount() { this.reveal(); }
+
+  reveal() {
+    if (typeof IntersectionObserver === "undefined") return;
+    const run = () => {
+      const els = Array.from(document.querySelectorAll("[data-reveal]:not([data-revealed])"));
+      if (!els.length) return;
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((e) => {
+          if (!e.isIntersecting) return;
+          e.target.style.opacity = "1";
+          e.target.style.transform = "none";
+          io.unobserve(e.target);
+        });
+      }, { rootMargin: "0px 0px -6% 0px", threshold: 0.04 });
+      els.forEach((el, i) => {
+        el.setAttribute("data-revealed", "");
+        el.style.opacity = "0";
+        el.style.transform = "translateY(16px)";
+        const d = Math.min(i % 6, 5) * 60;
+        el.style.transition = "opacity .65s cubic-bezier(.22,.61,.24,1) " + d + "ms, transform .65s cubic-bezier(.22,.61,.24,1) " + d + "ms";
+        io.observe(el);
+      });
+    };
+    requestAnimationFrame(() => requestAnimationFrame(run));
+  }
+
+  renderVals() {
+    return {
+      contract: [
+        { n: "01", text: "Implement stable web standards from WHATWG, W3C, ECMA-262, Khronos, and other relevant standards bodies." },
+        { n: "02", text: "Use shared conformance suites — especially Web Platform Tests — as the primary pass/fail evidence." },
+        { n: "03", text: "Compare the same tests and user journeys in Volt, Firefox, and Chrome to find interoperability gaps." },
+        { n: "04", text: "Document every deliberate exception, site intervention, unavailable proprietary service, or hardware-specific waiver." }
+      ],
+      layout: [
+        { path: "components/", desc: "Servo engine components" },
+        { path: "ports/servoshell/", desc: "The current desktop test shell — primary starting point for the Volt product shell" },
+        { path: "tests/wpt/", desc: "Web Platform Tests, manifests, and expected results" },
+        { path: "tests/unit/", desc: "Rust unit tests" },
+        { path: "python/servo/", desc: "mach build and test commands" },
+        { path: ".github/workflows/", desc: "Inherited CI workflows; require a fork-specific audit before being treated as release infrastructure" },
+        { path: "tools/stepper/", desc: "Portable task runner, environment checks, test fixtures, and guarded feature sessions" },
+        { path: "docs/TEAM_WORKSTREAMS.md", desc: "Two-developer ownership and integration rules" },
+        { path: "docs/PHASE_0_BASELINE.md", desc: "Measured baseline ledger and open qualification gates" },
+        { path: "docs/FEATURE_MATRIX.md", desc: "Generated capability inventory and evidence status" },
+        { path: "docs/AUTOMATED_FEATURE_DEVELOPMENT.md", desc: "Bounded baseline, implementation, regression, and handoff procedure" },
+        { path: "ROADMAP.md", desc: "Product, compatibility, security, and release plan" }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

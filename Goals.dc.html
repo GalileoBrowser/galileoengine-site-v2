@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Goals — Volt Browser</title>
+<meta name="description" content="The five product, compatibility, safety, and upstream goals that define Volt Browser.">
+<meta name="theme-color" content="#f8f4ed">
+<link rel="icon" href="volt-symbol-on-light.png" type="image/png">
+<link rel="stylesheet" href="site.css?v=20260806-team">
+<script src="./support.js"></script>
+<script src="./site.js?v=20260806-menu" defer></script>
+</head>
+<body data-page="goals">
+<a class="skip-link" href="#main-content">Skip to content</a>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: #f8f4ed; color: #191512; font-family: "IBM Plex Sans", system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+  a { color: #1e4fd8; text-decoration-color: rgba(30,79,216,.3); text-underline-offset: 3px; }
+  a:hover { color: #c8760c; text-decoration-color: rgba(200,118,12,.5); }
+  ::selection { background: #2f6bff; color: #fff; }
+</style>
+</helmet>
+
+<div style="min-height:100vh;background:#f8f4ed">
+
+  <header class="site-header" style="position:sticky;top:0;z-index:50;background:rgba(248,244,237,.88);backdrop-filter:blur(12px);border-bottom:1px solid #e8dfd1">
+    <div class="site-header__inner" style="max-width:1200px;margin:0 auto;padding:0 32px;height:70px;display:flex;align-items:center;justify-content:space-between;gap:24px">
+      <a class="site-brand" href="index.html" aria-label="Volt home" style="display:flex;align-items:center;gap:12px;text-decoration:none">
+        <img class="site-brand__symbol" src="volt-symbol-on-light.png" alt="Volt" width="44" height="44" />
+      </a>
+      <nav class="site-nav" id="primary-navigation" aria-label="Primary navigation" style="display:flex;align-items:center;gap:8px;font-size:14px">
+        <a href="Goals.dc.html" aria-current="page" style="text-decoration:none;color:#191512;font-weight:500;background:#efe8dc;padding:8px 14px;border-radius:999px">Goals</a>
+        <a href="Status.dc.html" style="text-decoration:none;color:#6b6154;padding:8px 14px;border-radius:999px" style-hover="background:#efe8dc;color:#191512">Status</a>
+        <a href="Build.dc.html" style="text-decoration:none;color:#6b6154;padding:8px 14px;border-radius:999px" style-hover="background:#efe8dc;color:#191512">Build</a>
+        <a href="Contribute.dc.html" style="text-decoration:none;color:#6b6154;padding:8px 14px;border-radius:999px" style-hover="background:#efe8dc;color:#191512">Contribute</a>
+        <a href="About.dc.html" style="text-decoration:none;color:#6b6154;padding:8px 14px;border-radius:999px" style-hover="background:#efe8dc;color:#191512">About</a>
+        <a href="Team.dc.html" style="text-decoration:none;color:#6b6154;padding:8px 14px;border-radius:999px" style-hover="background:#efe8dc;color:#191512">Team</a>
+        <a href="https://github.com/lolren/stepper-browser" style="text-decoration:none;margin-left:8px;background:#191512;color:#f8f4ed;padding:10px 18px;border-radius:999px;font-size:13.5px;font-weight:500" style-hover="background:#2f6bff">GitHub ↗</a>
+      </nav>
+      <button class="menu-toggle" type="button" aria-label="Toggle navigation" aria-controls="primary-navigation" aria-expanded="false"><span class="menu-toggle__icon" aria-hidden="true"></span></button>
+    </div>
+  </header>
+
+  <main class="page-main" id="main-content">
+  <section class="goals-hero" style="position:relative;overflow:hidden">
+    <div style="position:absolute;top:-260px;right:-180px;width:800px;height:640px;background:radial-gradient(circle at center, rgba(47,107,255,.13), rgba(248,244,237,0) 62%);pointer-events:none"></div>
+    <div class="goals-hero__inner" style="position:relative;max-width:1200px;margin:0 auto;padding:64px 32px 40px">
+      <div data-reveal="" style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#2f6bff;margin-bottom:20px">Goals</div>
+      <h1 class="goals-hero__title" data-reveal="" style="font-family:'Bricolage Grotesque',sans-serif;font-weight:600;font-size:56px;line-height:1.04;letter-spacing:-.035em;margin:0 0 20px;max-width:22ch;color:#191512;text-wrap:balance">What Volt must prove.</h1>
+      <p data-reveal="" style="font-size:19px;line-height:1.58;color:#5a5145;max-width:62ch;margin:0;text-wrap:pretty">Each one is broken into phases with explicit exit gates in the roadmap — nothing is claimed until the gate is measured.</p>
+    </div>
+  </section>
+
+  <section class="goals-grid" style="max-width:1200px;margin:0 auto;padding:8px 32px 64px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px">
+    <sc-for list="{{ goals }}" as="g" hint-placeholder-count="5">
+      <div class="goal-card" data-reveal="" style="background:#fffdf9;border:1px solid #e8dfd1;border-radius:22px;padding:30px 30px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:24px;align-items:start;transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease" style-hover="transform:translateY(-3px);box-shadow:0 22px 40px -28px rgba(60,45,25,.5);border-color:#d8cbb5">
+        <div style="width:46px;height:46px;border-radius:14px;background:#eaf0ff;color:#1e4fd8;display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:14px">{{ g.n }}</div>
+        <div>
+          <h2 style="font-family:'Bricolage Grotesque',sans-serif;font-size:25px;font-weight:600;margin:0 0 10px;letter-spacing:-.025em;color:#191512">{{ g.title }}</h2>
+          <p style="margin:0;font-size:16.5px;line-height:1.65;color:#5a5145;max-width:70ch">{{ g.body }}</p>
+        </div>
+      </div>
+    </sc-for>
+  </section>
+
+  <section class="goals-method" style="max-width:1200px;margin:0 auto;padding:0 32px 64px">
+    <div data-reveal="" style="position:relative;overflow:hidden;background:#0b1220;border-radius:28px;padding:44px 48px">
+      <div style="position:absolute;top:-180px;right:-100px;width:600px;height:460px;background:radial-gradient(circle at center, rgba(227,138,18,.35), rgba(11,18,32,0) 65%);pointer-events:none"></div>
+      <div style="position:relative;max-width:70ch">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#ffb443;margin-bottom:18px">Method</div>
+        <h2 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:600;font-size:38px;line-height:1.08;letter-spacing:-.03em;margin:0 0 18px;color:#fbf8f2">Gates, not promises</h2>
+        <p style="font-size:17px;line-height:1.62;color:#a3adc2;margin:0 0 16px;text-wrap:pretty">Every goal above is decomposed into phases. A phase closes only when its exit gate produces evidence — a reproducible build, a test dashboard, an audit document — not when the code merges.</p>
+        <p style="font-size:17px;line-height:1.62;color:#a3adc2;margin:0 0 32px;text-wrap:pretty">Features carry a stable ID in the feature matrix, so a claim on this site can always be traced back to the test that supports it.</p>
+        <div style="display:flex;gap:14px;flex-wrap:wrap">
+          <a href="https://github.com/lolren/stepper-browser/blob/main/ROADMAP.md" style="text-decoration:none;background:#2f6bff;color:#fff;padding:15px 28px;font-size:15px;font-weight:600;border-radius:999px;transition:transform .2s ease, background .2s ease" style-hover="background:#e38a12;transform:translateY(-2px)">Read ROADMAP.md</a>
+          <a href="https://github.com/lolren/stepper-browser/blob/main/docs/FEATURE_MATRIX.md" style="text-decoration:none;border:1px solid #2f3b52;color:#e7ebf3;padding:15px 28px;font-size:15px;font-weight:500;border-radius:999px;transition:transform .2s ease, border-color .2s ease" style-hover="border-color:#7ca6ff;transform:translateY(-2px)">Feature matrix</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <nav class="page-pager" style="max-width:1200px;margin:0 auto;padding:0 32px 64px;display:flex;justify-content:space-between;gap:24px;font-size:15px">
+    <a href="Team.dc.html" style="text-decoration:none;color:#6b6154;background:#fffdf9;border:1px solid #e8dfd1;padding:14px 24px;border-radius:999px" style-hover="border-color:#191512;color:#191512">← Team</a>
+    <a href="Status.dc.html" style="text-decoration:none;color:#191512;font-weight:500;background:#fffdf9;border:1px solid #e8dfd1;padding:14px 24px;border-radius:999px" style-hover="border-color:#191512">Status →</a>
+  </nav>
+
+  </main>
+
+  <footer class="site-footer" style="border-top:1px solid #e8dfd1;background:#f2ece1">
+    <div style="max-width:1200px;margin:0 auto;padding:64px 32px 40px;display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr) minmax(0,1fr);gap:56px">
+      <div>
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:18px">
+          <span style="width:34px;height:34px;display:flex;align-items:center;justify-content:center">
+            <img src="volt-symbol-on-light.png" alt="" width="32" height="32" style="width:32px;height:32px;display:block" />
+          </span>
+          <span style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:17px;color:#191512">Volt</span>
+        </div>
+        <p style="margin:0;font-size:14.5px;line-height:1.65;max-width:46ch;color:#6b6154">An independent, experimental desktop browser built on the Servo web engine. Licensed under the <a href="https://github.com/lolren/stepper-browser/blob/main/LICENSE">Mozilla Public License 2.0</a>.</p>
+      </div>
+      <div style="display:grid;gap:11px;align-content:start;font-size:14.5px">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#8b8071;margin-bottom:4px">Pages</div>
+        <a href="About.dc.html" style="text-decoration:none;color:#6b6154" style-hover="color:#191512">About</a>
+        <a href="Goals.dc.html" style="text-decoration:none;color:#6b6154" style-hover="color:#191512">Goals</a>
+        <a href="Status.dc.html" style="text-decoration:none;color:#6b6154" style-hover="color:#191512">Status</a>
+        <a href="Build.dc.html" style="text-decoration:none;color:#6b6154" style-hover="color:#191512">Build &amp; run</a>
+        <a href="Contribute.dc.html" style="text-decoration:none;color:#6b6154" style-hover="color:#191512">Contribute</a>
+        <a href="Team.dc.html" style="text-decoration:none;color:#6b6154" style-hover="color:#191512">Team</a>
+      </div>
+      <div style="display:grid;gap:11px;align-content:start;font-size:14.5px">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#8b8071;margin-bottom:4px">Upstream</div>
+        <a href="https://github.com/lolren/stepper-browser" style="text-decoration:none;color:#6b6154" style-hover="color:#191512">Repository</a>
+        <a href="https://github.com/servo/servo" style="text-decoration:none;color:#6b6154" style-hover="color:#191512">Servo engine</a>
+        <a href="https://book.servo.org/" style="text-decoration:none;color:#6b6154" style-hover="color:#191512">Servo Book</a>
+        <a href="https://web-platform-tests.org/" style="text-decoration:none;color:#6b6154" style-hover="color:#191512">Web Platform Tests</a>
+      </div>
+    </div>
+    <div style="max-width:1200px;margin:0 auto;padding:0 32px 56px">
+      <p style="margin:0;padding-top:28px;border-top:1px solid #e0d5c3;font-size:13.5px;line-height:1.65;color:#8b8071;max-width:94ch">Volt is not affiliated with or endorsed by the Servo project, Linux Foundation Europe, Mozilla, Firefox, Google, or Chrome. Those names are used only for attribution and compatibility reference.</p>
+    </div>
+  </footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  componentDidMount() { this.reveal(); }
+
+  reveal() {
+    if (typeof IntersectionObserver === "undefined") return;
+    const run = () => {
+      const els = Array.from(document.querySelectorAll("[data-reveal]:not([data-revealed])"));
+      if (!els.length) return;
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((e) => {
+          if (!e.isIntersecting) return;
+          e.target.style.opacity = "1";
+          e.target.style.transform = "none";
+          io.unobserve(e.target);
+        });
+      }, { rootMargin: "0px 0px -6% 0px", threshold: 0.04 });
+      els.forEach((el, i) => {
+        el.setAttribute("data-revealed", "");
+        el.style.opacity = "0";
+        el.style.transform = "translateY(16px)";
+        const d = Math.min(i % 6, 5) * 60;
+        el.style.transition = "opacity .65s cubic-bezier(.22,.61,.24,1) " + d + "ms, transform .65s cubic-bezier(.22,.61,.24,1) " + d + "ms";
+        io.observe(el);
+      });
+    };
+    requestAnimationFrame(() => requestAnimationFrame(run));
+  }
+
+  renderVals() {
+    return {
+      goals: [
+        { n: "01", title: "A complete desktop browsing experience", body: "Profiles, tabs, windows, navigation, downloads, history, bookmarks, settings, permissions, private browsing, session restore, and platform integration." },
+        { n: "02", title: "Standards-first web compatibility", body: "Measured primarily with Web Platform Tests, Interop focus tests, JavaScript and graphics conformance suites, and reproducible real-site journeys." },
+        { n: "03", title: "Interoperability with current Firefox and Chrome", body: "For standards-based websites — without blindly copying either browser's bugs. The full contract is on the About page." },
+        { n: "04", title: "Strong isolation and safe releases", body: "Process isolation, sandboxing, safe updates, privacy controls, accessibility, internationalization, crash recovery, and release engineering." },
+        { n: "05", title: "A thin fork that gives back", body: "Generally useful engine fixes are sent upstream to Servo rather than kept private to the fork." }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>
