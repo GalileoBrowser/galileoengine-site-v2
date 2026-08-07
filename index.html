@@ -1,283 +1,211 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Volt Browser — Built on Servo, measured in the open</title>
-<meta name="description" content="Volt is an experimental desktop browser built on Servo, developed through public evidence, explicit gates, and upstream-quality contributions.">
-<meta name="theme-color" content="#f8f4ed">
-<meta property="og:title" content="Volt Browser">
-<meta property="og:description" content="An experimental desktop browser built on Servo, measured one gate at a time.">
-<meta property="og:type" content="website">
-<link rel="icon" href="volt-symbol-on-light.png" type="image/png">
-<link rel="preload" href="volt-wordmark-on-light.png" as="image" type="image/png">
-<link rel="stylesheet" href="site.css?v=20260806-team">
-<script src="./support.js"></script>
-<script src="./site.js?v=20260806-menu" defer></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GalileoEngine — a browser platform built on Servo</title>
+  <meta name="description" content="GalileoEngine is an independent experimental browser platform built on Servo. Galileo Browser is its first desktop browser product.">
+  <meta name="theme-color" content="#071514">
+  <meta property="og:title" content="GalileoEngine">
+  <meta property="og:description" content="A browser platform built for measured progress.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://silviu3369.github.io/galileoengine-site/">
+  <meta property="og:image" content="https://silviu3369.github.io/galileoengine-site/assets/galileo-symbol.png">
+  <meta name="twitter:card" content="summary">
+  <link rel="canonical" href="https://silviu3369.github.io/galileoengine-site/">
+  <link rel="icon" href="assets/galileo-symbol.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="galileo.css?v=20260807-galileo">
+  <script src="site.js?v=20260807-menu" defer></script>
 </head>
-<body data-page="home">
-<a class="skip-link" href="#main-content">Skip to content</a>
-<x-dc>
-<helmet>
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
-<style>
-  html { scroll-behavior: smooth; }
-  body { margin: 0; background: #f8f4ed; color: #191512; font-family: "IBM Plex Sans", system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
-  a { color: #1e4fd8; text-decoration-color: rgba(30,79,216,.3); text-underline-offset: 3px; }
-  a:hover { color: #c8760c; text-decoration-color: rgba(200,118,12,.5); }
-  ::selection { background: #2f6bff; color: #fff; }
-</style>
-</helmet>
+<body data-page="galileo-home">
+  <a class="skip-link" href="#main-content">Skip to content</a>
 
-<div style="min-height:100vh;background:#f8f4ed">
-
-  <header class="site-header" style="position:sticky;top:0;z-index:50;background:rgba(248,244,237,.88);backdrop-filter:blur(12px);border-bottom:1px solid #e8dfd1">
-    <div class="site-header__inner" style="max-width:1200px;margin:0 auto;padding:0 32px;height:70px;display:flex;align-items:center;justify-content:space-between;gap:24px">
-      <a class="site-brand" href="index.html" aria-label="Volt home" style="display:flex;align-items:center;gap:12px;text-decoration:none">
-        <img class="site-brand__symbol" src="volt-symbol-on-light.png" alt="Volt" width="44" height="44" />
+  <header class="site-header">
+    <div class="site-header__inner">
+      <a class="site-brand" href="#top" aria-label="GalileoEngine home">
+        <img src="assets/galileo-symbol.png" alt="" width="52" height="52">
+        <span class="site-brand__name">Galileo<span>Engine</span></span>
       </a>
-      <nav class="site-nav" id="primary-navigation" aria-label="Primary navigation" style="display:flex;align-items:center;gap:8px;font-size:14px">
-        <a href="Goals.dc.html" style="text-decoration:none;color:#6b6154;padding:8px 14px;border-radius:999px" style-hover="background:#efe8dc;color:#191512">Goals</a>
-        <a href="Status.dc.html" style="text-decoration:none;color:#6b6154;padding:8px 14px;border-radius:999px" style-hover="background:#efe8dc;color:#191512">Status</a>
-        <a href="Build.dc.html" style="text-decoration:none;color:#6b6154;padding:8px 14px;border-radius:999px" style-hover="background:#efe8dc;color:#191512">Build</a>
-        <a href="Contribute.dc.html" style="text-decoration:none;color:#6b6154;padding:8px 14px;border-radius:999px" style-hover="background:#efe8dc;color:#191512">Contribute</a>
-        <a href="About.dc.html" style="text-decoration:none;color:#6b6154;padding:8px 14px;border-radius:999px" style-hover="background:#efe8dc;color:#191512">About</a>
-        <a href="Team.dc.html" style="text-decoration:none;color:#6b6154;padding:8px 14px;border-radius:999px" style-hover="background:#efe8dc;color:#191512">Team</a>
-        <a href="https://github.com/lolren/stepper-browser" aria-label="Open the Volt repository on GitHub" style="text-decoration:none;margin-left:8px;background:#191512;color:#f8f4ed;padding:10px 18px;border-radius:999px;font-size:13.5px;font-weight:500" style-hover="background:#2f6bff">GitHub ↗</a>
+
+      <nav class="site-nav" id="primary-navigation" aria-label="Primary navigation">
+        <a href="#platform">Platform</a>
+        <a href="#roadmap">Roadmap</a>
+        <a href="#browser">Galileo Browser</a>
+        <a href="team.html">Team</a>
       </nav>
-      <button class="menu-toggle" type="button" aria-label="Toggle navigation" aria-controls="primary-navigation" aria-expanded="false"><span class="menu-toggle__icon" aria-hidden="true"></span></button>
+
+      <a class="header-status" href="#status"><span></span>Research stage</a>
+      <button class="menu-toggle" type="button" aria-label="Open navigation" aria-controls="primary-navigation" aria-expanded="false"><span class="menu-toggle__icon" aria-hidden="true"></span></button>
     </div>
   </header>
 
-  <main class="page-main" id="main-content">
-  <section class="home-hero" style="position:relative;overflow:hidden">
-    <div style="position:absolute;top:-340px;right:-160px;width:900px;height:760px;background:radial-gradient(circle at center, rgba(47,107,255,.13), rgba(248,244,237,0) 62%);pointer-events:none"></div>
-    <div style="position:absolute;top:-180px;left:-220px;width:760px;height:640px;background:radial-gradient(circle at center, rgba(227,138,18,.14), rgba(248,244,237,0) 62%);pointer-events:none"></div>
-    <div class="home-hero__inner" style="position:relative;max-width:1200px;margin:0 auto;padding:96px 32px 64px;text-align:center">
-      <div class="home-hero__mark" data-reveal="" style="display:flex;justify-content:center;margin-bottom:36px">
-        <img class="home-hero__wordmark" src="volt-wordmark-on-light.png" alt="Volt" width="1117" height="629" fetchpriority="high" decoding="async" />
-      </div>
-      <div class="home-hero__eyebrow" data-reveal="" style="display:inline-flex;align-items:center;gap:10px;background:#fffdf9;border:1px solid #e8dfd1;border-radius:999px;padding:7px 16px 7px 8px;margin-bottom:34px;box-shadow:0 1px 2px rgba(60,45,25,.05)">
-        <span style="background:#eaf0ff;color:#1e4fd8;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;padding:4px 10px;border-radius:999px">Phase 0</span>
-        <span style="font-size:13.5px;color:#6b6154">Built on the Servo engine, in the open</span>
-      </div>
-      <h1 class="home-hero__title" data-reveal="" style="font-family:'Bricolage Grotesque',sans-serif;font-weight:600;font-size:64px;line-height:1.02;letter-spacing:-.035em;margin:0 auto 20px;max-width:22ch;text-wrap:balance;color:#191512">A browser built on evidence.</h1>
-      <p class="home-hero__lead" data-reveal="" style="font-size:20px;line-height:1.55;color:#5a5145;max-width:60ch;margin:0 auto 40px;text-wrap:pretty">Volt is the visual identity for the Stepper Browser codebase: an experimental Servo-based desktop browser whose shell, compatibility work, and release gates are tracked with retained repository evidence.</p>
-      <div class="home-hero__actions" data-reveal="" style="display:flex;gap:14px;flex-wrap:wrap;justify-content:center">
-        <a href="Build.dc.html" style="text-decoration:none;background:#2f6bff;color:#fff;padding:16px 30px;font-size:15px;font-weight:600;border-radius:999px;box-shadow:0 10px 24px -12px rgba(47,107,255,.9);transition:transform .2s ease, box-shadow .2s ease" style-hover="background:#1e4fd8;transform:translateY(-2px);box-shadow:0 16px 30px -14px rgba(47,107,255,1)">Build from source</a>
-        <a href="Goals.dc.html" style="text-decoration:none;background:#fffdf9;border:1px solid #e0d5c3;color:#191512;padding:16px 30px;font-size:15px;font-weight:500;border-radius:999px;transition:transform .2s ease, border-color .2s ease" style-hover="border-color:#191512;transform:translateY(-2px)">What we're building</a>
-      </div>
-    </div>
-  </section>
+  <main id="main-content">
+    <section class="hero" id="top" aria-labelledby="hero-title">
+      <div class="hero__grid" aria-hidden="true"></div>
+      <div class="hero__glow hero__glow--teal" aria-hidden="true"></div>
+      <div class="hero__glow hero__glow--green" aria-hidden="true"></div>
 
-  <section class="repo-proof-section" style="max-width:1200px;margin:0 auto;padding:8px 32px 0">
-    <div class="repo-proof" data-reveal="">
-      <div class="repo-proof__header">
-        <div>
-          <div class="repo-proof__eyebrow">Repository snapshot · 6 August 2026</div>
-          <h2>Real repository state, not a browser mockup.</h2>
-          <p>The codebase still uses the Stepper Browser product name and the <code>servoshell</code> executable. Its current shell is functional but only <strong>observed-partial</strong> — not release-qualified.</p>
-        </div>
-        <a class="repo-proof__commit" href="https://github.com/lolren/stepper-browser/commit/af08a0601a6268d7eb7c8770946a401d8ec3a5ee">main · af08a060 ↗</a>
-      </div>
-
-      <div class="repo-proof__stats" aria-label="Feature matrix summary">
-        <div><strong>68</strong><span>tracked feature rows</span></div>
-        <div><strong>52</strong><span>observed-partial</span></div>
-        <div><strong>7</strong><span>unmeasured</span></div>
-        <div><strong>0</strong><span>automation-qualified rows</span></div>
-      </div>
-
-      <div class="repo-proof__body">
-        <div>
-          <h3>What the shell inventory actually records</h3>
-          <ul>
-            <li>Top menus and a toolbar with Back, Forward, Reload, Home, address/search, preferences, and Settings.</li>
-            <li>Tab selection and closing, plus new-tab and new-window actions.</li>
-            <li>A persistent Stepper settings page, internal status pages, and first-run onboarding.</li>
-            <li>Persistent visit ranking and visible address-bar suggestions.</li>
-          </ul>
-        </div>
-        <aside class="repo-proof__source">
-          <span>Evidence scope · observed-partial</span>
-          <p>These are source-level and focused-contract observations. They do not establish production readiness, complete workflows, or supported releases.</p>
-          <a href="https://github.com/lolren/stepper-browser/blob/main/docs/FEATURE_MATRIX.md">Feature matrix ↗</a>
-          <a href="https://github.com/lolren/stepper-browser/blob/main/docs/UI_UX_SHELL_CHECKLIST.md">Shell checklist ↗</a>
-        </aside>
-      </div>
-    </div>
-    <p class="repo-proof-note">Repository access is currently restricted. Status values are pinned to the linked commit so the page does not present moving targets as permanent facts.</p>
-  </section>
-
-  <section class="home-facts" style="max-width:1200px;margin:0 auto;padding:44px 32px 0">
-    <div data-reveal="" style="display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:1px;background:#e8dfd1;border:1px solid #e8dfd1;border-radius:20px;overflow:hidden">
-      <div style="background:#fffdf9;padding:22px 24px">
-        <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#8b8071;margin-bottom:8px">Engine</div>
-        <div style="font-size:15.5px;font-weight:500">Servo</div>
-      </div>
-      <div style="background:#fffdf9;padding:22px 24px">
-        <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#8b8071;margin-bottom:8px">Language</div>
-        <div style="font-size:15.5px;font-weight:500">Rust</div>
-      </div>
-      <div style="background:#fffdf9;padding:22px 24px">
-        <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#8b8071;margin-bottom:8px">Stage</div>
-        <div style="font-size:15.5px;font-weight:500">Bootstrap</div>
-      </div>
-      <div style="background:#fffdf9;padding:22px 24px">
-        <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#8b8071;margin-bottom:8px">License</div>
-        <div style="font-size:15.5px;font-weight:500">MPL-2.0</div>
-      </div>
-      <div style="background:#fffdf9;padding:22px 24px">
-        <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#8b8071;margin-bottom:8px">Release scope</div>
-        <div style="font-size:15.5px;font-weight:500">Linux first</div>
-      </div>
-    </div>
-  </section>
-
-  <section class="home-warning" style="max-width:1200px;margin:0 auto;padding:28px 32px 0">
-    <div data-reveal="" style="background:#fdf1dc;border:1px solid #f0d9ac;border-radius:20px;padding:22px 26px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:20px;align-items:start">
-      <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#9a5f06;background:#fbe3b8;padding:6px 12px;border-radius:999px;white-space:nowrap">Not ready</span>
-      <p style="margin:0;font-size:15.5px;line-height:1.6;color:#5a5145;max-width:92ch">Volt is <strong style="font-weight:600;color:#191512">not ready for everyday or security-sensitive browsing</strong>. The current fork still runs Servo's <code style="font-family:'IBM Plex Mono',monospace;font-size:14px">servoshell</code>, retains many upstream names, and has not passed Volt-specific security, compatibility, accessibility, packaging, or release qualification.</p>
-    </div>
-  </section>
-
-  <section class="home-commitments" style="max-width:1200px;margin:0 auto;padding:76px 32px 32px">
-    <div data-reveal="" style="max-width:64ch;margin-bottom:36px">
-      <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#2f6bff;margin-bottom:18px">What Volt is for</div>
-      <h2 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:600;font-size:44px;line-height:1.08;letter-spacing:-.03em;margin:0 0 16px;color:#191512">Six commitments, each with a gate behind it</h2>
-      <p style="font-size:18px;line-height:1.6;color:#5a5145;margin:0">Nothing on this site is claimed until the gate that proves it produces evidence — a reproducible build, a test dashboard, an audit document.</p>
-    </div>
-    <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px">
-      <sc-for list="{{ pillars }}" as="p" hint-placeholder-count="6">
-        <div data-reveal="" style="background:#fffdf9;border:1px solid #e8dfd1;border-radius:22px;padding:30px 28px 32px;box-shadow:0 1px 2px rgba(60,45,25,.05);transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease" style-hover="transform:translateY(-4px);box-shadow:0 22px 40px -28px rgba(60,45,25,.55);border-color:#d8cbb5">
-          <div style="width:38px;height:38px;border-radius:12px;background:#eaf0ff;color:#1e4fd8;display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:13px;margin-bottom:20px">{{ p.n }}</div>
-          <h3 style="font-family:'Bricolage Grotesque',sans-serif;font-size:20px;font-weight:600;margin:0 0 10px;letter-spacing:-.02em;color:#191512">{{ p.title }}</h3>
-          <p style="margin:0;font-size:15.5px;line-height:1.62;color:#5a5145">{{ p.body }}</p>
-        </div>
-      </sc-for>
-    </div>
-  </section>
-
-  <section class="home-status" style="max-width:1200px;margin:0 auto;padding:56px 32px">
-    <div data-reveal="" style="background:#fffdf9;border:1px solid #e8dfd1;border-radius:28px;padding:44px;display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:56px;align-items:center">
-      <div>
-        <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#2f6bff;margin-bottom:18px">Phase 0</div>
-        <h2 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:600;font-size:36px;line-height:1.1;letter-spacing:-.03em;margin:0 0 16px;color:#191512;max-width:16ch">Where the project actually is</h2>
-        <p style="font-size:16.5px;line-height:1.6;color:#5a5145;margin:0 0 24px;max-width:46ch">The retained Phase 0 ledger contains a Linux dummy-media build and narrow render and smoke observations. The current feature catalog remains provisional: 52 of 68 rows are observed-partial and none is automation-qualified.</p>
-        <a href="Status.dc.html" style="text-decoration:none;font-size:15px;font-weight:600">Full status →</a>
-      </div>
-      <div style="display:grid;gap:8px">
-        <sc-for list="{{ gates }}" as="g" hint-placeholder-count="6">
-          <div style="background:#f8f4ed;border-radius:14px;padding:15px 20px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px;align-items:center;font-size:15.5px;color:#191512">
-            <span>{{ g.name }}</span>
-            <span style="{{ g.style }}">{{ g.label }}</span>
+      <div class="hero__inner">
+        <div class="hero__copy">
+          <p class="eyebrow"><span></span> Desktop browser platform / experimental</p>
+          <h1 id="hero-title">A browser platform built on Servo.</h1>
+          <p class="hero__lead">GalileoEngine is the desktop browser platform we are building on Servo. Galileo Browser is its user-facing product: a browser shaped by the quality work and release discipline needed to turn a promising foundation into something dependable.</p>
+          <div class="hero__actions">
+            <a class="button button--primary" href="#current-work">See current work <span aria-hidden="true">↓</span></a>
+            <a class="button button--ghost" href="#browser">View Galileo Browser <span aria-hidden="true">↗</span></a>
           </div>
-        </sc-for>
-      </div>
-    </div>
-  </section>
+        </div>
 
-  <section class="home-cta" style="max-width:1200px;margin:0 auto;padding:0 32px 72px">
-    <div data-reveal="" style="position:relative;overflow:hidden;background:#0b1220;border-radius:28px;padding:46px 48px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:48px;align-items:center">
-      <div style="position:absolute;top:-160px;right:-80px;width:560px;height:420px;background:radial-gradient(circle at center, rgba(47,107,255,.4), rgba(11,18,32,0) 65%);pointer-events:none"></div>
-      <div style="position:relative">
-        <h2 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:600;font-size:38px;line-height:1.1;letter-spacing:-.03em;margin:0 0 14px;color:#fbf8f2;max-width:22ch">The work is gated, and the gates are public.</h2>
-        <p style="margin:0;font-size:17px;line-height:1.6;color:#a3adc2;max-width:60ch">Every feature gets a track, a stable ID, a phase, and an exit gate before anyone writes code. Read the procedure before opening a pull request.</p>
+        <div class="hero__visual" aria-label="GalileoEngine symbol">
+          <div class="hero__orbit hero__orbit--one" aria-hidden="true"></div>
+          <div class="hero__orbit hero__orbit--two" aria-hidden="true"></div>
+          <img src="assets/galileo-symbol.png" alt="GalileoEngine symbol" width="1254" height="1254" fetchpriority="high">
+          <p class="hero__caption"><span>01</span> Foundation in motion</p>
+        </div>
       </div>
-      <a href="Contribute.dc.html" style="position:relative;text-decoration:none;background:#2f6bff;color:#fff;padding:16px 30px;font-size:15px;font-weight:600;white-space:nowrap;border-radius:999px;transition:transform .2s ease, background .2s ease" style-hover="background:#e38a12;transform:translateY(-2px)">How to contribute</a>
-    </div>
-  </section>
 
+      <div class="hero__facts" aria-label="Project snapshot">
+        <div><span>Foundation</span><strong>Servo</strong></div>
+        <div><span>Scope</span><strong>Desktop browser</strong></div>
+        <div><span>Current work</span><strong>Compatibility baseline</strong></div>
+        <div><span>Browser product</span><strong>Galileo Browser</strong></div>
+      </div>
+    </section>
+
+    <section class="status-note" id="current-work" aria-labelledby="status-title">
+      <div class="status-note__indicator" aria-hidden="true"><span></span></div>
+      <div>
+        <p class="eyebrow">Current work</p>
+        <h2 id="status-title">Start with a baseline. Earn every next step.</h2>
+      </div>
+      <p>GalileoEngine is in its bootstrap and compatibility-baselining stage. The order is deliberate: understand the foundation, build the browser layer, then qualify it for a public release. Galileo Browser is not ready for everyday or security-sensitive browsing yet.</p>
+    </section>
+
+    <section class="platform section" id="platform" aria-labelledby="platform-title">
+      <div class="section__intro">
+        <p class="eyebrow">The platform</p>
+        <h2 id="platform-title">A clear boundary between foundation and product.</h2>
+        <p>Servo is the web engine underneath. GalileoEngine is the browser platform being built around it: the desktop shell, the release discipline, the compatibility work, and the foundations Galileo Browser will use.</p>
+      </div>
+
+      <div class="platform-map" aria-label="GalileoEngine architecture">
+        <article class="platform-card platform-card--galileo">
+          <span class="platform-card__number">01</span>
+          <div class="platform-card__mark"><img src="assets/galileo-symbol.png" alt=""></div>
+          <h3>GalileoEngine platform</h3>
+          <p>The browser shell, delivery discipline, quality gates, and product experience.</p>
+        </article>
+        <div class="platform-map__line" aria-hidden="true"><span></span></div>
+        <article class="platform-card platform-card--servo">
+          <span class="platform-card__number">02</span>
+          <div class="platform-card__dot" aria-hidden="true"></div>
+          <h3>Servo foundation</h3>
+          <p>The Rust web engine and embedding base that GalileoEngine develops with, not around.</p>
+        </article>
+        <div class="platform-map__note">Useful engine improvements belong upstream whenever possible.</div>
+      </div>
+    </section>
+
+    <section class="principles section" aria-labelledby="principles-title">
+      <div class="section__intro section__intro--split">
+        <div>
+          <p class="eyebrow">What GalileoEngine owns</p>
+          <h2 id="principles-title">A foundation needs a browser layer and proof.</h2>
+        </div>
+        <p>These are the responsibilities that turn a web engine into a product. Each one has to be understood and tested before it becomes a promise.</p>
+      </div>
+      <div class="principle-grid">
+        <article>
+          <span>01</span>
+          <h3>A shared foundation</h3>
+          <p>Servo is the engine base. Improvements that benefit the foundation belong upstream whenever possible.</p>
+        </article>
+        <article>
+          <span>02</span>
+          <h3>A browser layer</h3>
+          <p>Tabs, profiles, permissions, downloads, recovery, and desktop integration are treated as essential product work.</p>
+        </article>
+        <article>
+          <span>03</span>
+          <h3>Proof before release</h3>
+          <p>Compatibility, security, privacy, accessibility, stability, and packaging need evidence before any everyday-use claim.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="roadmap section" id="roadmap" aria-labelledby="roadmap-title">
+      <div class="roadmap__header">
+        <div class="section__intro">
+          <p class="eyebrow">Roadmap</p>
+          <h2 id="roadmap-title">The proof is in the order.</h2>
+        </div>
+        <p>The roadmap makes the sequence visible without pretending that planned work is already delivered.</p>
+      </div>
+      <ol class="roadmap-list">
+        <li class="roadmap-item roadmap-item--active">
+          <span class="roadmap-item__index">Now</span>
+          <div><h3>Baseline &amp; compatibility</h3><p>Reproducible builds, source inventory, focused tests, and an evidence model for the work ahead.</p></div>
+          <span class="roadmap-item__state">In progress</span>
+        </li>
+        <li class="roadmap-item">
+          <span class="roadmap-item__index">Next</span>
+          <div><h3>Browser shell</h3><p>A dependable desktop foundation: navigation, tabs, profiles, storage, settings, and recovery.</p></div>
+          <span class="roadmap-item__state">Planned</span>
+        </li>
+        <li class="roadmap-item">
+          <span class="roadmap-item__index">Then</span>
+          <div><h3>Qualification</h3><p>Security, privacy, accessibility, performance, and real-world compatibility before release claims.</p></div>
+          <span class="roadmap-item__state">Gated</span>
+        </li>
+      </ol>
+    </section>
+
+    <section class="products section" id="products" aria-labelledby="products-title">
+      <div class="products__top" id="browser">
+        <div class="section__intro">
+          <p class="eyebrow">The browser</p>
+          <h2 id="products-title">Galileo Browser, built on GalileoEngine.</h2>
+        </div>
+        <p>GalileoEngine establishes the technical and product rules. Galileo Browser brings that work to people without obscuring the foundations that make it possible.</p>
+      </div>
+      <article class="browser-card" id="galileo-browser">
+        <div class="browser-card__copy">
+          <p class="browser-card__eyebrow">Browser product / in development</p>
+          <div class="browser-card__lockup" aria-label="Galileo Browser"><strong>Galileo Browser</strong></div>
+          <h3>The desktop browser built on GalileoEngine.</h3>
+          <p>Galileo Browser is the user-facing browser experience. It has a clear public role while GalileoEngine remains the technical and product foundation beneath it.</p>
+          <a class="browser-card__coming" href="galileo-browser.html">Explore Galileo Browser <span aria-hidden="true">→</span></a>
+        </div>
+        <div class="browser-card__visual" aria-hidden="true">
+          <div class="browser-card__orb"></div>
+          <div class="browser-card__window"><span></span><span></span><span></span><i></i><b></b></div>
+          <img src="assets/galileo-symbol.png" alt="">
+        </div>
+      </article>
+    </section>
+
+    <section class="team-teaser section" id="team" aria-labelledby="team-title">
+      <div>
+        <p class="eyebrow">Founding team</p>
+        <h2 id="team-title">Three co-founders. One long-term build.</h2>
+      </div>
+      <div class="team-teaser__people">
+        <span>Loren Bufanu</span><span>Ionel Silviu Ghimpau</span><span>Manuel Condurache</span>
+      </div>
+      <a class="text-link" href="team.html">Meet the team <span aria-hidden="true">↗</span></a>
+    </section>
   </main>
 
-  <footer class="site-footer" style="border-top:1px solid #e8dfd1;background:#f2ece1">
-    <div style="max-width:1200px;margin:0 auto;padding:64px 32px 40px;display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr) minmax(0,1fr);gap:56px">
-      <div>
-        <div style="display:flex;align-items:center;gap:12px;margin-bottom:18px">
-          <span style="width:34px;height:34px;display:flex;align-items:center;justify-content:center">
-            <img src="volt-symbol-on-light.png" alt="" width="32" height="32" style="width:32px;height:32px;display:block" />
-          </span>
-          <span style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:17px;color:#191512">Volt</span>
-        </div>
-        <p style="margin:0;font-size:14.5px;line-height:1.65;max-width:46ch;color:#6b6154">An independent, experimental desktop browser built on the Servo web engine. Licensed under the <a href="https://github.com/lolren/stepper-browser/blob/main/LICENSE">Mozilla Public License 2.0</a>.</p>
-      </div>
-      <div style="display:grid;gap:11px;align-content:start;font-size:14.5px">
-        <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#8b8071;margin-bottom:4px">Pages</div>
-        <a href="About.dc.html" style="text-decoration:none;color:#6b6154" style-hover="color:#191512">About</a>
-        <a href="Goals.dc.html" style="text-decoration:none;color:#6b6154" style-hover="color:#191512">Goals</a>
-        <a href="Status.dc.html" style="text-decoration:none;color:#6b6154" style-hover="color:#191512">Status</a>
-        <a href="Build.dc.html" style="text-decoration:none;color:#6b6154" style-hover="color:#191512">Build &amp; run</a>
-        <a href="Contribute.dc.html" style="text-decoration:none;color:#6b6154" style-hover="color:#191512">Contribute</a>
-        <a href="Team.dc.html" style="text-decoration:none;color:#6b6154" style-hover="color:#191512">Team</a>
-      </div>
-      <div style="display:grid;gap:11px;align-content:start;font-size:14.5px">
-        <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#8b8071;margin-bottom:4px">Upstream</div>
-        <a href="https://github.com/lolren/stepper-browser" style="text-decoration:none;color:#6b6154" style-hover="color:#191512">Repository</a>
-        <a href="https://github.com/servo/servo" style="text-decoration:none;color:#6b6154" style-hover="color:#191512">Servo engine</a>
-        <a href="https://book.servo.org/" style="text-decoration:none;color:#6b6154" style-hover="color:#191512">Servo Book</a>
-        <a href="https://web-platform-tests.org/" style="text-decoration:none;color:#6b6154" style-hover="color:#191512">Web Platform Tests</a>
-      </div>
+  <footer class="site-footer">
+    <div class="site-footer__brand">
+      <img src="assets/galileo-symbol.png" alt="" width="44" height="44">
+      <span>Galileo<span>Engine</span></span>
     </div>
-    <div style="max-width:1200px;margin:0 auto;padding:0 32px 56px">
-      <p style="margin:0;padding-top:28px;border-top:1px solid #e0d5c3;font-size:13.5px;line-height:1.65;color:#8b8071;max-width:94ch">Volt is not affiliated with or endorsed by the Servo project, Linux Foundation Europe, Mozilla, Firefox, Google, or Chrome. Those names are used only for attribution and compatibility reference.</p>
-    </div>
+    <p>An independent experimental browser platform built on Servo.</p>
+    <p class="site-footer__legal">GalileoEngine is not affiliated with or endorsed by the Servo project. <a href="https://github.com/Silviu3369/galileoengine-site">Source on GitHub ↗</a></p>
   </footer>
-
-</div>
-</x-dc>
-<script type="text/x-dc" data-dc-script>
-class Component extends DCLogic {
-  componentDidMount() { this.reveal(); }
-
-  reveal() {
-    if (typeof IntersectionObserver === "undefined") return;
-    const run = () => {
-      const els = Array.from(document.querySelectorAll("[data-reveal]:not([data-revealed])"));
-      if (!els.length) return;
-      const io = new IntersectionObserver((entries) => {
-        entries.forEach((e) => {
-          if (!e.isIntersecting) return;
-          e.target.style.opacity = "1";
-          e.target.style.transform = "none";
-          io.unobserve(e.target);
-        });
-      }, { rootMargin: "0px 0px -6% 0px", threshold: 0.04 });
-      els.forEach((el, i) => {
-        el.setAttribute("data-revealed", "");
-        el.style.opacity = "0";
-        el.style.transform = "translateY(16px)";
-        el.style.transition = "opacity .65s cubic-bezier(.22,.61,.24,1) " + Math.min(i % 6, 5) * 60 + "ms, transform .65s cubic-bezier(.22,.61,.24,1) " + Math.min(i % 6, 5) * 60 + "ms";
-        io.observe(el);
-      });
-    };
-    requestAnimationFrame(() => requestAnimationFrame(run));
-  }
-
-  renderVals() {
-    const done = { fontFamily: "'IBM Plex Mono', monospace", fontSize: "12.5px", color: "#1f7a4d", background: "#dff3e6", padding: "5px 12px", borderRadius: "999px", whiteSpace: "nowrap" };
-    const open = { fontFamily: "'IBM Plex Mono', monospace", fontSize: "12.5px", color: "#8b8071", background: "#ece5d8", padding: "5px 12px", borderRadius: "999px", whiteSpace: "nowrap" };
-    return {
-      pillars: [
-        { n: "01", title: "A complete desktop browser", body: "Profiles, tabs, windows, downloads, history, bookmarks, settings, permissions, private browsing, session restore, and platform integration." },
-        { n: "02", title: "Standards first", body: "Measured with Web Platform Tests, Interop focus tests, JavaScript and graphics conformance suites, and reproducible real-site journeys." },
-        { n: "03", title: "Interoperable, not imitative", body: "Works like current Firefox and Chrome on standards-based sites — without blindly copying either browser's bugs." },
-        { n: "04", title: "Isolated and safe to ship", body: "Process isolation, sandboxing, safe updates, privacy controls, accessibility, i18n, crash recovery, and real release engineering." },
-        { n: "05", title: "A thin fork that gives back", body: "Engine fixes that help everyone are written as upstream-quality Servo changes and proposed upstream first, or in parallel." },
-        { n: "06", title: "Cross-platform from day one", body: "Linux, Windows, and macOS baselines are tracked together; a build that only works on one machine is not a baseline." }
-      ],
-      gates: [
-        { name: "Tracked feature rows", label: "68 catalogued", style: done },
-        { name: "Observed-partial rows", label: "52 provisional", style: open },
-        { name: "Automation-qualified rows", label: "0 qualified", style: open },
-        { name: "Linux production package", label: "blocked", style: open },
-        { name: "Windows & macOS packages", label: "unmeasured", style: open },
-        { name: "Public Linux release contract", label: "72 gates", style: open }
-      ]
-    };
-  }
-}
-</script>
 </body>
 </html>

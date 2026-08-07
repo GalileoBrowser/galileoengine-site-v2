@@ -1,36 +1,46 @@
-# Volt website
+# GalileoEngine presentation site
 
-Static multi-page website for Volt Browser. The public entry point is `index.html`.
+The static presentation site for GalileoEngine and Galileo Browser.
 
-## Test locally
+Live site: <https://silviu3369.github.io/galileoengine-site/>
 
-From PowerShell in this folder:
+## Public pages
+
+- `index.html` — GalileoEngine homepage
+- `platform.html` — GalileoEngine and Servo boundary
+- `roadmap.html` — measured delivery path
+- `galileo-browser.html` — Galileo Browser product page
+- `status.html` — current project boundary
+- `team.html` — founding team
+- `404.html` — branded not-found page
+
+## Local preview
+
+Run a static server from this folder:
 
 ```powershell
 python -m http.server 4173 --bind 127.0.0.1
 ```
 
-Then open <http://127.0.0.1:4173/>. Keep the terminal open while testing and press `Ctrl+C` to stop the server.
+Then open <http://127.0.0.1:4173/>. Test through HTTP rather than by opening the
+HTML files directly so redirects, asset paths, and response types are exercised.
 
-Do not test by double-clicking the HTML files. A local HTTP server catches path, redirect, script, and asset-loading problems that `file://` can hide.
-
-## Validate before publishing
-
-With the local server still running, open a second PowerShell terminal in this folder and run:
+Validate the complete public surface with:
 
 ```powershell
-python tests/validate_site.py --base-url http://127.0.0.1:4173/
+python tests\validate_site.py --base-url http://127.0.0.1:4173/
 ```
 
-The validator checks all seven public pages, required metadata and landmarks, duplicate IDs, local assets and links, and HTTP responses.
+The validator checks the public pages, compatibility redirects, local links,
+required metadata, retired-brand cleanup, accessibility basics, asset response
+types, and the custom not-found page.
 
-## Publish checklist
+## Publishing
 
-- Upload the contents of this folder with `index.html` at the hosting root.
-- For GitHub Pages, publish the `main` branch from the repository root. The included `.nojekyll` file ensures the HTML pages are served unchanged.
-- Confirm the final domain and add a canonical URL, `og:url`, social preview image, and `sitemap.xml` for that domain.
-- Confirm that the GitHub repository and contribution links are accessible to the intended audience.
-- Confirm the host Content Security Policy permits the current Google Fonts and `unpkg.com` runtime requests, or bundle those dependencies before enforcing a stricter policy.
-- Re-run the validator against the production URL after deployment.
+GitHub Pages publishes the repository root from the `main` branch. The
+`.nojekyll` marker keeps the static files unchanged. `robots.txt`, `sitemap.xml`,
+canonical URLs, and social metadata target the production Pages address.
 
-The repository is currently not publicly reachable from an unauthenticated session, so its external links must be rechecked before a public launch.
+The site makes no release or everyday-browsing claim. GalileoEngine is an
+experimental browser platform built on Servo; Galileo Browser is the desktop
+browser product built on that foundation.

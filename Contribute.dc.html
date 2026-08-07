@@ -1,144 +1,17 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Contribute — Volt Browser</title>
-<meta name="description" content="How to contribute scoped, measurable work to Volt Browser and upstream-quality improvements to Servo.">
-<meta name="theme-color" content="#f8f4ed">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="icon" href="volt-symbol-on-light.png" type="image/png">
-<link rel="stylesheet" href="site.css?v=20260806-team">
-<script src="site.js?v=20260806-menu" defer></script>
-<style>
-  html { scroll-behavior: smooth; }
-  body { margin: 0; background: #f8f4ed; color: #191512; font-family: "IBM Plex Sans", system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
-  a { color: #1e4fd8; text-decoration-color: rgba(30,79,216,.3); text-underline-offset: 3px; }
-  a:hover { color: #c8760c; text-decoration-color: rgba(200,118,12,.5); }
-  ::selection { background: #2f6bff; color: #fff; }
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="refresh" content="0; url=roadmap.html">
+  <meta name="robots" content="noindex">
+  <link rel="canonical" href="roadmap.html">
+  <link rel="icon" href="assets/galileo-symbol.png" type="image/png">
+  <link rel="stylesheet" href="galileo.css">
+  <title>Roadmap page moved — GalileoEngine</title>
+  <meta name="description" content="The GalileoEngine roadmap page has moved.">
 </head>
-<body data-page="contribute">
-<a class="skip-link" href="#main-content">Skip to content</a>
-<div style="min-height:100vh;background:#f8f4ed">
-  <header class="site-header" style="position:sticky;top:0;z-index:50;background:rgba(248,244,237,.88);backdrop-filter:blur(12px);border-bottom:1px solid #e8dfd1">
-    <div class="site-header__inner" style="max-width:1200px;margin:0 auto;padding:0 32px;height:70px;display:flex;align-items:center;justify-content:space-between;gap:24px">
-      <a class="site-brand" href="index.html" aria-label="Volt home" style="display:flex;align-items:center;gap:12px;text-decoration:none">
-        <img class="site-brand__symbol" src="volt-symbol-on-light.png" alt="Volt" width="44" height="44">
-      </a>
-      <nav class="site-nav" id="primary-navigation" aria-label="Primary navigation" style="display:flex;align-items:center;gap:8px;font-size:14px">
-        <a href="Goals.dc.html" style="text-decoration:none;color:#6b6154;padding:8px 14px;border-radius:999px">Goals</a>
-        <a href="Status.dc.html" style="text-decoration:none;color:#6b6154;padding:8px 14px;border-radius:999px">Status</a>
-        <a href="Build.dc.html" style="text-decoration:none;color:#6b6154;padding:8px 14px;border-radius:999px">Build</a>
-        <a href="Contribute.dc.html" aria-current="page" style="text-decoration:none;color:#191512;font-weight:500;background:#efe8dc;padding:8px 14px;border-radius:999px">Contribute</a>
-        <a href="About.dc.html" style="text-decoration:none;color:#6b6154;padding:8px 14px;border-radius:999px">About</a>
-        <a href="Team.dc.html" style="text-decoration:none;color:#6b6154;padding:8px 14px;border-radius:999px">Team</a>
-        <a href="https://github.com/lolren/stepper-browser" aria-label="Open the Volt repository on GitHub" style="text-decoration:none;margin-left:8px;background:#191512;color:#f8f4ed;padding:10px 18px;border-radius:999px;font-size:13.5px;font-weight:500">GitHub ↗</a>
-      </nav>
-      <button class="menu-toggle" type="button" aria-label="Toggle navigation" aria-controls="primary-navigation" aria-expanded="false"><span class="menu-toggle__icon" aria-hidden="true"></span></button>
-    </div>
-  </header>
-
-  <main class="page-main" id="main-content">
-    <section class="contribute-hero" style="position:relative;overflow:hidden">
-      <div style="position:absolute;top:-260px;right:-160px;width:780px;height:620px;background:radial-gradient(circle at center, rgba(47,107,255,.13), rgba(248,244,237,0) 62%);pointer-events:none"></div>
-      <div class="contribute-hero__inner" style="position:relative;max-width:1200px;margin:0 auto;padding:64px 32px 40px">
-        <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#2f6bff;margin-bottom:20px">Contribute</div>
-        <h1 class="contribute-hero__title" style="font-family:'Bricolage Grotesque',sans-serif;font-weight:600;font-size:56px;line-height:1.04;letter-spacing:-.035em;margin:0 0 20px;max-width:22ch;color:#191512;text-wrap:balance">Make a change we can verify.</h1>
-        <p style="font-size:19px;line-height:1.58;color:#5a5145;max-width:64ch;margin:0;text-wrap:pretty">Volt needs focused changes with a clear owner, a reproducible baseline, and a testable exit gate. Small, reviewable work beats a large promise.</p>
-      </div>
-    </section>
-
-    <section class="contribute-steps" style="max-width:1200px;margin:0 auto;padding:8px 32px 56px">
-      <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px">
-        <article style="background:#fffdf9;border:1px solid #e8dfd1;border-radius:22px;padding:30px 28px">
-          <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#1e4fd8;margin-bottom:14px">01 · Scope</div>
-          <h2 style="font-family:'Bricolage Grotesque',sans-serif;font-size:24px;font-weight:600;margin:0 0 11px;letter-spacing:-.025em">Start from a bounded issue</h2>
-          <p style="font-size:15.5px;line-height:1.62;color:#5a5145;margin:0">Confirm the track, owner, baseline, and files in scope before implementation. Coordinate first if the work crosses another contributor's boundary.</p>
-        </article>
-        <article style="background:#fffdf9;border:1px solid #e8dfd1;border-radius:22px;padding:30px 28px">
-          <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#1e4fd8;margin-bottom:14px">02 · Evidence</div>
-          <h2 style="font-family:'Bricolage Grotesque',sans-serif;font-size:24px;font-weight:600;margin:0 0 11px;letter-spacing:-.025em">Define the gate first</h2>
-          <p style="font-size:15.5px;line-height:1.62;color:#5a5145;margin:0">Record the current behavior, the expected result, and the exact command or test that proves the change. Unmeasured work remains unclaimed.</p>
-        </article>
-        <article style="background:#fffdf9;border:1px solid #e8dfd1;border-radius:22px;padding:30px 28px">
-          <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#1e4fd8;margin-bottom:14px">03 · Upstream</div>
-          <h2 style="font-family:'Bricolage Grotesque',sans-serif;font-size:24px;font-weight:600;margin:0 0 11px;letter-spacing:-.025em">Keep engine work reusable</h2>
-          <p style="font-size:15.5px;line-height:1.62;color:#5a5145;margin:0">General Servo fixes should be written as upstream-quality changes. Volt-specific product work stays behind explicit shell and service boundaries.</p>
-        </article>
-      </div>
-    </section>
-
-    <section class="contribute-agreement" style="background:#0b1220">
-      <div style="max-width:1200px;margin:0 auto;padding:64px 32px">
-        <div class="contribute-agreement__grid" style="display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:56px;align-items:start">
-          <div>
-            <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#ffb443;margin-bottom:18px">Working agreement</div>
-            <h2 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:600;font-size:42px;line-height:1.08;letter-spacing:-.03em;margin:0 0 18px;color:#fbf8f2">A contribution is a measured handoff.</h2>
-            <p style="font-size:16.5px;line-height:1.65;color:#a3adc2;margin:0">Keep the patch small enough to review, preserve unrelated work, and leave the next person with commands they can rerun.</p>
-          </div>
-          <ol style="list-style:none;margin:0;padding:0;display:grid;gap:10px">
-            <li style="display:grid;grid-template-columns:auto minmax(0,1fr);gap:18px;padding:18px 20px;border:1px solid #1f2a41;border-radius:16px;background:#131c2e;color:#d5dbe7"><span style="font-family:'IBM Plex Mono',monospace;color:#7ca6ff">01</span><span>Read the roadmap and contribution contract before choosing a task.</span></li>
-            <li style="display:grid;grid-template-columns:auto minmax(0,1fr);gap:18px;padding:18px 20px;border:1px solid #1f2a41;border-radius:16px;background:#131c2e;color:#d5dbe7"><span style="font-family:'IBM Plex Mono',monospace;color:#7ca6ff">02</span><span>Capture a baseline and define the pass/fail evidence.</span></li>
-            <li style="display:grid;grid-template-columns:auto minmax(0,1fr);gap:18px;padding:18px 20px;border:1px solid #1f2a41;border-radius:16px;background:#131c2e;color:#d5dbe7"><span style="font-family:'IBM Plex Mono',monospace;color:#7ca6ff">03</span><span>Implement the smallest coherent change with regression coverage.</span></li>
-            <li style="display:grid;grid-template-columns:auto minmax(0,1fr);gap:18px;padding:18px 20px;border:1px solid #1f2a41;border-radius:16px;background:#131c2e;color:#d5dbe7"><span style="font-family:'IBM Plex Mono',monospace;color:#7ca6ff">04</span><span>Report commands, results, limitations, and ownership boundaries in the handoff.</span></li>
-          </ol>
-        </div>
-      </div>
-    </section>
-
-    <section class="contribute-cta" style="max-width:1200px;margin:0 auto;padding:56px 32px 64px">
-      <div style="position:relative;overflow:hidden;background:#fffdf9;border:1px solid #e8dfd1;border-radius:28px;padding:42px 44px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:36px;align-items:center;box-shadow:0 24px 70px -42px rgba(25,21,18,.48)">
-        <div>
-          <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#2f6bff;margin-bottom:16px">Ready to begin?</div>
-          <h2 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:600;font-size:36px;line-height:1.08;letter-spacing:-.03em;margin:0 0 14px">Choose the smallest useful gate.</h2>
-          <p style="font-size:16px;line-height:1.6;color:#5a5145;margin:0;max-width:58ch">Repository access may be required. If a link is unavailable, ask a maintainer for the current contribution entry point.</p>
-        </div>
-        <div style="display:flex;gap:12px;flex-wrap:wrap">
-          <a href="https://github.com/lolren/stepper-browser/blob/main/CONTRIBUTING.md" style="text-decoration:none;background:#2f6bff;color:#fff;padding:15px 24px;font-size:14.5px;font-weight:600;border-radius:999px">Read the guide</a>
-          <a href="https://github.com/lolren/stepper-browser/issues" style="text-decoration:none;background:#f8f4ed;border:1px solid #e0d5c3;color:#191512;padding:15px 24px;font-size:14.5px;font-weight:500;border-radius:999px">Browse issues</a>
-        </div>
-      </div>
-    </section>
-
-    <nav class="page-pager" aria-label="Page navigation" style="max-width:1200px;margin:0 auto;padding:0 32px 64px;display:flex;justify-content:space-between;gap:24px;font-size:15px">
-      <a href="Build.dc.html" style="text-decoration:none;color:#6b6154;background:#fffdf9;border:1px solid #e8dfd1;padding:14px 24px;border-radius:999px">← Build</a>
-      <a href="About.dc.html" style="text-decoration:none;color:#191512;font-weight:500;background:#fffdf9;border:1px solid #e8dfd1;padding:14px 24px;border-radius:999px">About →</a>
-    </nav>
-  </main>
-
-  <footer class="site-footer" style="border-top:1px solid #e8dfd1;background:#f2ece1">
-    <div style="max-width:1200px;margin:0 auto;padding:64px 32px 40px;display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr) minmax(0,1fr);gap:56px">
-      <div>
-        <div style="display:flex;align-items:center;gap:12px;margin-bottom:18px">
-          <span style="width:34px;height:34px;display:flex;align-items:center;justify-content:center"><img src="volt-symbol-on-light.png" alt="" width="32" height="32" style="width:32px;height:32px;display:block"></span>
-          <span style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:17px;color:#191512">Volt</span>
-        </div>
-        <p style="margin:0;font-size:14.5px;line-height:1.65;max-width:46ch;color:#6b6154">An independent, experimental desktop browser built on the Servo web engine. Licensed under the <a href="https://github.com/lolren/stepper-browser/blob/main/LICENSE">Mozilla Public License 2.0</a>.</p>
-      </div>
-      <div style="display:grid;gap:11px;align-content:start;font-size:14.5px">
-        <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#8b8071;margin-bottom:4px">Pages</div>
-        <a href="About.dc.html" style="text-decoration:none;color:#6b6154">About</a>
-        <a href="Goals.dc.html" style="text-decoration:none;color:#6b6154">Goals</a>
-        <a href="Status.dc.html" style="text-decoration:none;color:#6b6154">Status</a>
-        <a href="Build.dc.html" style="text-decoration:none;color:#6b6154">Build &amp; run</a>
-        <a href="Contribute.dc.html" style="text-decoration:none;color:#6b6154">Contribute</a>
-        <a href="Team.dc.html" style="text-decoration:none;color:#6b6154">Team</a>
-      </div>
-      <div style="display:grid;gap:11px;align-content:start;font-size:14.5px">
-        <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#8b8071;margin-bottom:4px">Upstream</div>
-        <a href="https://github.com/lolren/stepper-browser" style="text-decoration:none;color:#6b6154">Repository</a>
-        <a href="https://github.com/servo/servo" style="text-decoration:none;color:#6b6154">Servo engine</a>
-        <a href="https://book.servo.org/" style="text-decoration:none;color:#6b6154">Servo Book</a>
-        <a href="https://web-platform-tests.org/" style="text-decoration:none;color:#6b6154">Web Platform Tests</a>
-      </div>
-    </div>
-    <div style="max-width:1200px;margin:0 auto;padding:0 32px 56px">
-      <p style="margin:0;padding-top:28px;border-top:1px solid #e0d5c3;font-size:13.5px;line-height:1.65;color:#8b8071;max-width:94ch">Volt is not affiliated with or endorsed by the Servo project, Linux Foundation Europe, Mozilla, Firefox, Google, or Chrome. Those names are used only for attribution and compatibility reference.</p>
-    </div>
-  </footer>
-</div>
+<body class="redirect-page">
+  <main><img src="assets/galileo-symbol.png" alt="" width="80" height="80"><h1>Roadmap page moved</h1><p>Continue to the <a href="roadmap.html">GalileoEngine roadmap</a>.</p></main>
 </body>
 </html>

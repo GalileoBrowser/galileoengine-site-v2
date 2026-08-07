@@ -4,6 +4,7 @@
   function closeMenu(header, toggle) {
     header.dataset.menuOpen = "false";
     toggle.setAttribute("aria-expanded", "false");
+    toggle.setAttribute("aria-label", "Open navigation");
   }
 
   function enhanceHeader(header) {
@@ -16,11 +17,13 @@
 
     header.dataset.enhanced = "true";
     header.dataset.menuOpen = "false";
+    toggle.setAttribute("aria-label", "Open navigation");
 
     toggle.addEventListener("click", function () {
       var open = header.dataset.menuOpen !== "true";
       header.dataset.menuOpen = String(open);
       toggle.setAttribute("aria-expanded", String(open));
+      toggle.setAttribute("aria-label", open ? "Close navigation" : "Open navigation");
     });
 
     nav.addEventListener("click", function (event) {
@@ -28,7 +31,7 @@
     });
 
     document.addEventListener("keydown", function (event) {
-      if (event.key === "Escape") {
+      if (event.key === "Escape" && header.dataset.menuOpen === "true") {
         closeMenu(header, toggle);
         toggle.focus();
       }
@@ -49,8 +52,9 @@
     document.querySelectorAll(".site-header").forEach(enhanceHeader);
   }
 
-  document.addEventListener("DOMContentLoaded", enhancePage);
-
-  var observer = new MutationObserver(enhancePage);
-  observer.observe(document.documentElement, { childList: true, subtree: true });
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", enhancePage);
+  } else {
+    enhancePage();
+  }
 })();
