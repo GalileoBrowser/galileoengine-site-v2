@@ -21,6 +21,7 @@ PUBLIC_PAGES = (
     "galileo-browser.html",
     "status.html",
     "team.html",
+    "support.html",
     "404.html",
 )
 REDIRECT_PAGES = {
@@ -38,13 +39,15 @@ REQUIRED_ASSETS = (
     "site.js",
     "assets/galileo-symbol.png",
     "team-loren.png",
+    "team-manuel.png",
     "team-silviu.png",
     "robots.txt",
     "sitemap.xml",
     ".nojekyll",
 )
 TEXT_SUFFIXES = {".css", ".html", ".ini", ".js", ".json", ".md", ".txt", ".xml", ".yaml", ".yml"}
-IGNORED_DIRECTORIES = {".git", "__pycache__", "output"}
+IGNORED_DIRECTORIES = {".git", ".next", "__pycache__", "node_modules", "output", "public"}
+APP_ROUTES = {"/journal"}
 PROHIBITED_TERMS = ("step" + "perengine", "step" + "per", "vo" + "lt")
 PLACEHOLDER_MARKERS = ("galileo://start", "Interface concept", "browser-concept")
 
@@ -106,6 +109,8 @@ def check_local_reference(source: Path, raw_value: str) -> str | None:
         return f"javascript URL is not allowed: {value}"
     parsed = urlparse(value)
     if parsed.scheme or parsed.netloc:
+        return None
+    if parsed.path in APP_ROUTES:
         return None
     path = unquote(parsed.path)
     if not path:
@@ -191,6 +196,8 @@ def validate_public_page(relative: str) -> list[str]:
         errors.append(f"{relative}: more than one current-page marker")
     if 'href="team.html"' not in text:
         errors.append(f"{relative}: Team navigation link is missing")
+    if 'href="support.html"' not in text:
+        errors.append(f"{relative}: Support navigation link is missing")
     if "family=Manrope" not in text:
         errors.append(f"{relative}: Manrope font request is missing")
     if 'href="galileo.css?' not in text or 'src="site.js?' not in text:
@@ -223,9 +230,13 @@ def validate_public_page(relative: str) -> list[str]:
             if marker not in text:
                 errors.append(f"{relative}: product boundary is missing {marker!r}")
     elif relative == "team.html":
-        for person in ("Loren Bufanu", "Ionel Silviu Ghimpau", "Manuel Condurache"):
+        for person in ("Loren Bufanu", "Ionel Silviu Ghimpau", "Manuel Ionasel"):
             if person not in text:
                 errors.append(f"{relative}: team member is missing {person!r}")
+    elif relative == "support.html":
+        for marker in ("organization-level sponsorship", "No payment link is active today", "GitHub Sponsors pending"):
+            if marker not in text:
+                errors.append(f"{relative}: support boundary is missing {marker!r}")
 
     return errors
 
@@ -280,6 +291,7 @@ def smoke_http(base_url: str) -> list[str]:
         "site.js": ("application/javascript", "text/javascript"),
         "assets/galileo-symbol.png": "image/png",
         "team-loren.png": "image/png",
+        "team-manuel.png": "image/png",
         "team-silviu.png": "image/png",
         "robots.txt": "text/plain",
         "sitemap.xml": ("application/xml", "text/xml"),

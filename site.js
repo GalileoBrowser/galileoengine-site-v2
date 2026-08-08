@@ -6,9 +6,9 @@
   function readStoredTheme() {
     try {
       var storedTheme = window.localStorage.getItem(THEME_STORAGE_KEY);
-      return storedTheme === "light" ? "light" : "dark";
+      return storedTheme === "dark" ? "dark" : "light";
     } catch (_error) {
-      return "dark";
+      return "light";
     }
   }
 
@@ -22,7 +22,7 @@
     });
 
     var themeColor = document.querySelector('meta[name="theme-color"]');
-    if (themeColor) themeColor.setAttribute("content", nextTheme === "light" ? "#f3f7f4" : "#091918");
+    if (themeColor) themeColor.setAttribute("content", nextTheme === "light" ? "#f4f8f5" : "#0d2b25");
 
     if (persist) {
       try {

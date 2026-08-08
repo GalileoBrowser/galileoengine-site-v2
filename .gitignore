@@ -4,3 +4,10 @@ output/
 tmp/
 .DS_Store
 Thumbs.db
+.next/
+node_modules/
+public/legacy/
+.env
+.env.local
+.env.*.local
+*.tsbuildinfo
