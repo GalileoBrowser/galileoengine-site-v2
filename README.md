@@ -54,7 +54,7 @@ The validator checks public pages, redirects, local links, brand cleanup, access
 - `/galileo-browser.html` — Galileo Browser product page
 - `/status.html` — current project boundary
 - `/team.html` — founding team
-- `/support.html` — future organization support model
+- `/support.html` — code contribution and future project funding paths
 - `/journal/` — Journal index generated from GitHub Discussions
 
 GalileoEngine is an experimental browser platform derived from Servo. Galileo Browser is the desktop browser product built on that foundation. The site makes no release or everyday-browsing claim.

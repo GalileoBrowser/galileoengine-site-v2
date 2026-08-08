@@ -197,8 +197,10 @@ def validate_public_page(relative: str) -> list[str]:
     prefix = "../" if relative == "journal/index.html" else ""
     if f'href="{prefix}team.html"' not in text:
         errors.append(f"{relative}: Team navigation link is missing")
-    if f'href="{prefix}support.html"' not in text:
-        errors.append(f"{relative}: Support navigation link is missing")
+    if f'<a class="nav-support" href="{prefix}support.html"' not in text or "Contribute to the project</a>" not in text:
+        errors.append(f"{relative}: Contribute navigation link is missing or mislabeled")
+    if f'href="{prefix}roadmap.html"' not in text or "Roadmap</a>" not in text:
+        errors.append(f"{relative}: Roadmap navigation link is missing or mislabeled")
     if "family=Manrope" not in text:
         errors.append(f"{relative}: Manrope font request is missing")
     if f'href="{prefix}galileo.css?' not in text or f'src="{prefix}site.js?' not in text:
@@ -240,7 +242,7 @@ def validate_public_page(relative: str) -> list[str]:
             if person not in text:
                 errors.append(f"{relative}: team member is missing {person!r}")
     elif relative == "support.html":
-        for marker in ("organization-level sponsorship", "No payment link is active today", "GitHub Sponsors pending"):
+        for marker in ("Contribute code", "Fund the work", "No payment link is active today", "GitHub Sponsors pending"):
             if marker not in text:
                 errors.append(f"{relative}: support boundary is missing {marker!r}")
     elif relative == "journal/index.html":
