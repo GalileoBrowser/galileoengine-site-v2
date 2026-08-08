@@ -201,6 +201,9 @@ def validate_public_page(relative: str) -> list[str]:
         errors.append(f"{relative}: Contribute navigation link is missing or mislabeled")
     if f'href="{prefix}roadmap.html"' not in text or "Roadmap</a>" not in text:
         errors.append(f"{relative}: Roadmap navigation link is missing or mislabeled")
+    discussions_href = "./" if relative == "journal/index.html" else "journal"
+    if f'href="{discussions_href}"' not in text or "Discussions</a>" not in text:
+        errors.append(f"{relative}: Discussions navigation link is missing or mislabeled")
     if "family=Manrope" not in text:
         errors.append(f"{relative}: Manrope font request is missing")
     if f'href="{prefix}galileo.css?' not in text or f'src="{prefix}site.js?' not in text:

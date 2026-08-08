@@ -559,7 +559,7 @@ html[data-theme="light"] .site-nav .nav-support[aria-current="page"] {
 }
 
 /* The longer contribution action switches to the menu before the header becomes crowded. */
-@media (min-width: 901px) and (max-width: 1180px) {
+@media (min-width: 901px) and (max-width: 1220px) {
   .site-header__inner {
     gap: 13px;
   }
