@@ -1,39 +1,13 @@
 {
-  "name": "galileoengine-site",
-  "version": "0.2.0",
+  "name": "galileoengine-site-v2",
+  "version": "0.3.0",
   "private": true,
   "packageManager": "pnpm@11.16.0",
   "engines": {
     "node": ">=20.9.0"
   },
   "scripts": {
-    "sync:legacy": "node scripts/sync-legacy.mjs",
-    "predev": "pnpm sync:legacy",
-    "dev": "next dev",
-    "prebuild": "pnpm sync:legacy",
-    "build": "next build",
-    "start": "next start",
-    "lint": "eslint .",
-    "typecheck": "tsc --noEmit",
+    "build": "node scripts/build-pages.mjs",
     "test:site": "python tests/validate_site.py"
-  },
-  "dependencies": {
-    "@supabase/ssr": "^0.12.4",
-    "@supabase/supabase-js": "^2.112.2",
-    "next": "^16.3.0",
-    "react": "^19.2.8",
-    "react-dom": "^19.2.8",
-    "react-markdown": "^10.1.0",
-    "rehype-sanitize": "^6.0.0",
-    "remark-gfm": "^4.0.1",
-    "zod": "^4.4.3"
-  },
-  "devDependencies": {
-    "@types/node": "^24.10.0",
-    "@types/react": "^19.2.18",
-    "@types/react-dom": "^19.2.4",
-    "eslint": "^9.39.2",
-    "eslint-config-next": "^16.3.0",
-    "typescript": "^5.9.3"
   }
 }

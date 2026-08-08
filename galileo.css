@@ -940,6 +940,220 @@ html[data-theme="light"] .support-boundary {
   }
 }
 
+/* Journal: a first-party index backed by GitHub Discussions. */
+.journal-section {
+  position: relative;
+  padding-top: 104px;
+  padding-bottom: 104px;
+}
+
+.journal-section .section-heading {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(300px, .68fr);
+  align-items: end;
+  gap: 72px;
+}
+
+.journal-section__intro {
+  display: grid;
+  justify-items: start;
+  gap: 24px;
+}
+
+.journal-section__intro p {
+  margin: 0;
+  color: var(--galileo-muted);
+  font-size: 15px;
+  line-height: 1.75;
+}
+
+.journal-feed {
+  margin-top: 62px;
+  border-top: 1px solid var(--galileo-line);
+}
+
+.journal-entry {
+  display: grid;
+  grid-template-columns: 150px minmax(0, 1fr) 150px;
+  align-items: start;
+  gap: 34px;
+  padding: 34px 0;
+  border-bottom: 1px solid var(--galileo-line);
+}
+
+.journal-entry__meta,
+.journal-entry__signals {
+  display: grid;
+  gap: 9px;
+  margin: 0;
+  color: var(--galileo-muted);
+  font: 500 10px/1.5 "DM Mono", monospace;
+  letter-spacing: .035em;
+  text-transform: uppercase;
+}
+
+.journal-entry__meta span:first-child {
+  color: var(--galileo-green);
+}
+
+.journal-entry__content > span {
+  color: var(--galileo-teal);
+  font: 500 10px/1.4 "DM Mono", monospace;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+}
+
+.journal-entry h3 {
+  max-width: 25ch;
+  margin: 9px 0 12px;
+  font-size: clamp(23px, 2.3vw, 33px);
+  line-height: 1.08;
+  letter-spacing: -.045em;
+}
+
+.journal-entry h3 a {
+  color: var(--galileo-ink);
+  text-decoration: none;
+}
+
+.journal-entry h3 a:hover {
+  color: var(--galileo-green);
+}
+
+.journal-entry__excerpt {
+  max-width: 66ch;
+  margin: 0;
+  color: var(--galileo-muted);
+  font-size: 14px;
+  line-height: 1.75;
+}
+
+.journal-entry__author {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  margin-top: 18px;
+  color: var(--galileo-muted);
+  font: 500 10px/1 "DM Mono", monospace;
+}
+
+.journal-entry__author img {
+  width: 26px;
+  height: 26px;
+  border: 1px solid var(--galileo-line);
+  border-radius: 50%;
+}
+
+.journal-entry__signals {
+  justify-items: start;
+  padding-top: 2px;
+}
+
+.journal-entry__signals a {
+  margin-top: 12px;
+  color: var(--galileo-ink);
+  font-family: Manrope, sans-serif;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0;
+  text-decoration: none;
+  text-transform: none;
+}
+
+.journal-entry__signals a:hover {
+  color: var(--galileo-green);
+}
+
+.journal-entry--empty {
+  grid-template-columns: minmax(0, 620px);
+}
+
+.journal-entry--empty h3 {
+  margin-top: 12px;
+}
+
+.journal-entry--empty > p:not(.journal-entry__meta) {
+  margin: 0;
+  color: var(--galileo-muted);
+  font-size: 14px;
+  line-height: 1.75;
+}
+
+.journal-entry--empty .text-link {
+  margin-top: 8px;
+}
+
+html[data-theme="light"] .journal-entry {
+  border-color: rgba(30, 78, 59, .14);
+}
+
+@media (max-width: 900px) {
+  .journal-section {
+    padding-top: 82px;
+    padding-bottom: 82px;
+  }
+
+  .journal-section .section-heading {
+    grid-template-columns: 1fr;
+    align-items: start;
+    gap: 28px;
+  }
+
+  .journal-entry {
+    grid-template-columns: 110px minmax(0, 1fr);
+  }
+
+  .journal-entry__signals {
+    grid-column: 2;
+    grid-template-columns: repeat(3, auto);
+    align-items: center;
+    justify-content: start;
+    gap: 18px;
+  }
+
+  .journal-entry__signals a {
+    margin-top: 0;
+  }
+}
+
+@media (max-width: 560px) {
+  .journal-section {
+    padding-top: 72px;
+    padding-bottom: 72px;
+  }
+
+  .journal-feed {
+    margin-top: 44px;
+  }
+
+  .journal-entry {
+    grid-template-columns: 1fr;
+    gap: 18px;
+    padding: 28px 0;
+  }
+
+  .journal-entry__meta {
+    grid-template-columns: repeat(2, auto);
+    justify-content: start;
+    gap: 14px;
+  }
+
+  .journal-entry h3 {
+    max-width: none;
+    font-size: 26px;
+  }
+
+  .journal-entry__signals {
+    grid-column: 1;
+    grid-template-columns: repeat(2, auto);
+    gap: 10px 18px;
+  }
+
+  .journal-entry__signals a {
+    grid-column: 1 / -1;
+  }
+}
+
 /* Engine page: technical structure without hard full-width rules. */
 body[data-page="platform"] .page-hero {
   border-bottom: 0;

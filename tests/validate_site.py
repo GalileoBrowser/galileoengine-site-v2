@@ -22,6 +22,7 @@ PUBLIC_PAGES = (
     "status.html",
     "team.html",
     "support.html",
+    "journal/index.html",
     "404.html",
 )
 REDIRECT_PAGES = {
@@ -46,8 +47,7 @@ REQUIRED_ASSETS = (
     ".nojekyll",
 )
 TEXT_SUFFIXES = {".css", ".html", ".ini", ".js", ".json", ".md", ".txt", ".xml", ".yaml", ".yml"}
-IGNORED_DIRECTORIES = {".git", ".next", "__pycache__", "node_modules", "output", "public"}
-APP_ROUTES = {"/journal", "journal"}
+IGNORED_DIRECTORIES = {".git", ".next", "__pycache__", "dist", "node_modules", "output", "public"}
 PROHIBITED_TERMS = ("step" + "perengine", "step" + "per", "vo" + "lt")
 PLACEHOLDER_MARKERS = ("galileo://start", "Interface concept", "browser-concept")
 
@@ -110,12 +110,12 @@ def check_local_reference(source: Path, raw_value: str) -> str | None:
     parsed = urlparse(value)
     if parsed.scheme or parsed.netloc:
         return None
-    if parsed.path in APP_ROUTES:
-        return None
     path = unquote(parsed.path)
     if not path:
         return None
     target = (source.parent / path).resolve()
+    if target.is_dir():
+        target = target / "index.html"
     try:
         target.relative_to(ROOT)
     except ValueError:
@@ -194,13 +194,14 @@ def validate_public_page(relative: str) -> list[str]:
 
     if text.count('aria-current="page"') > 1:
         errors.append(f"{relative}: more than one current-page marker")
-    if 'href="team.html"' not in text:
+    prefix = "../" if relative == "journal/index.html" else ""
+    if f'href="{prefix}team.html"' not in text:
         errors.append(f"{relative}: Team navigation link is missing")
-    if 'href="support.html"' not in text:
+    if f'href="{prefix}support.html"' not in text:
         errors.append(f"{relative}: Support navigation link is missing")
     if "family=Manrope" not in text:
         errors.append(f"{relative}: Manrope font request is missing")
-    if 'href="galileo.css?' not in text or 'src="site.js?' not in text:
+    if f'href="{prefix}galileo.css?' not in text or f'src="{prefix}site.js?' not in text:
         errors.append(f"{relative}: versioned public CSS or JavaScript reference is missing")
     if 'meta http-equiv="refresh"' in text.lower():
         errors.append(f"{relative}: public page must not use a meta refresh")
@@ -208,7 +209,12 @@ def validate_public_page(relative: str) -> list[str]:
         errors.append(f"{relative}: theme color metadata is missing")
     if relative != "404.html":
         canonical = "https://silviu3369.github.io/galileoengine-site-v2/"
-        expected_url = canonical if relative == "index.html" else canonical + relative
+        if relative == "index.html":
+            expected_url = canonical
+        elif relative == "journal/index.html":
+            expected_url = canonical + "journal/"
+        else:
+            expected_url = canonical + relative
         if f'<link rel="canonical" href="{expected_url}">' not in text:
             errors.append(f"{relative}: canonical URL is missing or incorrect")
         if f'<meta property="og:url" content="{expected_url}">' not in text:
@@ -237,6 +243,14 @@ def validate_public_page(relative: str) -> list[str]:
         for marker in ("organization-level sponsorship", "No payment link is active today", "GitHub Sponsors pending"):
             if marker not in text:
                 errors.append(f"{relative}: support boundary is missing {marker!r}")
+    elif relative == "journal/index.html":
+        for marker in (
+            "GitHub Discussions",
+            "JOURNAL_ENTRIES_START",
+            "github.com/Silviu3369/galileoengine-site-v2/discussions/categories/announcements",
+        ):
+            if marker not in text:
+                errors.append(f"{relative}: Journal integration marker is missing {marker!r}")
 
     return errors
 
@@ -285,7 +299,10 @@ def fetch(url: str) -> tuple[int, str, int]:
 def smoke_http(base_url: str) -> list[str]:
     errors: list[str] = []
     expected = {
-        **{page: "text/html" for page in PUBLIC_PAGES},
+        **{
+            ("journal/" if page == "journal/index.html" else page): "text/html"
+            for page in PUBLIC_PAGES
+        },
         **{page: "text/html" for page in REDIRECT_PAGES},
         "galileo.css": "text/css",
         "site.js": ("application/javascript", "text/javascript"),
