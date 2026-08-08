@@ -47,7 +47,7 @@ REQUIRED_ASSETS = (
 )
 TEXT_SUFFIXES = {".css", ".html", ".ini", ".js", ".json", ".md", ".txt", ".xml", ".yaml", ".yml"}
 IGNORED_DIRECTORIES = {".git", ".next", "__pycache__", "node_modules", "output", "public"}
-APP_ROUTES = {"/journal"}
+APP_ROUTES = {"/journal", "journal"}
 PROHIBITED_TERMS = ("step" + "perengine", "step" + "per", "vo" + "lt")
 PLACEHOLDER_MARKERS = ("galileo://start", "Interface concept", "browser-concept")
 
@@ -207,7 +207,7 @@ def validate_public_page(relative: str) -> list[str]:
     if 'name="theme-color"' not in text:
         errors.append(f"{relative}: theme color metadata is missing")
     if relative != "404.html":
-        canonical = "https://silviu3369.github.io/galileoengine-site/"
+        canonical = "https://silviu3369.github.io/galileoengine-site-v2/"
         expected_url = canonical if relative == "index.html" else canonical + relative
         if f'<link rel="canonical" href="{expected_url}">' not in text:
             errors.append(f"{relative}: canonical URL is missing or incorrect")

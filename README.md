@@ -2,9 +2,11 @@
 
 The public presentation site for GalileoEngine and Galileo Browser, plus Galileo Journal and its private editorial Studio.
 
-Current production site: <https://silviu3369.github.io/galileoengine-site/>
+V2 public preview: <https://silviu3369.github.io/galileoengine-site-v2/>
 
-The current GitHub Pages deployment remains the approved production version. The Next.js application in this branch is the migration candidate for Vercel; it has not been published yet.
+Legacy V1 site: <https://silviu3369.github.io/galileoengine-site/>
+
+GitHub Pages publishes the static V2 presentation and a clearly labelled Journal preview. The real Next.js Journal, authentication, and Studio remain a later deployment decision and are not simulated by the static preview.
 
 ## Architecture
 

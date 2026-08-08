@@ -5,7 +5,7 @@ import { fileURLToPath } from "node:url";
 const scriptDirectory = path.dirname(fileURLToPath(import.meta.url));
 const projectRoot = path.resolve(scriptDirectory, "..");
 const targetRoot = path.join(projectRoot, "public", "legacy");
-const currentProductionBase = "https://silviu3369.github.io/galileoengine-site";
+const currentProductionBase = "https://silviu3369.github.io/galileoengine-site-v2";
 const configuredSiteBase = process.env.NEXT_PUBLIC_SITE_URL?.trim().replace(/\/$/, "");
 
 const legacyFiles = [
