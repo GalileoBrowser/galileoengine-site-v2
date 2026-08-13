@@ -14,6 +14,7 @@ const publicFiles = [
   "About.dc.html",
   "Build.dc.html",
   "Contribute.dc.html",
+  "CNAME",
   "galileo-browser.html",
   "galileo.css",
   "Goals.dc.html",

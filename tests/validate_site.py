@@ -213,7 +213,7 @@ def validate_public_page(relative: str) -> list[str]:
     if 'name="theme-color"' not in text:
         errors.append(f"{relative}: theme color metadata is missing")
     if relative != "404.html":
-        canonical = "https://galileobrowser.github.io/galileoengine-site-v2/"
+        canonical = "https://galileobrowser.com/"
         if relative == "index.html":
             expected_url = canonical
         elif relative == "journal/index.html":
