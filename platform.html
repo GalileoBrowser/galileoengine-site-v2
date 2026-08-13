@@ -26,27 +26,27 @@
   </div></header>
   <main id="main-content">
     <section class="page-hero page-hero--platform"><div class="page-hero__inner">
-      <p class="eyebrow">Engine / lineage</p><h1>From Servo to Galileo Browser.</h1>
-      <p class="page-hero__lead">GalileoEngine is an experimental browser engine derived from Servo. It preserves that technical foundation while developing the integration and browser-facing capabilities required by Galileo Browser.</p>
+      <p class="eyebrow">The engine</p><h1>How GalileoEngine fits together.</h1>
+      <p class="page-hero__lead">We start with Servo, keep the engine work close to upstream, and add the pieces needed to build Galileo Browser.</p>
     </div><img class="page-hero__mark" src="assets/galileo-symbol.png" alt="GalileoEngine symbol" width="1254" height="1254"></section>
     <section class="page-section engine-lineage-section">
-      <div class="section-heading"><p class="eyebrow">One technical lineage</p><h2>Three distinct responsibilities.</h2><p>The relationship is deliberately simple: an upstream engine, a derived engine, and a product. Keeping those boundaries visible makes technical claims easier to understand and maintain.</p></div>
+      <div class="section-heading"><p class="eyebrow">Three layers</p><h2>Each part has a different job.</h2><p>Servo is the upstream web engine. GalileoEngine is our engine and integration layer. Galileo Browser is the desktop product built on top.</p></div>
       <ol class="engine-lineage" aria-label="Technical lineage">
-        <li><span>01 / upstream</span><h3>Servo</h3><p>The Rust-based web engine and embedding foundation from which GalileoEngine is derived.</p></li>
-        <li class="is-engine"><span>02 / derived engine</span><img src="assets/galileo-symbol.png" alt="" width="64" height="64"><h3>GalileoEngine</h3><p>Maintains the derived engine, integration surface, focused compatibility work, and qualification method.</p></li>
-        <li><span>03 / browser product</span><h3>Galileo Browser</h3><p>The desktop experience that turns engine capability into a coherent product for people.</p></li>
+        <li><span>01 / upstream</span><h3>Servo</h3><p>The Rust web engine and embedding foundation we build on.</p></li>
+        <li class="is-engine"><span>02 / engine layer</span><img src="assets/galileo-symbol.png" alt="" width="64" height="64"><h3>GalileoEngine</h3><p>Connects Servo to browser features, compatibility work, and our testing process.</p></li>
+        <li><span>03 / desktop product</span><h3>Galileo Browser</h3><p>The browser interface and everyday workflows people will use.</p></li>
       </ol>
       <p class="engine-lineage__disclosure">GalileoEngine is independent from Servo and is not affiliated with or endorsed by the Servo project.</p>
     </section>
-    <section class="page-section"><div class="section-heading"><p class="eyebrow">What GalileoEngine adds</p><h2>The work between engine code and a trusted browser.</h2></div>
+    <section class="page-section"><div class="section-heading"><p class="eyebrow">Our part of the work</p><h2>Connecting a web engine to a complete browser.</h2></div>
       <div class="ownership-grid">
-        <article><span>01</span><h3>Engine integration</h3><p>Embedding, networking, storage, graphics, media, permissions, and browser-facing APIs must work together as one maintainable system.</p></article>
-        <article><span>02</span><h3>Compatibility method</h3><p>Standards tests, focused automation, and repeatable site journeys turn technical progress into evidence with documented limits.</p></article>
-        <article><span>03</span><h3>Product readiness</h3><p>Security, privacy, accessibility, stability, packaging, updates, and recovery require explicit gates before public release.</p></article>
+        <article><span>01</span><h3>Engine integration</h3><p>Networking, storage, graphics, media, permissions, and browser APIs have to work as one maintainable system.</p></article>
+        <article><span>02</span><h3>Compatibility testing</h3><p>Standards tests and repeatable browsing tasks show us what works and where we still have gaps.</p></article>
+        <article><span>03</span><h3>Release work</h3><p>Security, privacy, accessibility, stability, installation, updates, and recovery all need their own testing before release.</p></article>
       </div>
     </section>
-    <section class="page-section surface-section"><div class="surface-section__label"><span>Servo</span><i></i><span>GalileoEngine</span></div><div class="surface-section__content"><p class="eyebrow">Upstream-minded</p><h2>Stay derived without becoming disconnected.</h2><p>Reusable engine improvements should remain useful to Servo whenever practical. GalileoEngine-specific decisions stay explicit and maintainable so the derived engine can continue to benefit from upstream progress.</p></div></section>
-    <section class="page-section next-section"><p class="eyebrow">Continue</p><h2>See what is proven and what remains.</h2><a class="button button--primary" href="roadmap.html">Open progress <span aria-hidden="true">→</span></a></section>
+    <section class="page-section surface-section"><div class="surface-section__label"><span>Servo</span><i></i><span>GalileoEngine</span></div><div class="surface-section__content"><p class="eyebrow">Working with upstream</p><h2>Keep the fork useful and maintainable.</h2><p>When a fix is useful beyond Galileo, we want it to remain suitable for Servo. Staying close to upstream also makes future Servo updates easier to adopt.</p></div></section>
+    <section class="page-section next-section"><p class="eyebrow">Next</p><h2>See what works and what comes next.</h2><a class="button button--primary" href="roadmap.html">Open the roadmap <span aria-hidden="true">→</span></a></section>
   </main>
   <footer class="site-footer"><div class="site-footer__brand"><img src="assets/galileo-symbol.png" alt="" width="44" height="44"><span>Galileo<span>Engine</span></span></div><p>An independent experimental browser engine derived from Servo.</p><p class="site-footer__legal">No public release is currently offered. <a href="https://github.com/GalileoBrowser/galileoengine-site-v2">Source on GitHub ↗</a></p></footer>
 </body></html>

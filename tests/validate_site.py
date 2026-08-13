@@ -237,15 +237,22 @@ def validate_public_page(relative: str) -> list[str]:
             if marker not in text:
                 errors.append(f"{relative}: identity marker is missing {marker!r}")
     elif relative == "galileo-browser.html":
-        for marker in ("GalileoEngine / browser product", "In development", "No public release"):
+        for marker in ("Desktop browser / in development", "In development", "No public release"):
             if marker not in text:
                 errors.append(f"{relative}: product boundary is missing {marker!r}")
     elif relative == "team.html":
         for person in ("Loren Bufanu", "Ionel Silviu Ghimpau", "Manuel Ionasel"):
             if person not in text:
                 errors.append(f"{relative}: team member is missing {person!r}")
+        for email in (
+            "loren@galileobrowser.com",
+            "silviu@galileobrowser.com",
+            "manuel@galileobrowser.com",
+        ):
+            if f'href="mailto:{email}"' not in text:
+                errors.append(f"{relative}: team contact is missing {email!r}")
     elif relative == "support.html":
-        for marker in ("Contribute code", "Fund the work", "No payment link is active today", "GitHub Sponsors pending"):
+        for marker in ("Contribute code", "Fund the work", "We are not accepting money yet", "GitHub Sponsors pending"):
             if marker not in text:
                 errors.append(f"{relative}: support boundary is missing {marker!r}")
     elif relative == "journal/index.html":

@@ -132,9 +132,9 @@ function renderEntry(item) {
 
 function renderEmptyState() {
   return `        <article class="journal-entry journal-entry--empty">
-          <p class="journal-entry__meta"><span>Journal is ready</span></p>
-          <h3>The first public field note is being prepared.</h3>
-          <p>Until it is published, the Discussions category remains the canonical place for GalileoEngine updates and community replies.</p>
+          <p class="journal-entry__meta"><span>No updates yet</span></p>
+          <h3>The first project note is being prepared.</h3>
+          <p>Until then, GitHub Discussions is the place to ask questions and follow the project.</p>
           <a class="text-link" href="https://github.com/${repository}/discussions/categories/${discussionCategory}">Open Discussions <span aria-hidden="true">↗</span></a>
         </article>`;
 }
