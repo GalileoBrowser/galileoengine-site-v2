@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Progress — GalileoEngine</title>
+  <meta name="description" content="What GalileoEngine can demonstrate today, what remains unqualified, and the gated path toward Galileo Browser."><meta name="theme-color" content="#f4f8f5">
+  <meta property="og:title" content="Progress — GalileoEngine"><meta property="og:description" content="Verified evidence, known limits, and the path toward a qualified browser."><meta property="og:type" content="website"><meta property="og:url" content="https://galileobrowser.github.io/galileoengine-site-v2/roadmap.html"><meta property="og:image" content="https://galileobrowser.github.io/galileoengine-site-v2/assets/galileo-symbol.png"><meta name="twitter:card" content="summary"><link rel="canonical" href="https://galileobrowser.github.io/galileoengine-site-v2/roadmap.html">
+  <link rel="icon" href="assets/galileo-symbol.png" type="image/png"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet"><link rel="stylesheet" href="galileo.css?v=20260808-contribute"><script src="site.js?v=20260808-light-first" defer></script>
+</head>
+<body data-page="roadmap">
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <header class="site-header"><div class="site-header__inner"><a class="site-brand" href="index.html" aria-label="GalileoEngine home"><img src="assets/galileo-symbol.png" alt="" width="52" height="52"><span class="site-brand__name">Galileo<span>Engine</span></span></a><nav class="site-nav" id="primary-navigation" aria-label="Primary navigation"><a href="platform.html">Engine</a><a href="roadmap.html" aria-current="page">Roadmap</a><a href="galileo-browser.html">Galileo Browser</a><a href="journal">Discussions</a><a href="team.html">Team</a><a class="nav-support" href="support.html">Contribute to the project</a></nav><a class="header-status" href="status.html"><span></span>Research stage</a><div class="theme-switch" role="group" aria-label="Color theme"><button type="button" data-theme-choice="light" aria-pressed="true">Light</button><button type="button" data-theme-choice="dark" aria-pressed="false">Dark</button></div><button class="menu-toggle" type="button" aria-label="Open navigation" aria-controls="primary-navigation" aria-expanded="false"><span class="menu-toggle__icon" aria-hidden="true"></span></button></div></header>
+  <main id="main-content">
+    <section class="page-hero page-hero--roadmap"><div class="page-hero__inner"><p class="eyebrow">Progress / evidence before claims</p><h1>Progress without guesswork.</h1><p class="page-hero__lead">GalileoEngine reports retained evidence, known limits, and the next technical gate. There is no percentage here because the project does not yet have a complete, stable denominator for browser readiness.</p></div><img class="page-hero__mark" src="assets/galileo-symbol.png" alt="GalileoEngine symbol" width="1254" height="1254"></section>
+
+    <section class="page-section progress-section" aria-labelledby="progress-path-title">
+      <div class="section-heading section-heading--wide"><p class="eyebrow">Development path</p><h2 id="progress-path-title">From a measured baseline to a qualified release.</h2><p>The current phase is the foundation and browser baseline. Later stages remain gated until their entry conditions and evidence are available.</p></div>
+      <ol class="progress-track">
+        <li class="is-current"><span class="progress-track__number">01</span><span class="progress-track__state">Current</span><h3>Foundation &amp; baseline</h3><p>Build, launch, inventory, and retain focused evidence.</p></li>
+        <li class="has-evidence"><span class="progress-track__number">02</span><span class="progress-track__state">Focused proof</span><h3>Core browser journeys</h3><p>Rendering, navigation, storage, media, and shell behaviour.</p></li>
+        <li><span class="progress-track__number">03</span><span class="progress-track__state">Next gate</span><h3>Compatibility &amp; hardening</h3><p>Broader standards, sites, security, privacy, and accessibility.</p></li>
+        <li><span class="progress-track__number">04</span><span class="progress-track__state">Gated</span><h3>Packaging &amp; updates</h3><p>Install, update, rollback, recovery, and platform integration.</p></li>
+        <li><span class="progress-track__number">05</span><span class="progress-track__state">Goal</span><h3>Public alpha</h3><p>A scoped release only after explicit qualification criteria pass.</p></li>
+      </ol>
+      <p class="progress-legend"><span></span> The highlighted node shows the current project phase. “Focused proof” means selected paths have evidence; it does not mean the phase is complete.</p>
+    </section>
+
+    <section class="page-section evidence-section" aria-labelledby="capability-title">
+      <div class="section-heading section-heading--wide"><p class="eyebrow">Current capability</p><h2 id="capability-title">What can be demonstrated today.</h2><p>Each result is paired with its boundary. This snapshot describes development evidence, not a consumer release.</p></div>
+      <p class="capability-scroll-hint">On a smaller screen, swipe the table horizontally to compare every column.</p>
+      <div class="capability-table-wrap" tabindex="0" role="region" aria-label="Current GalileoEngine capability table">
+        <table class="capability-table">
+          <thead><tr><th scope="col">Area</th><th scope="col">Current evidence</th><th scope="col">State</th><th scope="col">Important limit</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Development build</th><td>The current desktop shell can be built and launched in the measured development environment.</td><td><span class="evidence-state evidence-state--observed">Observed</span></td><td>Not a signed installer or release package.</td></tr>
+            <tr><th scope="row">Rendering &amp; navigation</th><td>Deterministic local and HTTPS rendering plus selected navigation, search, and back journeys.</td><td><span class="evidence-state evidence-state--observed">Observed</span></td><td>Narrow journeys, not broad site compatibility.</td></tr>
+            <tr><th scope="row">Browser shell</th><td>Core shell behaviour exists through the current Servo-derived development surface.</td><td><span class="evidence-state evidence-state--partial">Partial</span></td><td>Everyday workflows and recovery are not qualified.</td></tr>
+            <tr><th scope="row">Compatibility automation</th><td>Focused WebDriver, standards, cache, and browser-API probes can be retained and repeated.</td><td><span class="evidence-state">Focused</span></td><td>No complete compatibility denominator or public score.</td></tr>
+            <tr><th scope="row">Media</th><td>Configured deterministic media paths and a pinned muted streaming-video gate have focused evidence.</td><td><span class="evidence-state">Focused</span></td><td>Audio, seeking, adaptive playback, DRM, and broad sites remain unqualified.</td></tr>
+            <tr><th scope="row">Distribution</th><td>No public Galileo Browser build is offered.</td><td><span class="evidence-state evidence-state--blocked">Not ready</span></td><td>Packaging, signing, updates, rollback, and support gates remain.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="page-section goal-section" aria-labelledby="goal-title">
+      <div class="goal-section__statement"><p class="eyebrow">The goal</p><h2 id="goal-title">A secure, accessible, maintainable engine for Galileo Browser.</h2><p>The target is not simply to open more pages. GalileoEngine must make standards support, user safety, desktop reliability, and long-term maintenance measurable enough to support a real browser release.</p></div>
+      <div class="goal-grid">
+        <article><span>01</span><h3>Standards &amp; interoperability</h3><p>Broaden measurable web-platform support and real-site reliability.</p></article>
+        <article><span>02</span><h3>Complete browser surface</h3><p>Connect engine capability to coherent daily browsing workflows.</p></article>
+        <article><span>03</span><h3>Release discipline</h3><p>Require security, privacy, accessibility, stability, and delivery gates.</p></article>
+        <article><span>04</span><h3>Healthy Servo lineage</h3><p>Keep reusable improvements upstream-compatible whenever practical.</p></article>
+      </div>
+    </section>
+
+    <section class="page-section next-section"><p class="eyebrow">Detailed snapshot</p><h2>Read the current status and its boundaries.</h2><a class="button button--primary" href="status.html">Project status <span aria-hidden="true">→</span></a></section>
+  </main>
+  <footer class="site-footer"><div class="site-footer__brand"><img src="assets/galileo-symbol.png" alt="" width="44" height="44"><span>Galileo<span>Engine</span></span></div><p>An independent experimental browser engine derived from Servo.</p><p class="site-footer__legal">No public release is currently offered. <a href="https://github.com/GalileoBrowser/galileoengine-site-v2">Source on GitHub ↗</a></p></footer>
+</body></html>
