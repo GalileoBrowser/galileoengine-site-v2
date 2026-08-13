@@ -5,7 +5,7 @@ import { fileURLToPath } from "node:url";
 const scriptDirectory = path.dirname(fileURLToPath(import.meta.url));
 const projectRoot = path.resolve(scriptDirectory, "..");
 const outputRoot = path.join(projectRoot, "dist");
-const repository = process.env.GITHUB_REPOSITORY || "Silviu3369/galileoengine-site-v2";
+const repository = process.env.GITHUB_REPOSITORY || "GalileoBrowser/galileoengine-site-v2";
 const discussionCategory = "announcements";
 
 const publicFiles = [

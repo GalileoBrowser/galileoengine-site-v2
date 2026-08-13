@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://silviu3369.github.io/galileoengine-site-v2/sitemap.xml
+Sitemap: https://galileobrowser.github.io/galileoengine-site-v2/sitemap.xml

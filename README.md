@@ -2,9 +2,9 @@
 
 The public presentation site for GalileoEngine and Galileo Browser, including an engineering Journal backed by GitHub Discussions.
 
-- Public V2 site: <https://silviu3369.github.io/galileoengine-site-v2/>
-- Galileo Journal: <https://silviu3369.github.io/galileoengine-site-v2/journal/>
-- Journal discussions: <https://github.com/Silviu3369/galileoengine-site-v2/discussions/categories/announcements>
+- Official organization site: <https://galileobrowser.github.io/galileoengine-site-v2/>
+- Galileo Journal: <https://galileobrowser.github.io/galileoengine-site-v2/journal/>
+- Journal discussions: <https://github.com/GalileoBrowser/galileoengine-site-v2/discussions/categories/announcements>
 - Legacy V1 site: <https://silviu3369.github.io/galileoengine-site/>
 
 ## Architecture

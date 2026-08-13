@@ -213,7 +213,7 @@ def validate_public_page(relative: str) -> list[str]:
     if 'name="theme-color"' not in text:
         errors.append(f"{relative}: theme color metadata is missing")
     if relative != "404.html":
-        canonical = "https://silviu3369.github.io/galileoengine-site-v2/"
+        canonical = "https://galileobrowser.github.io/galileoengine-site-v2/"
         if relative == "index.html":
             expected_url = canonical
         elif relative == "journal/index.html":
@@ -252,7 +252,7 @@ def validate_public_page(relative: str) -> list[str]:
         for marker in (
             "GitHub Discussions",
             "JOURNAL_ENTRIES_START",
-            "github.com/Silviu3369/galileoengine-site-v2/discussions/categories/announcements",
+            "github.com/GalileoBrowser/galileoengine-site-v2/discussions/categories/announcements",
         ):
             if marker not in text:
                 errors.append(f"{relative}: Journal integration marker is missing {marker!r}")
