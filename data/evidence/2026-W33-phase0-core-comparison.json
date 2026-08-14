@@ -1,0 +1,80 @@
+{
+  "schema_version": 1,
+  "kind": "galileo-servo-phase0-core-upstream-reference",
+  "captured_on": "2026-08-14",
+  "scope": {
+    "shard": "phase0-core",
+    "top_level_tests": 3,
+    "subtests": 286,
+    "test_identifiers_identical": true,
+    "subtest_names_identical": true,
+    "same_execution_environment": false
+  },
+  "galileo": {
+    "repository": "GalileoBrowser/GalileoEngine",
+    "source_commit": "d0e89798d992b7cf38eff1f30c6131d9426e4341",
+    "captured_on": "2026-08-13",
+    "profile": "medium",
+    "host": "KDE neon 24.04 x86_64",
+    "wpt_suite_revision": "9bcfb75957109fe4cfaa5d3ed176051aa408122e",
+    "wptreport_sha256": "d1680ca3b3be1c676c7afac0b1ccee82f395a5272ba7475e991e1c89def368ed",
+    "result": {
+      "passed": 286,
+      "failed": 0,
+      "timeouts": 0,
+      "crashes": 0,
+      "not_run": 0
+    }
+  },
+  "servo": {
+    "repository": "servo/servo",
+    "source_commit": "386904a38308fb899925aaae7359a3b69131ad5c",
+    "captured_on": "2026-08-14",
+    "github_actions_run": {
+      "id": 31788413088,
+      "url": "https://github.com/servo/servo/actions/runs/31788413088",
+      "conclusion": "success"
+    },
+    "artifact": {
+      "id": 9215530859,
+      "name": "wpt-full-logs-linux",
+      "size_bytes": 74505274,
+      "digest": "sha256:94809630557e4f2f3bd2ff86d73fd411f349b947819e6258a534f2b0aa5ab1c7",
+      "expires_on": "2026-11-12"
+    },
+    "run_info": {
+      "product": "servo",
+      "host": "Ubuntu 22.04 x86_64",
+      "automation": false,
+      "headless": false
+    },
+    "result": {
+      "passed": 246,
+      "failed": 40,
+      "timeouts": 0,
+      "crashes": 0,
+      "not_run": 0
+    }
+  },
+  "tests": [
+    {
+      "path": "/dom/nodes/Document-doctype.html",
+      "subtests": 2,
+      "galileo": { "passed": 2, "failed": 0 },
+      "servo": { "passed": 2, "failed": 0 }
+    },
+    {
+      "path": "/dom/nodes/Document-createElement.html",
+      "subtests": 147,
+      "galileo": { "passed": 147, "failed": 0 },
+      "servo": { "passed": 147, "failed": 0 }
+    },
+    {
+      "path": "/url/url-constructor.any.html?include=file",
+      "subtests": 137,
+      "galileo": { "passed": 137, "failed": 0 },
+      "servo": { "passed": 97, "failed": 40 }
+    }
+  ],
+  "interpretation": "This is a real, same-denominator upstream reference extracted from retained WPT reports. It is not yet a controlled benchmark because the Galileo and Servo captures used different Linux environments and run profiles."
+}

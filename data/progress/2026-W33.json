@@ -1,0 +1,88 @@
+{
+  "schema_version": 1,
+  "snapshot_id": "2026-W33",
+  "captured_on": "2026-08-14",
+  "review_status": "manual-reviewed",
+  "revisions": {
+    "galileo": "fb06431389e10bbbecf7477ba288f266018ba6f7",
+    "servo": "386904a38308fb899925aaae7359a3b69131ad5c",
+    "wpt_suite": "9bcfb75957109fe4cfaa5d3ed176051aa408122e"
+  },
+  "features": {
+    "denominator": 68,
+    "states": {
+      "observed_partial": 54,
+      "unmeasured": 5,
+      "planned": 4,
+      "decision_required": 3,
+      "blocked": 2,
+      "focused_pass": 0
+    },
+    "source": "Reviewed private feature inventory",
+    "interpretation": "Observed partial is evidence of some behaviour, not a passed qualification test."
+  },
+  "wpt": {
+    "shard": "phase0-core",
+    "comparison_status": "upstream-reference",
+    "top_level_tests": {
+      "applicable": 3,
+      "passed": 3
+    },
+    "subtests": {
+      "applicable": 286,
+      "passed": 286,
+      "unexpected": 0
+    },
+    "galileo_evidence": {
+      "source_commit": "d0e89798d992b7cf38eff1f30c6131d9426e4341",
+      "captured_on": "2026-08-13",
+      "profile": "medium",
+      "host": "KDE neon 24.04 x86_64",
+      "wptreport_sha256": "d1680ca3b3be1c676c7afac0b1ccee82f395a5272ba7475e991e1c89def368ed"
+    },
+    "servo_comparator": {
+      "source_commit": "386904a38308fb899925aaae7359a3b69131ad5c",
+      "captured_on": "2026-08-14",
+      "github_actions_run": 31788413088,
+      "github_actions_run_url": "https://github.com/servo/servo/actions/runs/31788413088",
+      "artifact_id": 9215530859,
+      "artifact_name": "wpt-full-logs-linux",
+      "artifact_digest": "sha256:94809630557e4f2f3bd2ff86d73fd411f349b947819e6258a534f2b0aa5ab1c7",
+      "host": "Ubuntu 22.04 x86_64",
+      "top_level_tests": 3,
+      "subtests": {
+        "applicable": 286,
+        "passed": 246,
+        "failed": 40
+      }
+    },
+    "comparison_checks": {
+      "test_identifiers_identical": true,
+      "subtest_names_identical": true,
+      "same_execution_environment": false
+    },
+    "evidence_file": "data/evidence/2026-W33-phase0-core-comparison.json",
+    "interpretation": "A narrow three-test upstream reference, not a web-compatibility score. The test and subtest denominators match, but the two retained runs used different Linux environments and profiles."
+  },
+  "upstream": {
+    "declared_initial_base": "93d8f85503e0f0ef29115827dc1023174aeeaff1",
+    "servo_capture": "386904a38308fb899925aaae7359a3b69131ad5c",
+    "commits_between_captured_servo_revisions": 248,
+    "current_integrated_base": null,
+    "interpretation": "This measures Servo movement after the declared initial base. It is not a GalileoEngine behind count."
+  },
+  "lineage": {
+    "merge_base": "93d8f85503e0f0ef29115827dc1023174aeeaff1",
+    "verified_galileo_checkpoint": "ee6ab59dc802b59a1725979589c08f891eedff5c",
+    "commits_from_base_to_verified_checkpoint": 8,
+    "current_galileo_snapshot": "fb06431389e10bbbecf7477ba288f266018ba6f7",
+    "current_hosted_history_linkage": "not-exposed-after-repository-migration",
+    "solid_line_meaning": "Git ancestry verified from a full-history checkout",
+    "dashed_line_meaning": "Project continuation after migration; original base object not exposed by the current hosted repository"
+  },
+  "automation": {
+    "weekly_run_active": false,
+    "latest_ci_evidence": "unavailable-pre-execution",
+    "publication_policy": "keep-last-verified-snapshot"
+  }
+}

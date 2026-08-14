@@ -4,13 +4,94 @@
   <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Roadmap — GalileoEngine</title>
   <meta name="description" content="What works in GalileoEngine today and the work still needed before Galileo Browser can be released."><meta name="theme-color" content="#f4f8f5">
   <meta property="og:title" content="Roadmap — GalileoEngine"><meta property="og:description" content="What works today and what comes next for GalileoEngine and Galileo Browser."><meta property="og:type" content="website"><meta property="og:url" content="https://galileobrowser.com/roadmap.html"><meta property="og:image" content="https://galileobrowser.com/assets/galileo-symbol.png"><meta name="twitter:card" content="summary"><link rel="canonical" href="https://galileobrowser.com/roadmap.html">
-  <link rel="icon" href="assets/galileo-symbol.png" type="image/png"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet"><link rel="stylesheet" href="galileo.css?v=20260808-contribute"><script src="site.js?v=20260808-light-first" defer></script>
+  <link rel="icon" href="assets/galileo-symbol.png" type="image/png"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet"><link rel="stylesheet" href="galileo.css?v=20260814-evidence"><script src="site.js?v=20260808-light-first" defer></script>
 </head>
 <body data-page="roadmap">
   <a class="skip-link" href="#main-content">Skip to content</a>
   <header class="site-header"><div class="site-header__inner"><a class="site-brand" href="index.html" aria-label="GalileoEngine home"><img src="assets/galileo-symbol.png" alt="" width="52" height="52"><span class="site-brand__name">Galileo<span>Engine</span></span></a><nav class="site-nav" id="primary-navigation" aria-label="Primary navigation"><a href="platform.html">Engine</a><a href="roadmap.html" aria-current="page">Roadmap</a><a href="galileo-browser.html">Galileo Browser</a><a href="journal">Discussions</a><a href="team.html">Team</a><a class="nav-support" href="support.html">Contribute to the project</a></nav><a class="header-status" href="status.html"><span></span>Research stage</a><div class="theme-switch" role="group" aria-label="Color theme"><button type="button" data-theme-choice="light" aria-pressed="true">Light</button><button type="button" data-theme-choice="dark" aria-pressed="false">Dark</button></div><button class="menu-toggle" type="button" aria-label="Open navigation" aria-controls="primary-navigation" aria-expanded="false"><span class="menu-toggle__icon" aria-hidden="true"></span></button></div></header>
   <main id="main-content">
     <section class="page-hero page-hero--roadmap"><div class="page-hero__inner"><p class="eyebrow">Roadmap</p><h1>What works now—and what comes next.</h1><p class="page-hero__lead">We are still building the foundation. This page shows the current stage, the checks we can repeat today, and the work between us and a first public release.</p></div><img class="page-hero__mark" src="assets/galileo-symbol.png" alt="GalileoEngine symbol" width="1254" height="1254"></section>
+
+    <section class="page-section evidence-tracker" id="weekly-evidence" aria-labelledby="evidence-tracker-title">
+      <div class="evidence-tracker__header">
+        <div><p class="eyebrow">Code lineage</p><h2 id="evidence-tracker-title">One codebase. Two paths.</h2></div>
+        <div class="evidence-tracker__intro"><p>This graph shows where Galileo branched from Servo and how each code line moved afterwards. It is repository history, not a performance or compatibility score.</p><div class="snapshot-stamp"><span>Baseline 01</span><time datetime="2026-08-14">Captured 14 Aug 2026</time><strong>Manually reviewed</strong></div></div>
+      </div>
+
+      <figure class="lineage-chart" aria-labelledby="lineage-chart-title">
+        <figcaption><div><p class="metric-kicker">Servo → GalileoEngine</p><h3 id="lineage-chart-title">Galileo starts at a verified Servo commit.</h3></div><p>The full-history checkout proves that <code>93d8f85503e</code> is the merge base. Solid lines are verified Git ancestry; the dashed segment marks the later repository migration.</p></figcaption>
+        <p class="lineage-chart__mobile-hint">Swipe horizontally to inspect the complete code history.</p>
+        <div class="lineage-chart__viewport" tabindex="0" role="region" aria-label="Code lineage chart from Servo to GalileoEngine">
+          <div class="lineage-chart__canvas">
+            <svg viewBox="0 0 960 360" role="img" aria-labelledby="lineage-svg-title lineage-svg-description">
+              <title id="lineage-svg-title">Servo and GalileoEngine code lineage</title>
+              <desc id="lineage-svg-description">Servo continues 248 commits after the common base. Galileo branches at that base and reaches an ancestry-verified checkpoint eight commits later. A dashed continuation leads to the current Galileo repository snapshot because the migrated hosted repository does not expose the original base object.</desc>
+              <g class="lineage-chart__grid" aria-hidden="true"><line x1="80" y1="42" x2="80" y2="326"></line><line x1="260" y1="42" x2="260" y2="326"></line><line x1="480" y1="42" x2="480" y2="326"></line><line x1="690" y1="42" x2="690" y2="326"></line><line x1="880" y1="42" x2="880" y2="326"></line></g>
+              <path class="lineage-chart__line lineage-chart__line--servo" d="M82 112 H880"></path>
+              <path class="lineage-chart__line lineage-chart__line--galileo" d="M260 112 C315 112 320 248 405 248 H500"></path>
+              <path class="lineage-chart__line lineage-chart__line--migration" d="M500 248 H830"></path>
+              <g class="lineage-chart__nodes" aria-hidden="true"><circle class="is-origin" cx="260" cy="112" r="10"></circle><circle class="is-servo" cx="880" cy="112" r="8"></circle><circle class="is-galileo" cx="500" cy="248" r="8"></circle><circle class="is-current" cx="830" cy="248" r="8"></circle></g>
+            </svg>
+            <span class="lineage-chart__lane lineage-chart__lane--servo">Servo</span><span class="lineage-chart__lane lineage-chart__lane--galileo">GalileoEngine</span>
+            <div class="lineage-chart__label lineage-chart__label--origin"><span>Common base · 24 Jul</span><strong>93d8f85503e</strong><small>Git merge base verified</small></div>
+            <div class="lineage-chart__label lineage-chart__label--servo-current"><span>Servo main · 14 Aug</span><strong>386904a38308</strong><small>248 commits after base</small></div>
+            <div class="lineage-chart__label lineage-chart__label--galileo-verified"><span>Verified Galileo checkpoint</span><strong>ee6ab59dc802</strong><small>8 commits after base</small></div>
+            <div class="lineage-chart__label lineage-chart__label--galileo-current"><span>Current Galileo snapshot · 13 Aug</span><strong>fb06431389e1</strong><small>Hosted-history link not exposed</small></div>
+            <span class="lineage-chart__count lineage-chart__count--servo">+248 commits</span><span class="lineage-chart__count lineage-chart__count--galileo">+8 commits</span><span class="lineage-chart__migration">Repository migration</span>
+          </div>
+        </div>
+        <div class="lineage-chart__legend"><span><i class="is-solid"></i>Verified ancestry</span><span><i class="is-dashed"></i>Project continuation after migration</span><span><i class="is-node"></i>Reviewed commit</span></div>
+        <p class="lineage-chart__note">The graph does not claim that commit counts equal browser quality. It records where the projects separated and which parts of that relationship can be independently reproduced.</p>
+      </figure>
+
+      <div class="evidence-dashboard">
+        <article class="evidence-panel evidence-panel--features">
+          <div class="evidence-panel__header"><div><p class="metric-kicker">Feature evidence / 68 tracked items</p><h3>Most items show partial behaviour. None has cleared its focused test gate yet.</h3></div><strong class="metric-total">68<span>total</span></strong></div>
+          <div class="distribution-bar" role="img" aria-label="Of 68 tracked items: 54 are observed partial, 5 are unmeasured, 4 are planned, 3 require a decision, 2 are blocked, and 0 have a focused pass.">
+            <span class="distribution-bar__partial" style="--segment-size:79.4118%"></span><span class="distribution-bar__unmeasured" style="--segment-size:7.3529%"></span><span class="distribution-bar__planned" style="--segment-size:5.8824%"></span><span class="distribution-bar__decision" style="--segment-size:4.4118%"></span><span class="distribution-bar__blocked" style="--segment-size:2.9412%"></span>
+          </div>
+          <ul class="distribution-legend" aria-label="Feature evidence counts">
+            <li><i class="is-partial"></i><span>Observed, partial</span><strong>54</strong></li>
+            <li><i class="is-unmeasured"></i><span>Unmeasured</span><strong>5</strong></li>
+            <li><i class="is-planned"></i><span>Planned</span><strong>4</strong></li>
+            <li><i class="is-decision"></i><span>Decision required</span><strong>3</strong></li>
+            <li><i class="is-blocked"></i><span>Blocked</span><strong>2</strong></li>
+            <li><i class="is-pass"></i><span>Focused pass</span><strong>0</strong></li>
+          </ul>
+          <p class="metric-note">“Observed, partial” means that some behaviour exists. It is not the same as a passed qualification test.</p>
+        </article>
+
+        <article class="evidence-panel evidence-panel--wpt">
+          <div class="evidence-panel__header"><div><p class="metric-kicker">Same-denominator WPT reference</p><h3>Phase 0 Core</h3></div><span class="evidence-state evidence-state--partial">Upstream reference</span></div>
+          <dl class="comparison-list">
+            <div><dt>GalileoEngine</dt><dd><strong>286 / 286</strong><span>subtests passed</span><small>Commit d0e89798d992 · 13 Aug · retained WPT report</small></dd></div>
+            <div><dt>Servo</dt><dd><strong>246 / 286</strong><span>subtests passed · 40 failed</span><small>Commit 386904a38308 · official GitHub Actions artefact</small></dd></div>
+          </dl>
+          <p class="metric-note">The three test identifiers and all 286 subtest names match exactly. The captures used different Linux environments and profiles, so this is a real upstream reference. It is not a controlled benchmark and not a web-compatibility score.</p>
+          <p class="metric-source"><a href="data/evidence/2026-W33-phase0-core-comparison.json">Inspect the comparison data</a> · <a href="https://github.com/servo/servo/actions/runs/31788413088">Open Servo run 31788413088 <span aria-hidden="true">↗</span></a></p>
+        </article>
+
+        <article class="evidence-panel evidence-panel--upstream">
+          <div class="evidence-panel__header"><div><p class="metric-kicker">Servo relationship</p><h3>The original fork point is verified. The latest integrated Servo base is not recorded yet.</h3></div><span class="evidence-state evidence-state--partial">Current base open</span></div>
+          <ol class="revision-chain" aria-label="Servo revision relationship">
+            <li><span>Declared initial base</span><code>93d8f85503e</code></li>
+            <li class="revision-chain__distance"><strong>248</strong><span>Servo commits between references</span></li>
+            <li><span>Servo capture</span><code>386904a38308</code></li>
+          </ol>
+          <p class="metric-note">The 248 commits measure movement in Servo after the common base. They do not prove that GalileoEngine is “248 commits behind”.</p>
+        </article>
+
+        <aside class="evidence-panel evidence-panel--operations" aria-labelledby="operations-title">
+          <div><p class="metric-kicker">Evidence operation</p><h3 id="operations-title">The first upstream reference is recorded. Weekly collection is not active yet.</h3><p>The Servo result comes from its successful public GitHub Actions run. The retained Galileo capture is real, but a controlled comparison still requires both binaries to run in one job on the same runner.</p></div>
+          <dl class="operation-list"><div><dt>Galileo evidence</dt><dd><code>d0e89798d992</code></dd></div><div><dt>Servo evidence</dt><dd><code>386904a38308</code></dd></div><div><dt>Next gate</dt><dd>Run both binaries with the same profile, operating system, WPT revision, command, and test selection; publish the two reports and their SHA-256 digests.</dd></div></dl>
+        </aside>
+      </div>
+
+      <details class="evidence-method">
+        <summary>How this snapshot is measured</summary>
+        <div class="evidence-method__body"><p>The lineage graph uses Git object checks from a full-history checkout. The solid Galileo branch starts at the verified merge base and reaches a checkpoint eight commits later. The dashed Galileo segment is deliberate: the current hosted repository does not expose that original base object after migration, so the site does not present the full path as independently verified.</p><p>The feature view counts all 68 rows in the reviewed Galileo feature inventory. The WPT view reports only the selected <code>phase0-core</code> shard. Galileo's retained report was produced at commit <code>d0e89798d992</code>; Servo's values were extracted from the full WPT artefact attached to its successful public run at commit <code>386904a38308</code>. The test identifiers and ordered subtest names are identical. Because the execution environments differ, the panel is labelled as an upstream reference rather than a controlled benchmark.</p><p>Future updates should fail closed: when collection fails, the site keeps the last verified snapshot and marks it stale instead of publishing guessed values.</p><p><a href="data/progress/2026-W33.json">View the sanitized snapshot data</a> · <a href="data/evidence/2026-W33-phase0-core-comparison.json">Inspect the extracted comparison</a> · <a href="https://github.com/servo/servo/commit/93d8f85503e0f0ef29115827dc1023174aeeaff1">Open the Servo base commit <span aria-hidden="true">↗</span></a> · <a href="https://github.com/servo/servo/commit/386904a38308fb899925aaae7359a3b69131ad5c">Open the Servo capture <span aria-hidden="true">↗</span></a></p></div>
+      </details>
+    </section>
 
     <section class="page-section progress-section" aria-labelledby="progress-path-title">
       <div class="section-heading section-heading--wide"><p class="eyebrow">Development path</p><h2 id="progress-path-title">Five stages from first build to public alpha.</h2><p>We are working through the foundation now. Later stages begin only when the earlier work is stable enough to support them.</p></div>
