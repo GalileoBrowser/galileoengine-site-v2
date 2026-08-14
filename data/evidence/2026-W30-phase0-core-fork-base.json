@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "kind": "galileo-servo-phase0-core-fork-baseline",
+  "captured_on": "2026-07-24",
+  "review_status": "manual-reviewed",
+  "scope": {
+    "shard": "phase0-core",
+    "top_level_tests": 3,
+    "subtests": 286,
+    "test_identifiers_match_2026_W33": true,
+    "subtest_names_match_2026_W33": true
+  },
+  "servo": {
+    "repository": "servo/servo",
+    "source_commit": "93d8f85503e0f0ef29115827dc1023174aeeaff1",
+    "wpt_tests_tree": "ed4a427514ec1b66f8d431b866a9d2b0b0543685",
+    "github_actions_run": {
+      "id": 30115162450,
+      "url": "https://github.com/servo/servo/actions/runs/30115162450",
+      "conclusion": "success"
+    },
+    "artifact": {
+      "id": 8606061140,
+      "name": "wpt-full-logs-linux",
+      "size_bytes": 74650477,
+      "digest": "sha256:528b1ff356af038d312126938f150810524b66ea59d106b74eac4774334c9d52"
+    },
+    "run_info": {
+      "product": "servo",
+      "host": "Ubuntu 22.04 x86_64",
+      "automation": false,
+      "headless": false
+    },
+    "result": {
+      "passed": 246,
+      "failed": 40,
+      "timeouts": 0,
+      "crashes": 0,
+      "not_run": 0
+    }
+  },
+  "galileo_origin": {
+    "repository": "GalileoBrowser/GalileoEngine",
+    "source_commit": "93d8f85503e0f0ef29115827dc1023174aeeaff1",
+    "measurement_kind": "inherited-identical-source-baseline",
+    "result": {
+      "passed": 246,
+      "failed": 40,
+      "timeouts": 0,
+      "crashes": 0,
+      "not_run": 0
+    },
+    "interpretation": "GalileoEngine starts at this verified Servo merge-base commit. The origin value is inherited from the identical source revision and is not presented as a separate Galileo execution."
+  },
+  "tests": [
+    {
+      "path": "/dom/nodes/Document-doctype.html",
+      "subtests": 2,
+      "passed": 2,
+      "failed": 0
+    },
+    {
+      "path": "/dom/nodes/Document-createElement.html",
+      "subtests": 147,
+      "passed": 147,
+      "failed": 0
+    },
+    {
+      "path": "/url/url-constructor.any.html?include=file",
+      "subtests": 137,
+      "passed": 97,
+      "failed": 40
+    }
+  ],
+  "interpretation": "This is a bounded fork baseline for 286 named WPT subtests. It is not a browser-wide compatibility score."
+}

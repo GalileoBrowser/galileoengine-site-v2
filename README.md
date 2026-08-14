@@ -19,14 +19,15 @@ This keeps the public engineering record close to the source repository and avoi
 
 ## Weekly evidence snapshot
 
-The Roadmap keeps three measurements separate instead of publishing one blended readiness score:
+The Roadmap keeps separate measurements instead of publishing one blended readiness score:
 
-- code lineage from the verified Servo merge base to the Galileo fork, with repository-migration gaps shown as dashed rather than proven ancestry;
-- selected WPT results for GalileoEngine and Servo on the exact same shard, with environment differences disclosed until both binaries run in one controlled job;
+- Phase 0 Core history for GalileoEngine and Servo on the same 286 named WPT subtests;
 - Servo revision movement and the explicitly recorded Galileo integration base;
 - the evidence state of every row in the reviewed Galileo feature inventory.
 
-The first sanitized baseline is stored in `data/progress/2026-W33.json`, and the extracted same-denominator WPT reference is retained in `data/evidence/2026-W33-phase0-core-comparison.json`. The lineage graph can be drawn from verified Git history now; a weekly controlled trend still requires both binaries to run with the same profile and environment and at least two comparable snapshots. A failed collection must not replace verified data: the site keeps the last reviewed snapshot and shows that it is stale.
+The graph series lives in `data/evidence/phase0-core-series.json`. Its first checkpoint comes from Servo's official WPT artefact at the verified fork commit and is recorded in `data/evidence/2026-W30-phase0-core-fork-base.json`. Galileo's value at that point is labelled as an inherited identical-source baseline, not a separate execution. The first separate Galileo/Servo comparison is retained in `data/evidence/2026-W33-phase0-core-comparison.json`.
+
+The current series has two reviewed checkpoints. Weekly automation is not active yet, and the latest captures used different Linux environments. Until both binaries run in one controlled job, the graph is a bounded upstream reference rather than a benchmark. A failed collection must not create a point: the site keeps the last reviewed data instead of drawing a guessed line.
 
 ## Publishing a Journal entry
 
@@ -60,12 +61,14 @@ The validator checks public pages, redirects, local links, brand cleanup, access
 ## Public routes
 
 - `/` — GalileoEngine homepage
-- `/platform.html` — GalileoEngine and Servo boundary
-- `/roadmap.html` — measured delivery path
-- `/galileo-browser.html` — Galileo Browser product page
-- `/status.html` — current project boundary
-- `/team.html` — founding team
-- `/support.html` — code contribution and future project funding paths
+- `/platform/` — GalileoEngine and Servo boundary
+- `/roadmap/` — measured delivery path
+- `/galileo-browser/` — Galileo Browser product page
+- `/status/` — current project boundary
+- `/team/` — founding team
+- `/support/` — code contribution and future project funding paths
 - `/journal/` — Journal index generated from GitHub Discussions
+
+The build keeps the former `.html` addresses as non-indexed compatibility redirects, so existing bookmarks continue to work while the canonical site uses clean routes.
 
 GalileoEngine is an experimental browser platform derived from Servo. Galileo Browser is the desktop browser product built on that foundation. The site makes no release or everyday-browsing claim.

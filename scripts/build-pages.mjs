@@ -8,6 +8,15 @@ const outputRoot = path.join(projectRoot, "dist");
 const repository = process.env.GITHUB_REPOSITORY || "GalileoBrowser/galileoengine-site-v2";
 const discussionCategory = "announcements";
 
+const cleanPages = [
+  { source: "platform.html", route: "platform", title: "Engine" },
+  { source: "roadmap.html", route: "roadmap", title: "Roadmap" },
+  { source: "galileo-browser.html", route: "galileo-browser", title: "Galileo Browser" },
+  { source: "status.html", route: "status", title: "Project status" },
+  { source: "team.html", route: "team", title: "Team" },
+  { source: "support.html", route: "support", title: "Contribute to the project" },
+];
+
 const publicFiles = [
   ".nojekyll",
   "404.html",
@@ -15,25 +24,20 @@ const publicFiles = [
   "Build.dc.html",
   "Contribute.dc.html",
   "CNAME",
-  "galileo-browser.html",
+  "evidence-chart.js",
   "galileo.css",
   "Goals.dc.html",
   "Home.dc.html",
   "index.html",
-  "platform.html",
   "products.html",
-  "roadmap.html",
   "robots.txt",
   "site.js",
   "sitemap.xml",
   "Status.dc.html",
-  "status.html",
-  "support.html",
   "team-loren.png",
   "team-manuel.png",
   "team-silviu.png",
   "Team.dc.html",
-  "team.html",
 ];
 
 function escapeHtml(value) {
@@ -115,7 +119,7 @@ async function loadJournalEntries() {
 
 function renderEntry(item) {
   const author = item.author?.login || "GalileoEngine team";
-  const avatar = item.author?.avatarUrl || "../assets/galileo-symbol.png";
+  const avatar = item.author?.avatarUrl || "/assets/galileo-symbol.png";
   const replies = Number(item.comments?.totalCount || 0);
   const upvotes = Number(item.upvoteCount || 0);
 
@@ -140,6 +144,31 @@ function renderEmptyState() {
         </article>`;
 }
 
+function renderLegacyPageRedirect({ route, title }) {
+  const destination = `/${route}/`;
+  const canonical = `https://galileobrowser.com${destination}`;
+
+  return `<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <meta http-equiv="refresh" content="0; url=${destination}">
+  <link rel="canonical" href="${canonical}">
+  <title>${escapeHtml(title)} moved — GalileoEngine</title>
+  <script>location.replace(${JSON.stringify(destination)} + location.search + location.hash);</script>
+</head>
+<body>
+  <main>
+    <h1>${escapeHtml(title)} has moved.</h1>
+    <p>Continue to <a href="${destination}">${escapeHtml(canonical)}</a>.</p>
+  </main>
+</body>
+</html>
+`;
+}
+
 async function build() {
   await rm(outputRoot, { recursive: true, force: true });
   await mkdir(outputRoot, { recursive: true });
@@ -157,6 +186,14 @@ async function build() {
     recursive: true,
   });
 
+  for (const page of cleanPages) {
+    const routeDirectory = path.join(outputRoot, page.route);
+    const source = await readFile(path.join(projectRoot, page.source), "utf8");
+    await mkdir(routeDirectory, { recursive: true });
+    await writeFile(path.join(routeDirectory, "index.html"), source, "utf8");
+    await writeFile(path.join(outputRoot, page.source), renderLegacyPageRedirect(page), "utf8");
+  }
+
   const entries = await loadJournalEntries();
   const journalPath = path.join(outputRoot, "journal", "index.html");
   const template = await readFile(journalPath, "utf8");
@@ -172,7 +209,9 @@ async function build() {
   const output = `${template.slice(0, start)}${startMarker}\n${rendered}\n${template.slice(end)}`;
   await writeFile(journalPath, output, "utf8");
 
-  console.log(`Built GitHub Pages artifact with ${entries.length} Journal entr${entries.length === 1 ? "y" : "ies"}.`);
+  console.log(
+    `Built GitHub Pages artifact with ${cleanPages.length} clean routes and ${entries.length} Journal entr${entries.length === 1 ? "y" : "ies"}.`,
+  );
 }
 
 await build();

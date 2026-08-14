@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://galileobrowser.com/</loc></url>
-  <url><loc>https://galileobrowser.com/platform.html</loc></url>
-  <url><loc>https://galileobrowser.com/roadmap.html</loc></url>
-  <url><loc>https://galileobrowser.com/galileo-browser.html</loc></url>
-  <url><loc>https://galileobrowser.com/status.html</loc></url>
-  <url><loc>https://galileobrowser.com/team.html</loc></url>
-  <url><loc>https://galileobrowser.com/support.html</loc></url>
+  <url><loc>https://galileobrowser.com/platform/</loc></url>
+  <url><loc>https://galileobrowser.com/roadmap/</loc></url>
+  <url><loc>https://galileobrowser.com/galileo-browser/</loc></url>
+  <url><loc>https://galileobrowser.com/status/</loc></url>
+  <url><loc>https://galileobrowser.com/team/</loc></url>
+  <url><loc>https://galileobrowser.com/support/</loc></url>
   <url><loc>https://galileobrowser.com/journal/</loc></url>
 </urlset>

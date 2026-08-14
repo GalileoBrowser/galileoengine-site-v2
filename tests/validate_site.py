@@ -26,19 +26,36 @@ PUBLIC_PAGES = (
     "journal/index.html",
     "404.html",
 )
+CLEAN_ROUTES = {
+    "index.html": "/",
+    "platform.html": "/platform/",
+    "roadmap.html": "/roadmap/",
+    "galileo-browser.html": "/galileo-browser/",
+    "status.html": "/status/",
+    "team.html": "/team/",
+    "support.html": "/support/",
+    "journal/index.html": "/journal/",
+    "404.html": "/404.html",
+}
+LEGACY_CLEAN_PAGES = {
+    page: route
+    for page, route in CLEAN_ROUTES.items()
+    if page not in {"index.html", "journal/index.html", "404.html"}
+}
 REDIRECT_PAGES = {
-    "Home.dc.html": "index.html",
-    "About.dc.html": "platform.html",
-    "Build.dc.html": "platform.html",
-    "Goals.dc.html": "roadmap.html",
-    "Contribute.dc.html": "roadmap.html",
-    "Status.dc.html": "status.html",
-    "Team.dc.html": "team.html",
-    "products.html": "galileo-browser.html",
+    "Home.dc.html": "/",
+    "About.dc.html": "/platform/",
+    "Build.dc.html": "/platform/",
+    "Goals.dc.html": "/roadmap/",
+    "Contribute.dc.html": "/roadmap/",
+    "Status.dc.html": "/status/",
+    "Team.dc.html": "/team/",
+    "products.html": "/galileo-browser/",
 }
 REQUIRED_ASSETS = (
     "galileo.css",
     "site.js",
+    "evidence-chart.js",
     "assets/galileo-symbol.png",
     "team-loren.png",
     "team-manuel.png",
@@ -47,6 +64,9 @@ REQUIRED_ASSETS = (
     "sitemap.xml",
     ".nojekyll",
     "data/progress/2026-W33.json",
+    "data/evidence/2026-W30-phase0-core-fork-base.json",
+    "data/evidence/2026-W33-phase0-core-comparison.json",
+    "data/evidence/phase0-core-series.json",
 )
 TEXT_SUFFIXES = {".css", ".html", ".ini", ".js", ".json", ".md", ".txt", ".xml", ".yaml", ".yml"}
 IGNORED_DIRECTORIES = {".git", ".next", "__pycache__", "dist", "node_modules", "output", "public"}
@@ -115,7 +135,11 @@ def check_local_reference(source: Path, raw_value: str) -> str | None:
     path = unquote(parsed.path)
     if not path:
         return None
-    target = (source.parent / path).resolve()
+    if path.startswith("/"):
+        matching_source = next((page for page, route in CLEAN_ROUTES.items() if route == path), None)
+        target = ROOT / matching_source if matching_source else ROOT / path.lstrip("/")
+    else:
+        target = (source.parent / path).resolve()
     if target.is_dir():
         target = target / "index.html"
     try:
@@ -187,6 +211,10 @@ def validate_public_page(relative: str) -> list[str]:
             issue = check_local_reference(path, value)
             if issue:
                 errors.append(f"{relative}: {issue}")
+        if tag == "a":
+            parsed_link = urlparse(value)
+            if not parsed_link.scheme and not parsed_link.netloc and parsed_link.path.lower().endswith(".html"):
+                errors.append(f"{relative}: public link leaks a legacy .html route: {value}")
         if tag == "img" and "alt" not in attrs:
             errors.append(f"{relative}: image is missing an alt attribute")
         if tag == "button" and not attrs.get("type"):
@@ -196,32 +224,24 @@ def validate_public_page(relative: str) -> list[str]:
 
     if text.count('aria-current="page"') > 1:
         errors.append(f"{relative}: more than one current-page marker")
-    prefix = "../" if relative == "journal/index.html" else ""
-    if f'href="{prefix}team.html"' not in text:
+    if 'href="/team/"' not in text:
         errors.append(f"{relative}: Team navigation link is missing")
-    if f'<a class="nav-support" href="{prefix}support.html"' not in text or "Contribute to the project</a>" not in text:
+    if '<a class="nav-support" href="/support/"' not in text or "Contribute to the project</a>" not in text:
         errors.append(f"{relative}: Contribute navigation link is missing or mislabeled")
-    if f'href="{prefix}roadmap.html"' not in text or "Roadmap</a>" not in text:
+    if 'href="/roadmap/"' not in text or "Roadmap</a>" not in text:
         errors.append(f"{relative}: Roadmap navigation link is missing or mislabeled")
-    discussions_href = "./" if relative == "journal/index.html" else "journal"
-    if f'href="{discussions_href}"' not in text or "Discussions</a>" not in text:
+    if 'href="/journal/"' not in text or "Discussions</a>" not in text:
         errors.append(f"{relative}: Discussions navigation link is missing or mislabeled")
     if "family=Manrope" not in text:
         errors.append(f"{relative}: Manrope font request is missing")
-    if f'href="{prefix}galileo.css?' not in text or f'src="{prefix}site.js?' not in text:
+    if 'href="/galileo.css?' not in text or 'src="/site.js?' not in text:
         errors.append(f"{relative}: versioned public CSS or JavaScript reference is missing")
     if 'meta http-equiv="refresh"' in text.lower():
         errors.append(f"{relative}: public page must not use a meta refresh")
     if 'name="theme-color"' not in text:
         errors.append(f"{relative}: theme color metadata is missing")
     if relative != "404.html":
-        canonical = "https://galileobrowser.com/"
-        if relative == "index.html":
-            expected_url = canonical
-        elif relative == "journal/index.html":
-            expected_url = canonical + "journal/"
-        else:
-            expected_url = canonical + relative
+        expected_url = "https://galileobrowser.com" + CLEAN_ROUTES[relative]
         if f'<link rel="canonical" href="{expected_url}">' not in text:
             errors.append(f"{relative}: canonical URL is missing or incorrect")
         if f'<meta property="og:url" content="{expected_url}">' not in text:
@@ -244,22 +264,25 @@ def validate_public_page(relative: str) -> list[str]:
                 errors.append(f"{relative}: product boundary is missing {marker!r}")
     elif relative == "roadmap.html":
         for marker in (
-            "One codebase. Two paths.",
-            "Galileo starts at a verified Servo commit.",
-            "248 commits after base",
-            "8 commits after base",
-            "Solid lines are verified Git ancestry",
-            "Project continuation after migration",
+            "Same tests. Two code lines.",
+            "Galileo begins on Servo’s line, then moves independently.",
+            "2 verified checkpoints",
+            "Fixed denominator <span>286 subtests</span>",
+            "Fork · 24 Jul",
+            "Inherited identical source",
             "68 tracked items",
             "286 / 286",
             "246 / 286",
             "40 failed",
             "Upstream reference",
-            "all 286 subtest names match exactly",
+            "all 286 ordered subtest names match",
             "not a web-compatibility score",
             "They do not prove that GalileoEngine is “248 commits behind”",
             "data/progress/2026-W33.json",
+            "data/evidence/2026-W30-phase0-core-fork-base.json",
             "data/evidence/2026-W33-phase0-core-comparison.json",
+            "data/evidence/phase0-core-series.json",
+            "https://github.com/servo/servo/actions/runs/30115162450",
             "https://github.com/servo/servo/actions/runs/31788413088",
         ):
             if marker not in text:
@@ -312,6 +335,48 @@ def validate_redirects() -> list[str]:
                 issue = check_local_reference(path, value)
                 if issue:
                     errors.append(f"{relative}: {issue}")
+    return errors
+
+
+def validate_built_routes() -> list[str]:
+    errors: list[str] = []
+    output_root = ROOT / "dist"
+    if not output_root.is_dir():
+        return ["dist: generated site is missing; run the build before validation"]
+
+    for source, route in LEGACY_CLEAN_PAGES.items():
+        clean_page = output_root / route.strip("/") / "index.html"
+        if not clean_page.is_file():
+            errors.append(f"dist{route}: clean route entry file is missing")
+        elif clean_page.read_text(encoding="utf-8") != (ROOT / source).read_text(encoding="utf-8"):
+            errors.append(f"dist{route}: generated page differs from {source}")
+
+        legacy_page = output_root / source
+        if not legacy_page.is_file():
+            errors.append(f"dist/{source}: legacy compatibility page is missing")
+            continue
+        legacy_text = legacy_page.read_text(encoding="utf-8")
+        canonical = f"https://galileobrowser.com{route}"
+        for marker in (
+            'name="robots" content="noindex"',
+            f'content="0; url={route}"',
+            f'<link rel="canonical" href="{canonical}">',
+            f'<a href="{route}">',
+        ):
+            if marker not in legacy_text:
+                errors.append(f"dist/{source}: compatibility redirect is missing {marker!r}")
+
+    sitemap_path = output_root / "sitemap.xml"
+    if not sitemap_path.is_file():
+        return errors + ["dist/sitemap.xml: generated sitemap is missing"]
+    sitemap = sitemap_path.read_text(encoding="utf-8")
+    if ".html</loc>" in sitemap:
+        errors.append("dist/sitemap.xml: legacy .html URLs must not be indexed")
+    for route in CLEAN_ROUTES.values():
+        if route == "/404.html":
+            continue
+        if f"https://galileobrowser.com{route}</loc>" not in sitemap:
+            errors.append(f"dist/sitemap.xml: clean route is missing {route}")
     return errors
 
 
@@ -377,6 +442,73 @@ def validate_progress_snapshot() -> list[str]:
             if artifact.get("digest") != "sha256:94809630557e4f2f3bd2ff86d73fd411f349b947819e6258a534f2b0aa5ab1c7":
                 errors.append(f"{evidence_relative}: official Servo artifact digest is missing")
 
+    fork_relative = wpt.get("fork_baseline_file")
+    fork_path = ROOT / fork_relative if isinstance(fork_relative, str) else None
+    if fork_path is None or not fork_path.is_file():
+        errors.append(f"{relative}: fork baseline evidence is missing")
+    else:
+        try:
+            fork_evidence = json.loads(fork_path.read_text(encoding="utf-8"))
+        except (UnicodeDecodeError, json.JSONDecodeError) as exc:
+            errors.append(f"{fork_relative}: invalid UTF-8 JSON: {exc}")
+        else:
+            fork_scope = fork_evidence.get("scope", {})
+            fork_servo = fork_evidence.get("servo", {})
+            fork_galileo = fork_evidence.get("galileo_origin", {})
+            fork_artifact = fork_servo.get("artifact", {})
+            if fork_scope.get("subtests") != 286 or fork_scope.get("subtest_names_match_2026_W33") is not True:
+                errors.append(f"{fork_relative}: fork baseline does not preserve the shared 286-subtest denominator")
+            if fork_servo.get("source_commit") != "93d8f85503e0f0ef29115827dc1023174aeeaff1":
+                errors.append(f"{fork_relative}: fork baseline does not identify the verified merge base")
+            if fork_servo.get("result", {}).get("passed") != 246 or fork_servo.get("result", {}).get("failed") != 40:
+                errors.append(f"{fork_relative}: extracted Servo fork counts are inconsistent")
+            if fork_galileo.get("measurement_kind") != "inherited-identical-source-baseline":
+                errors.append(f"{fork_relative}: Galileo origin must be labelled as an inherited baseline")
+            if fork_galileo.get("result") != fork_servo.get("result"):
+                errors.append(f"{fork_relative}: Galileo origin must preserve the identical-source Servo result")
+            if fork_artifact.get("digest") != "sha256:528b1ff356af038d312126938f150810524b66ea59d106b74eac4774334c9d52":
+                errors.append(f"{fork_relative}: official Servo fork artifact digest is missing")
+
+    series_relative = wpt.get("series_file")
+    series_path = ROOT / series_relative if isinstance(series_relative, str) else None
+    if series_path is None or not series_path.is_file():
+        errors.append(f"{relative}: Phase 0 history series is missing")
+    else:
+        try:
+            series = json.loads(series_path.read_text(encoding="utf-8"))
+        except (UnicodeDecodeError, json.JSONDecodeError) as exc:
+            errors.append(f"{series_relative}: invalid UTF-8 JSON: {exc}")
+        else:
+            metric = series.get("metric", {})
+            points = series.get("points", [])
+            if metric.get("denominator") != 286 or metric.get("axis_min") != 0 or metric.get("axis_max") != 286:
+                errors.append(f"{series_relative}: the graph must use an honest zero-to-286 scale")
+            if not isinstance(points, list) or len(points) < 2:
+                errors.append(f"{series_relative}: at least two verified checkpoints are required")
+            else:
+                periods = [point.get("period") for point in points]
+                if periods != sorted(periods) or len(periods) != len(set(periods)):
+                    errors.append(f"{series_relative}: checkpoints must be unique and ordered")
+                first, latest = points[0], points[-1]
+                if (first.get("servo", {}).get("passed"), first.get("galileo", {}).get("passed")) != (246, 246):
+                    errors.append(f"{series_relative}: fork checkpoint must start both lines at 246")
+                if first.get("galileo", {}).get("measurement_kind") != "inherited-identical-source-baseline":
+                    errors.append(f"{series_relative}: first Galileo point must remain visibly inherited")
+                if (latest.get("servo", {}).get("passed"), latest.get("galileo", {}).get("passed")) != (246, 286):
+                    errors.append(f"{series_relative}: latest verified checkpoint is inconsistent")
+                for point in points:
+                    for project in ("servo", "galileo"):
+                        value = point.get(project, {}).get("passed")
+                        if not isinstance(value, int) or not 0 <= value <= 286:
+                            errors.append(f"{series_relative}: {project} value is outside the denominator")
+            boundary = series.get("comparison_boundary", {})
+            if boundary.get("test_identifiers_identical_across_points") is not True or boundary.get("subtest_names_identical_across_points") is not True:
+                errors.append(f"{series_relative}: shared test identity checks are missing")
+            if boundary.get("current_execution_environment_identical") is not False:
+                errors.append(f"{series_relative}: current environment difference must remain explicit")
+            if series.get("operation", {}).get("weekly_automation_active") is not False:
+                errors.append(f"{series_relative}: weekly automation must not be claimed before it exists")
+
     upstream = snapshot.get("upstream", {})
     if upstream.get("current_integrated_base", "missing") is not None:
         errors.append(f"{relative}: current integrated base must remain null until recorded")
@@ -408,6 +540,7 @@ def validate_files() -> list[str]:
     for relative in PUBLIC_PAGES:
         errors.extend(validate_public_page(relative))
     errors.extend(validate_redirects())
+    errors.extend(validate_built_routes())
     errors.extend(validate_progress_snapshot())
     return errors
 
@@ -422,12 +555,14 @@ def smoke_http(base_url: str) -> list[str]:
     errors: list[str] = []
     expected = {
         **{
-            ("journal/" if page == "journal/index.html" else page): "text/html"
+            CLEAN_ROUTES[page].lstrip("/"): "text/html"
             for page in PUBLIC_PAGES
         },
         **{page: "text/html" for page in REDIRECT_PAGES},
+        **{page: "text/html" for page in LEGACY_CLEAN_PAGES},
         "galileo.css": "text/css",
         "site.js": ("application/javascript", "text/javascript"),
+        "evidence-chart.js": ("application/javascript", "text/javascript"),
         "assets/galileo-symbol.png": "image/png",
         "team-loren.png": "image/png",
         "team-manuel.png": "image/png",
@@ -435,7 +570,9 @@ def smoke_http(base_url: str) -> list[str]:
         "robots.txt": "text/plain",
         "sitemap.xml": ("application/xml", "text/xml"),
         "data/progress/2026-W33.json": "application/json",
+        "data/evidence/2026-W30-phase0-core-fork-base.json": "application/json",
         "data/evidence/2026-W33-phase0-core-comparison.json": "application/json",
+        "data/evidence/phase0-core-series.json": "application/json",
     }
     for relative, expected_type in expected.items():
         url = urljoin(base_url.rstrip("/") + "/", relative)
@@ -469,7 +606,8 @@ def main() -> int:
         return 1
 
     mode = "structure, brand, links, accessibility basics, and HTTP" if args.base_url else "structure, brand, links, and accessibility basics"
-    print(f"PASS: {len(PUBLIC_PAGES)} public pages and {len(REDIRECT_PAGES)} redirects passed {mode}")
+    redirect_count = len(REDIRECT_PAGES) + len(LEGACY_CLEAN_PAGES)
+    print(f"PASS: {len(PUBLIC_PAGES)} public pages and {redirect_count} compatibility redirects passed {mode}")
     return 0
 
 

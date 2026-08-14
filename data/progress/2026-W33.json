@@ -62,6 +62,8 @@
       "same_execution_environment": false
     },
     "evidence_file": "data/evidence/2026-W33-phase0-core-comparison.json",
+    "fork_baseline_file": "data/evidence/2026-W30-phase0-core-fork-base.json",
+    "series_file": "data/evidence/phase0-core-series.json",
     "interpretation": "A narrow three-test upstream reference, not a web-compatibility score. The test and subtest denominators match, but the two retained runs used different Linux environments and profiles."
   },
   "upstream": {

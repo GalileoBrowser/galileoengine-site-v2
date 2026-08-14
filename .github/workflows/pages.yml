@@ -39,6 +39,20 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Validate clean routes and generated pages
+        shell: bash
+        run: |
+          python -m http.server 4173 --directory dist > /tmp/galileo-pages.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid"' EXIT
+          for attempt in {1..20}; do
+            if python -c "import urllib.request; urllib.request.urlopen('http://127.0.0.1:4173/', timeout=2)"; then
+              break
+            fi
+            sleep 0.25
+          done
+          python tests/validate_site.py --base-url http://127.0.0.1:4173/
+
       - name: Upload GitHub Pages artifact
         uses: actions/upload-pages-artifact@v4
         with:

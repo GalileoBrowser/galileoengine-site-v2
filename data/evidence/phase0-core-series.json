@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "kind": "galileo-servo-phase0-core-series",
+  "updated_on": "2026-08-14",
+  "review_status": "manual-reviewed",
+  "metric": {
+    "name": "Phase 0 Core WPT subtests passed",
+    "unit": "subtests",
+    "denominator": 286,
+    "axis_min": 0,
+    "axis_max": 286,
+    "top_level_tests": 3
+  },
+  "lineage": {
+    "fork_commit": "93d8f85503e0f0ef29115827dc1023174aeeaff1",
+    "fork_date": "2026-07-24",
+    "verification": "Git merge base verified from a full-history checkout"
+  },
+  "points": [
+    {
+      "period": "2026-W30",
+      "date": "2026-07-24",
+      "label": "Fork · 24 Jul",
+      "milestone": "Verified common source",
+      "servo": {
+        "passed": 246,
+        "failed": 40,
+        "source_commit": "93d8f85503e0f0ef29115827dc1023174aeeaff1",
+        "measurement_kind": "official-servo-actions-report",
+        "evidence_url": "https://github.com/servo/servo/actions/runs/30115162450"
+      },
+      "galileo": {
+        "passed": 246,
+        "failed": 40,
+        "source_commit": "93d8f85503e0f0ef29115827dc1023174aeeaff1",
+        "measurement_kind": "inherited-identical-source-baseline",
+        "evidence_url": "2026-W30-phase0-core-fork-base.json"
+      }
+    },
+    {
+      "period": "2026-W33",
+      "date": "2026-08-14",
+      "label": "13–14 Aug",
+      "milestone": "First separate comparison",
+      "servo": {
+        "passed": 246,
+        "failed": 40,
+        "source_commit": "386904a38308fb899925aaae7359a3b69131ad5c",
+        "measurement_kind": "official-servo-actions-report",
+        "evidence_url": "https://github.com/servo/servo/actions/runs/31788413088"
+      },
+      "galileo": {
+        "passed": 286,
+        "failed": 0,
+        "source_commit": "d0e89798d992b7cf38eff1f30c6131d9426e4341",
+        "measurement_kind": "retained-galileo-report",
+        "evidence_url": "2026-W33-phase0-core-comparison.json"
+      }
+    }
+  ],
+  "comparison_boundary": {
+    "test_identifiers_identical_across_points": true,
+    "subtest_names_identical_across_points": true,
+    "current_execution_environment_identical": false,
+    "interpretation": "The series tracks the same 286 named subtests. The current Galileo and Servo captures used different Linux environments, so the latest point is an upstream reference rather than a controlled benchmark."
+  },
+  "operation": {
+    "weekly_automation_active": false,
+    "update_policy": "Append a point only after both values have pinned commits and retained evidence. A failed collection creates no point and leaves the last verified checkpoint visible."
+  }
+}

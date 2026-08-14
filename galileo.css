@@ -119,6 +119,659 @@ a:focus-visible, button:focus-visible { outline: 3px solid var(--galileo-focus);
   .page-hero { min-height: 430px; }.page-hero h1 { font-size: clamp(43px, 12.5vw, 58px); }.page-hero__lead { font-size: 15px; }.page-section { width: min(100% - 32px, 1152px); padding: 78px 0; }.page-section h2 { font-size: clamp(33px, 10vw, 45px); }.page-hero__mark { width: 295px; right: -93px; bottom: -65px; }.roadmap-stack__item { grid-template-columns: 1fr; gap: 10px; }.status-pill { justify-self: start; }.surface-section__content, .product-feature__copy { padding: 28px; }.product-feature h3 { font-size: 34px; }.browser-hero { min-height: 490px; }.browser-hero__inner { padding: 75px 0 65px; }.browser-hero h1 { font-size: 74px; }.browser-hero > img { width: 200px; right: -16px; bottom: 24px; opacity: .3; }.browser-intro > p { font-size: 15px; }.product-linkback { flex-direction: column; align-items: flex-start; }.status-grid { grid-template-columns: 1fr; }.status-grid article { min-height: 190px; }.status-grid strong { margin-top: 27px; }.founder-card { grid-template-columns: 126px 1fr; }.founder-card > div:last-child { padding: 20px; }.founder-card h2 { margin-top: 12px; font-size: 20px; }
 }
 
+/* Verified Phase 0 history. The chart is data-driven and keeps a readable table fallback. */
+.visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+.evolution-chart {
+  --chart-servo: #39d9d0;
+  --chart-galileo: #79ef6c;
+  padding: 34px;
+  margin: 58px 0 0;
+  border: 1px solid var(--galileo-line);
+  border-radius: 23px;
+  background: linear-gradient(150deg, rgba(18, 51, 46, .72), rgba(8, 27, 25, .88));
+  box-shadow: 0 18px 42px rgba(3, 18, 15, .07);
+}
+
+.evolution-chart figcaption {
+  display: grid;
+  grid-template-columns: minmax(0, .95fr) minmax(340px, .7fr);
+  align-items: end;
+  gap: 64px;
+}
+
+.evolution-chart h3 {
+  max-width: 25ch;
+  margin: 0;
+  font-size: clamp(24px, 2.5vw, 34px);
+  line-height: 1.08;
+  letter-spacing: -.055em;
+  text-wrap: balance;
+}
+
+.evolution-chart figcaption > p {
+  margin: 0;
+  color: var(--galileo-muted);
+  font-size: 13px;
+  line-height: 1.72;
+}
+
+.evolution-chart__meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 20px 0;
+  margin-top: 30px;
+  border-top: 1px solid var(--galileo-line);
+  border-bottom: 1px solid var(--galileo-line);
+}
+
+.evolution-chart__legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 13px 24px;
+  color: #91ada2;
+  font: 500 9px/1.45 "DM Mono", monospace;
+}
+
+.evolution-chart__legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.evolution-chart__legend i {
+  display: inline-block;
+  width: 27px;
+  height: 0;
+  border-top: 3px solid var(--chart-servo);
+}
+
+.evolution-chart__legend .is-galileo {
+  border-color: var(--chart-galileo);
+}
+
+.evolution-chart__legend .is-fork {
+  width: 10px;
+  height: 10px;
+  border: 2px solid var(--galileo-focus);
+  border-radius: 50%;
+  background: transparent;
+}
+
+.evolution-chart__meta > strong {
+  flex: 0 0 auto;
+  color: #9db7ac;
+  font: 500 9px/1.45 "DM Mono", monospace;
+  letter-spacing: .035em;
+  text-transform: uppercase;
+}
+
+.evolution-chart__meta > strong span {
+  display: inline-block;
+  margin-left: 8px;
+  color: var(--chart-galileo);
+  font-size: 12px;
+}
+
+.evolution-chart__mobile-hint {
+  display: none;
+}
+
+.evolution-chart__viewport {
+  margin-top: 18px;
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+  scrollbar-color: color-mix(in srgb, var(--chart-servo) 55%, var(--galileo-muted)) transparent;
+  scrollbar-width: thin;
+}
+
+.evolution-chart__viewport:focus-visible {
+  outline: 3px solid var(--galileo-focus);
+  outline-offset: 4px;
+}
+
+.evolution-chart__plot {
+  min-width: 720px;
+  min-height: 344px;
+}
+
+.evolution-chart__plot > p {
+  display: grid;
+  min-height: 344px;
+  place-items: center;
+  margin: 0;
+  color: var(--galileo-muted);
+  font: 500 10px/1.6 "DM Mono", monospace;
+}
+
+.evolution-chart__plot svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.evolution-chart__grid-line {
+  stroke: var(--galileo-line);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+.evolution-chart__guide {
+  stroke: color-mix(in srgb, var(--galileo-line) 68%, transparent);
+  stroke-dasharray: 3 7;
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+.evolution-chart__axis-label,
+.evolution-chart__date,
+.evolution-chart__milestone,
+.evolution-chart__value {
+  font-family: "DM Mono", monospace;
+}
+
+.evolution-chart__axis-label {
+  fill: #78958a;
+  font-size: 10px;
+}
+
+.evolution-chart__date {
+  fill: var(--galileo-ink);
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.evolution-chart__milestone {
+  fill: #78958a;
+  font-size: 8px;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+
+.evolution-chart__series {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 4;
+  vector-effect: non-scaling-stroke;
+}
+
+.evolution-chart__series--servo {
+  stroke: var(--chart-servo);
+}
+
+.evolution-chart__series--galileo {
+  stroke: var(--chart-galileo);
+}
+
+.evolution-chart__point {
+  stroke: #0d2b25;
+  stroke-width: 4;
+  vector-effect: non-scaling-stroke;
+}
+
+.evolution-chart__point--servo {
+  fill: var(--chart-servo);
+}
+
+.evolution-chart__point--galileo {
+  fill: var(--chart-galileo);
+}
+
+.evolution-chart__fork-ring {
+  fill: transparent;
+  stroke: var(--galileo-focus);
+  stroke-width: 2;
+  vector-effect: non-scaling-stroke;
+}
+
+.evolution-chart__value {
+  font-size: 10px;
+  font-weight: 500;
+}
+
+.evolution-chart__value--shared {
+  fill: var(--galileo-focus);
+}
+
+.evolution-chart__value--galileo {
+  fill: var(--chart-galileo);
+}
+
+.evolution-chart__value--servo {
+  fill: var(--chart-servo);
+}
+
+.evolution-chart__table-wrap {
+  margin-top: 8px;
+  overflow-x: auto;
+  border-top: 1px solid var(--galileo-line);
+}
+
+.evolution-chart__table {
+  width: 100%;
+  min-width: 720px;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.evolution-chart__table caption {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+}
+
+.evolution-chart__table th,
+.evolution-chart__table td {
+  padding: 16px 12px;
+  border-bottom: 1px solid var(--galileo-line);
+  vertical-align: top;
+}
+
+.evolution-chart__table th:first-child,
+.evolution-chart__table td:first-child {
+  padding-left: 0;
+}
+
+.evolution-chart__table th:last-child,
+.evolution-chart__table td:last-child {
+  padding-right: 0;
+}
+
+.evolution-chart__table thead th {
+  color: #78958a;
+  font: 500 8px/1.4 "DM Mono", monospace;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+}
+
+.evolution-chart__table tbody th,
+.evolution-chart__table tbody td {
+  color: var(--galileo-ink);
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.evolution-chart__table tbody th {
+  min-width: 135px;
+}
+
+.evolution-chart__table small {
+  display: block;
+  margin-top: 4px;
+  color: var(--galileo-muted);
+  font: 500 8px/1.45 "DM Mono", monospace;
+}
+
+.evolution-chart__table td:last-child {
+  display: grid;
+  gap: 5px;
+}
+
+.evolution-chart__table a,
+.evolution-chart__note a {
+  color: var(--galileo-teal);
+  text-underline-offset: 3px;
+}
+
+.evolution-chart__note {
+  margin: 20px 0 0;
+  color: #849f95;
+  font: 500 10px/1.7 "DM Mono", monospace;
+}
+
+html[data-theme="light"] .evolution-chart {
+  --chart-servo: #177f9f;
+  --chart-galileo: #267d51;
+  border-color: rgba(30, 78, 59, .16);
+  background: linear-gradient(150deg, #fff, #edf4ef);
+  box-shadow: 0 18px 42px rgba(31, 73, 55, .05);
+}
+
+html[data-theme="light"] .evolution-chart__point {
+  stroke: #f4f8f5;
+}
+
+html[data-theme="light"] .evolution-chart__legend,
+html[data-theme="light"] .evolution-chart__axis-label,
+html[data-theme="light"] .evolution-chart__milestone,
+html[data-theme="light"] .evolution-chart__table thead th,
+html[data-theme="light"] .evolution-chart__note {
+  color: #527568;
+  fill: #527568;
+}
+
+@media (max-width: 900px) {
+  .evolution-chart figcaption {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .evolution-chart__mobile-hint {
+    display: block;
+    margin: 20px 0 -6px;
+    color: var(--galileo-muted);
+    font: 500 9px/1.55 "DM Mono", monospace;
+  }
+}
+
+@media (max-width: 560px) {
+  .evolution-chart {
+    padding: 23px 0;
+    border-radius: 19px;
+  }
+
+  .evolution-chart figcaption,
+  .evolution-chart__meta,
+  .evolution-chart__mobile-hint,
+  .evolution-chart__note {
+    margin-right: 23px;
+    margin-left: 23px;
+  }
+
+  .evolution-chart__meta {
+    display: grid;
+    gap: 14px;
+  }
+
+  .evolution-chart__meta > strong span {
+    margin-left: 0;
+  }
+
+  .evolution-chart__viewport,
+  .evolution-chart__table-wrap {
+    padding: 0 23px;
+  }
+
+  .evolution-chart__plot {
+    min-width: 680px;
+  }
+}
+
+/* The verified comparison uses the same technical instrument language as the
+   Servo/Galileo ancestry diagram while preserving an honest zero-based scale. */
+.evolution-chart {
+  --chart-servo: #3ed7d0;
+  --chart-galileo: #78f06d;
+  --chart-panel: #0a2924;
+  --chart-panel-deep: #071f1c;
+  --chart-ink: #f0f8f4;
+  --chart-muted: #91b0a4;
+  --chart-line: rgba(170, 226, 203, .16);
+  color-scheme: dark;
+  border-color: rgba(129, 213, 177, .23);
+  background:
+    radial-gradient(circle at 76% 18%, rgba(57, 217, 208, .07), transparent 31%),
+    linear-gradient(150deg, var(--chart-panel), var(--chart-panel-deep));
+  box-shadow: 0 24px 62px rgba(6, 31, 26, .18);
+}
+
+.evolution-chart figcaption {
+  align-items: start;
+  padding-bottom: 28px;
+  border-bottom: 1px solid var(--chart-line);
+}
+
+.evolution-chart .metric-kicker {
+  color: #64d9cb;
+}
+
+.evolution-chart h3 {
+  max-width: 27ch;
+  color: var(--chart-ink);
+}
+
+.evolution-chart figcaption > p {
+  color: #a3beb3;
+}
+
+.evolution-chart__mobile-hint {
+  color: var(--chart-muted);
+}
+
+.evolution-chart__viewport {
+  margin-top: 24px;
+  border-bottom: 1px solid var(--chart-line);
+  scrollbar-color: rgba(62, 215, 208, .55) transparent;
+}
+
+.evolution-chart__plot {
+  min-width: 900px;
+  min-height: 378px;
+  background-image:
+    linear-gradient(rgba(181, 229, 209, .038) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(181, 229, 209, .038) 1px, transparent 1px);
+  background-position: 0 0;
+  background-size: 64px 48px;
+}
+
+.evolution-chart__plot > p {
+  min-height: 378px;
+  color: var(--chart-muted);
+}
+
+.evolution-chart__plot svg {
+  min-height: 378px;
+}
+
+.evolution-chart__grid-line {
+  stroke: rgba(181, 229, 209, .105);
+}
+
+.evolution-chart__guide {
+  stroke: rgba(181, 229, 209, .065);
+  stroke-dasharray: none;
+}
+
+.evolution-chart__axis-label,
+.evolution-chart__milestone,
+.evolution-chart__scale-title {
+  fill: #75988b;
+}
+
+.evolution-chart__scale-title {
+  font: 500 8px/1 "DM Mono", monospace;
+  letter-spacing: .075em;
+}
+
+.evolution-chart__date {
+  fill: #d7e8e0;
+  font-size: 10px;
+}
+
+.evolution-chart__milestone {
+  font-size: 7.5px;
+}
+
+.evolution-chart__series {
+  stroke-width: 4;
+}
+
+.evolution-chart__series--servo {
+  filter: drop-shadow(0 0 7px rgba(62, 215, 208, .2));
+}
+
+.evolution-chart__series--galileo {
+  filter: drop-shadow(0 0 7px rgba(120, 240, 109, .2));
+}
+
+.evolution-chart__point {
+  stroke: var(--chart-panel);
+  stroke-width: 5;
+}
+
+.evolution-chart__point--fork {
+  fill: #efff91;
+  filter: drop-shadow(0 0 9px rgba(235, 255, 110, .75));
+}
+
+.evolution-chart__fork-ring {
+  stroke: rgba(239, 255, 145, .48);
+  stroke-width: 1.5;
+}
+
+.evolution-chart__annotation text,
+.evolution-chart__delta-text {
+  font-family: "DM Mono", monospace;
+}
+
+.evolution-chart__annotation-label {
+  fill: #67bbae;
+  font-size: 7.5px;
+  letter-spacing: .055em;
+}
+
+.evolution-chart__annotation-value {
+  fill: var(--chart-ink);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.evolution-chart__annotation-detail {
+  fill: #819f94;
+  font-size: 7.5px;
+}
+
+.evolution-chart__annotation--galileo .evolution-chart__annotation-label,
+.evolution-chart__annotation--galileo .evolution-chart__annotation-value {
+  fill: var(--chart-galileo);
+}
+
+.evolution-chart__annotation--servo .evolution-chart__annotation-label,
+.evolution-chart__annotation--servo .evolution-chart__annotation-value {
+  fill: var(--chart-servo);
+}
+
+.evolution-chart__delta-pill {
+  fill: var(--chart-panel);
+  stroke: rgba(120, 240, 109, .34);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+.evolution-chart__delta-text {
+  fill: #cbefc8;
+  font-size: 7.5px;
+  font-weight: 500;
+  letter-spacing: .05em;
+}
+
+.evolution-chart__meta {
+  padding: 20px 0;
+  margin-top: 0;
+  border-top: 0;
+  border-bottom-color: var(--chart-line);
+}
+
+.evolution-chart__legend,
+.evolution-chart__meta > strong {
+  color: var(--chart-muted);
+}
+
+.evolution-chart__meta > strong span {
+  color: var(--chart-galileo);
+}
+
+.evolution-chart__table-wrap {
+  margin-top: 0;
+  border-top: 0;
+}
+
+.evolution-chart__table th,
+.evolution-chart__table td {
+  border-bottom-color: var(--chart-line);
+}
+
+.evolution-chart__table thead th {
+  color: #789c8f;
+}
+
+.evolution-chart__table tbody th,
+.evolution-chart__table tbody td {
+  color: #dbeae3;
+}
+
+.evolution-chart__table small,
+.evolution-chart__note {
+  color: #88a69a;
+}
+
+.evolution-chart__table a,
+.evolution-chart__note a {
+  color: #65d9d1;
+}
+
+html[data-theme="light"] .evolution-chart {
+  --chart-servo: #3ed7d0;
+  --chart-galileo: #78f06d;
+  border-color: rgba(56, 143, 108, .28);
+  background:
+    radial-gradient(circle at 76% 18%, rgba(57, 217, 208, .07), transparent 31%),
+    linear-gradient(150deg, var(--chart-panel), var(--chart-panel-deep));
+  box-shadow: 0 24px 62px rgba(18, 64, 48, .14);
+}
+
+html[data-theme="light"] .evolution-chart__point {
+  stroke: var(--chart-panel);
+}
+
+html[data-theme="light"] .evolution-chart__legend,
+html[data-theme="light"] .evolution-chart__axis-label,
+html[data-theme="light"] .evolution-chart__milestone,
+html[data-theme="light"] .evolution-chart__table thead th,
+html[data-theme="light"] .evolution-chart__note {
+  color: var(--chart-muted);
+  fill: #75988b;
+}
+
+html[data-theme="light"] .evolution-chart__table tbody th,
+html[data-theme="light"] .evolution-chart__table tbody td {
+  color: #dbeae3;
+}
+
+html[data-theme="light"] .evolution-chart__table small {
+  color: #88a69a;
+}
+
+@media (max-width: 900px) {
+  .evolution-chart figcaption {
+    padding-bottom: 24px;
+  }
+
+  .evolution-chart__plot {
+    min-width: 900px;
+  }
+}
+
+@media (max-width: 560px) {
+  .evolution-chart__viewport {
+    padding: 0;
+    margin-right: 0;
+    margin-left: 0;
+  }
+
+  .evolution-chart__plot {
+    min-width: 900px;
+  }
+
+  .evolution-chart__table-wrap {
+    padding: 0 23px;
+  }
+}
+
 /* Founders: equal circular portraits keep the team presentation personal and balanced. */
 .founder-card { display: grid; grid-template-rows: auto 1fr; min-height: 396px; padding: 30px 26px 27px; }
 .founder-card > img, .founder-card__initials { align-self: start; width: 148px; height: 148px; min-height: 0; margin: 0 auto; overflow: hidden; border: 1px solid rgba(170, 239, 206, .27); border-radius: 50%; object-fit: cover; box-shadow: 0 16px 34px rgba(0, 0, 0, .24), 0 0 0 7px rgba(57, 217, 208, .035); }
