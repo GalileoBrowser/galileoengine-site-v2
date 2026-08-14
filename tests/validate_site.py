@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import json
 import sys
 import urllib.error
 import urllib.request
@@ -45,6 +46,7 @@ REQUIRED_ASSETS = (
     "robots.txt",
     "sitemap.xml",
     ".nojekyll",
+    "data/progress/2026-W33.json",
 )
 TEXT_SUFFIXES = {".css", ".html", ".ini", ".js", ".json", ".md", ".txt", ".xml", ".yaml", ".yml"}
 IGNORED_DIRECTORIES = {".git", ".next", "__pycache__", "dist", "node_modules", "output", "public"}
@@ -240,6 +242,28 @@ def validate_public_page(relative: str) -> list[str]:
         for marker in ("Desktop browser / in development", "In development", "No public release"):
             if marker not in text:
                 errors.append(f"{relative}: product boundary is missing {marker!r}")
+    elif relative == "roadmap.html":
+        for marker in (
+            "One codebase. Two paths.",
+            "Galileo starts at a verified Servo commit.",
+            "248 commits after base",
+            "8 commits after base",
+            "Solid lines are verified Git ancestry",
+            "Project continuation after migration",
+            "68 tracked items",
+            "286 / 286",
+            "246 / 286",
+            "40 failed",
+            "Upstream reference",
+            "all 286 subtest names match exactly",
+            "not a web-compatibility score",
+            "They do not prove that GalileoEngine is “248 commits behind”",
+            "data/progress/2026-W33.json",
+            "data/evidence/2026-W33-phase0-core-comparison.json",
+            "https://github.com/servo/servo/actions/runs/31788413088",
+        ):
+            if marker not in text:
+                errors.append(f"{relative}: evidence boundary is missing {marker!r}")
     elif relative == "team.html":
         for person in ("Loren Bufanu", "Ionel Silviu Ghimpau", "Manuel Ionasel"):
             if person not in text:
@@ -291,6 +315,91 @@ def validate_redirects() -> list[str]:
     return errors
 
 
+def validate_progress_snapshot() -> list[str]:
+    errors: list[str] = []
+    relative = "data/progress/2026-W33.json"
+    path = ROOT / relative
+    if not path.is_file():
+        return [f"{relative}: required progress snapshot is missing"]
+
+    try:
+        snapshot = json.loads(path.read_text(encoding="utf-8"))
+    except (UnicodeDecodeError, json.JSONDecodeError) as exc:
+        return [f"{relative}: invalid UTF-8 JSON: {exc}"]
+
+    features = snapshot.get("features", {})
+    states = features.get("states", {})
+    denominator = features.get("denominator")
+    if not isinstance(denominator, int) or denominator <= 0:
+        errors.append(f"{relative}: feature denominator must be a positive integer")
+    if not isinstance(states, dict) or not states or any(not isinstance(value, int) or value < 0 for value in states.values()):
+        errors.append(f"{relative}: feature states must be non-negative integer counts")
+    elif sum(states.values()) != denominator:
+        errors.append(f"{relative}: feature state counts do not equal the denominator")
+
+    wpt = snapshot.get("wpt", {})
+    servo_comparator = wpt.get("servo_comparator", {})
+    if not isinstance(servo_comparator, dict):
+        servo_comparator = {}
+    servo_subtests = servo_comparator.get("subtests", {})
+    if servo_comparator.get("github_actions_run") != 31788413088:
+        errors.append(f"{relative}: Servo comparator must identify the reviewed public workflow run")
+    if servo_subtests.get("applicable") != 286 or servo_subtests.get("passed") != 246 or servo_subtests.get("failed") != 40:
+        errors.append(f"{relative}: Servo comparator counts must preserve the extracted 286-subtest denominator")
+    comparison_checks = wpt.get("comparison_checks", {})
+    if comparison_checks.get("test_identifiers_identical") is not True or comparison_checks.get("subtest_names_identical") is not True:
+        errors.append(f"{relative}: same-denominator comparison checks are missing")
+    if comparison_checks.get("same_execution_environment") is not False:
+        errors.append(f"{relative}: execution-environment boundary must remain explicit")
+    if "not a web-compatibility score" not in wpt.get("interpretation", ""):
+        errors.append(f"{relative}: WPT scope limitation is missing")
+
+    evidence_relative = wpt.get("evidence_file")
+    evidence_path = ROOT / evidence_relative if isinstance(evidence_relative, str) else None
+    if evidence_path is None or not evidence_path.is_file():
+        errors.append(f"{relative}: extracted WPT comparison evidence is missing")
+    else:
+        try:
+            evidence = json.loads(evidence_path.read_text(encoding="utf-8"))
+        except (UnicodeDecodeError, json.JSONDecodeError) as exc:
+            errors.append(f"{evidence_relative}: invalid UTF-8 JSON: {exc}")
+        else:
+            scope = evidence.get("scope", {})
+            galileo_result = evidence.get("galileo", {}).get("result", {})
+            servo_result = evidence.get("servo", {}).get("result", {})
+            artifact = evidence.get("servo", {}).get("artifact", {})
+            if scope.get("subtests") != 286 or scope.get("subtest_names_identical") is not True:
+                errors.append(f"{evidence_relative}: exact shared denominator is missing")
+            if galileo_result.get("passed") != 286 or galileo_result.get("failed") != 0:
+                errors.append(f"{evidence_relative}: Galileo retained-result counts are inconsistent")
+            if servo_result.get("passed") != 246 or servo_result.get("failed") != 40:
+                errors.append(f"{evidence_relative}: Servo extracted-result counts are inconsistent")
+            if artifact.get("digest") != "sha256:94809630557e4f2f3bd2ff86d73fd411f349b947819e6258a534f2b0aa5ab1c7":
+                errors.append(f"{evidence_relative}: official Servo artifact digest is missing")
+
+    upstream = snapshot.get("upstream", {})
+    if upstream.get("current_integrated_base", "missing") is not None:
+        errors.append(f"{relative}: current integrated base must remain null until recorded")
+    if "not a GalileoEngine behind count" not in upstream.get("interpretation", ""):
+        errors.append(f"{relative}: upstream interpretation boundary is missing")
+
+    lineage = snapshot.get("lineage", {})
+    if lineage.get("merge_base") != upstream.get("declared_initial_base"):
+        errors.append(f"{relative}: verified merge base must match the declared initial base")
+    if lineage.get("commits_from_base_to_verified_checkpoint") != 8:
+        errors.append(f"{relative}: verified Galileo checkpoint distance must remain explicit")
+    if lineage.get("current_hosted_history_linkage") != "not-exposed-after-repository-migration":
+        errors.append(f"{relative}: hosted-history migration boundary is missing")
+    if "Git ancestry verified" not in lineage.get("solid_line_meaning", ""):
+        errors.append(f"{relative}: solid lineage interpretation is missing")
+    if "Project continuation after migration" not in lineage.get("dashed_line_meaning", ""):
+        errors.append(f"{relative}: dashed lineage interpretation is missing")
+
+    if snapshot.get("review_status") != "manual-reviewed":
+        errors.append(f"{relative}: snapshot must identify its review status")
+    return errors
+
+
 def validate_files() -> list[str]:
     errors = validate_brand_cleanup()
     for relative in REQUIRED_ASSETS:
@@ -299,6 +408,7 @@ def validate_files() -> list[str]:
     for relative in PUBLIC_PAGES:
         errors.extend(validate_public_page(relative))
     errors.extend(validate_redirects())
+    errors.extend(validate_progress_snapshot())
     return errors
 
 
@@ -324,6 +434,8 @@ def smoke_http(base_url: str) -> list[str]:
         "team-silviu.png": "image/png",
         "robots.txt": "text/plain",
         "sitemap.xml": ("application/xml", "text/xml"),
+        "data/progress/2026-W33.json": "application/json",
+        "data/evidence/2026-W33-phase0-core-comparison.json": "application/json",
     }
     for relative, expected_type in expected.items():
         url = urljoin(base_url.rstrip("/") + "/", relative)

@@ -153,6 +153,9 @@ async function build() {
   await cp(path.join(projectRoot, "journal"), path.join(outputRoot, "journal"), {
     recursive: true,
   });
+  await cp(path.join(projectRoot, "data"), path.join(outputRoot, "data"), {
+    recursive: true,
+  });
 
   const entries = await loadJournalEntries();
   const journalPath = path.join(outputRoot, "journal", "index.html");
