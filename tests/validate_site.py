@@ -372,6 +372,9 @@ def validate_built_routes() -> list[str]:
             f'content="0; url={route}"',
             f'<link rel="canonical" href="{canonical}">',
             f'<a href="{route}">',
+            "target.search = window.location.search",
+            "target.hash = window.location.hash",
+            "window.location.replace(target)",
         ):
             if marker not in legacy_text:
                 errors.append(f"dist/{source}: compatibility redirect is missing {marker!r}")
@@ -387,6 +390,34 @@ def validate_built_routes() -> list[str]:
             continue
         if f"https://galileobrowser.com{route}</loc>" not in sitemap:
             errors.append(f"dist/sitemap.xml: clean route is missing {route}")
+    return errors
+
+
+def validate_route_and_theme_runtime() -> list[str]:
+    errors: list[str] = []
+    script = (ROOT / "site.js").read_text(encoding="utf-8")
+    for source, route in LEGACY_CLEAN_PAGES.items():
+        source_path = f"/{source}"
+        if f'"{source_path}": "{route}"' not in script:
+            errors.append(f"site.js: cached legacy route recovery is missing {source_path} -> {route}")
+    for marker in (
+        "target.search = window.location.search",
+        "target.hash = window.location.hash",
+        "window.location.replace(target)",
+    ):
+        if marker not in script:
+            errors.append(f"site.js: route normalization is missing {marker!r}")
+
+    stylesheet = (ROOT / "galileo.css").read_text(encoding="utf-8")
+    for marker in (
+        'html[data-theme="light"] .evolution-chart {',
+        "--chart-panel: #f8fbf9;",
+        "--chart-panel-deep: #e8f2ed;",
+        "color-scheme: light;",
+        'html[data-theme="light"] .evolution-chart__plot {',
+    ):
+        if marker not in stylesheet:
+            errors.append(f"galileo.css: light chart theme is missing {marker!r}")
     return errors
 
 
@@ -551,6 +582,7 @@ def validate_files() -> list[str]:
         errors.extend(validate_public_page(relative))
     errors.extend(validate_redirects())
     errors.extend(validate_built_routes())
+    errors.extend(validate_route_and_theme_runtime())
     errors.extend(validate_progress_snapshot())
     return errors
 

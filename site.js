@@ -2,6 +2,27 @@
   "use strict";
 
   var THEME_STORAGE_KEY = "galileo-color-theme";
+  var LEGACY_PAGE_ROUTES = {
+    "/platform.html": "/platform/",
+    "/roadmap.html": "/roadmap/",
+    "/galileo-browser.html": "/galileo-browser/",
+    "/status.html": "/status/",
+    "/team.html": "/team/",
+    "/support.html": "/support/",
+  };
+
+  function redirectLegacyPageRoute() {
+    var destination = LEGACY_PAGE_ROUTES[window.location.pathname];
+    if (!destination) return false;
+
+    var target = new URL(destination, window.location.origin);
+    target.search = window.location.search;
+    target.hash = window.location.hash;
+    window.location.replace(target);
+    return true;
+  }
+
+  if (redirectLegacyPageRoute()) return;
 
   function readStoredTheme() {
     try {

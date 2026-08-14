@@ -157,7 +157,7 @@ function renderLegacyPageRedirect({ route, title }) {
   <noscript><meta http-equiv="refresh" content="0; url=${destination}"></noscript>
   <link rel="canonical" href="${canonical}">
   <title>${escapeHtml(title)} moved — GalileoEngine</title>
-  <script>location.replace(${JSON.stringify(destination)} + location.search + location.hash);</script>
+  <script>const target = new URL(${JSON.stringify(destination)}, window.location.origin); target.search = window.location.search; target.hash = window.location.hash; window.location.replace(target);</script>
 </head>
 <body>
   <main>

@@ -715,35 +715,98 @@ html[data-theme="light"] .evolution-chart__note {
 }
 
 html[data-theme="light"] .evolution-chart {
-  --chart-servo: #3ed7d0;
-  --chart-galileo: #78f06d;
-  border-color: rgba(56, 143, 108, .28);
+  --chart-servo: #087f96;
+  --chart-galileo: #2b754d;
+  --chart-panel: #f8fbf9;
+  --chart-panel-deep: #e8f2ed;
+  --chart-ink: #153529;
+  --chart-muted: #526f63;
+  --chart-line: rgba(35, 86, 65, .17);
+  color-scheme: light;
+  border-color: rgba(35, 102, 75, .22);
   background:
-    radial-gradient(circle at 76% 18%, rgba(57, 217, 208, .07), transparent 31%),
+    radial-gradient(circle at 76% 18%, rgba(8, 127, 150, .09), transparent 31%),
     linear-gradient(150deg, var(--chart-panel), var(--chart-panel-deep));
-  box-shadow: 0 24px 62px rgba(18, 64, 48, .14);
+  box-shadow: 0 24px 62px rgba(31, 73, 55, .09);
 }
 
 html[data-theme="light"] .evolution-chart__point {
   stroke: var(--chart-panel);
 }
 
+html[data-theme="light"] .evolution-chart .metric-kicker {
+  color: #246f60;
+}
+
+html[data-theme="light"] .evolution-chart figcaption > p,
 html[data-theme="light"] .evolution-chart__legend,
-html[data-theme="light"] .evolution-chart__axis-label,
-html[data-theme="light"] .evolution-chart__milestone,
 html[data-theme="light"] .evolution-chart__table thead th,
 html[data-theme="light"] .evolution-chart__note {
   color: var(--chart-muted);
-  fill: #75988b;
+}
+
+html[data-theme="light"] .evolution-chart__plot {
+  background-image:
+    linear-gradient(rgba(35, 86, 65, .07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(35, 86, 65, .07) 1px, transparent 1px);
+}
+
+html[data-theme="light"] .evolution-chart__grid-line {
+  stroke: rgba(35, 86, 65, .16);
+}
+
+html[data-theme="light"] .evolution-chart__guide {
+  stroke: rgba(35, 86, 65, .1);
+}
+
+html[data-theme="light"] .evolution-chart__axis-label,
+html[data-theme="light"] .evolution-chart__milestone,
+html[data-theme="light"] .evolution-chart__scale-title {
+  fill: #5c786c;
+}
+
+html[data-theme="light"] .evolution-chart__date {
+  fill: #274c3d;
+}
+
+html[data-theme="light"] .evolution-chart__annotation-label {
+  fill: #3f7466;
+}
+
+html[data-theme="light"] .evolution-chart__annotation-detail {
+  fill: #607b70;
+}
+
+html[data-theme="light"] .evolution-chart__point--fork {
+  fill: #b27a13;
+  filter: drop-shadow(0 0 7px rgba(178, 122, 19, .34));
+}
+
+html[data-theme="light"] .evolution-chart__fork-ring {
+  stroke: rgba(178, 122, 19, .44);
+}
+
+html[data-theme="light"] .evolution-chart__delta-pill {
+  fill: #f3f8f5;
+  stroke: rgba(43, 117, 77, .34);
+}
+
+html[data-theme="light"] .evolution-chart__delta-text {
+  fill: #275e40;
 }
 
 html[data-theme="light"] .evolution-chart__table tbody th,
 html[data-theme="light"] .evolution-chart__table tbody td {
-  color: #dbeae3;
+  color: #18382c;
 }
 
 html[data-theme="light"] .evolution-chart__table small {
-  color: #88a69a;
+  color: #5d786d;
+}
+
+html[data-theme="light"] .evolution-chart__table a,
+html[data-theme="light"] .evolution-chart__note a {
+  color: #086f75;
 }
 
 @media (max-width: 900px) {
