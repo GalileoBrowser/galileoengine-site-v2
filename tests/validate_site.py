@@ -324,10 +324,19 @@ def validate_redirects() -> list[str]:
         text, parser = parse_page(path)
         if f'content="0; url={destination}"' not in text:
             errors.append(f"{relative}: redirect does not target {destination}")
+        if '<noscript><meta http-equiv="refresh"' not in text:
+            errors.append(f"{relative}: meta refresh must remain a no-JavaScript fallback")
         if f'href="{destination}"' not in text:
             errors.append(f"{relative}: canonical or fallback link to {destination} is missing")
         if 'name="robots" content="noindex"' not in text:
             errors.append(f"{relative}: redirect must be excluded from indexing")
+        for marker in (
+            "target.search = window.location.search",
+            "target.hash = window.location.hash",
+            "window.location.replace(target)",
+        ):
+            if marker not in text:
+                errors.append(f"{relative}: redirect must preserve query strings and fragments")
         if parser.tags["h1"] != 1:
             errors.append(f"{relative}: redirect must contain one fallback heading")
         for tag, value, _attrs in parser.attrs:
@@ -359,6 +368,7 @@ def validate_built_routes() -> list[str]:
         canonical = f"https://galileobrowser.com{route}"
         for marker in (
             'name="robots" content="noindex"',
+            '<noscript><meta http-equiv="refresh"',
             f'content="0; url={route}"',
             f'<link rel="canonical" href="{canonical}">',
             f'<a href="{route}">',
