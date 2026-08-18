@@ -3,250 +3,102 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>GalileoEngine — a Servo-derived browser engine</title>
-  <meta name="description" content="GalileoEngine is an experimental browser engine derived from Servo and developed to power Galileo Browser.">
-  <meta name="theme-color" content="#f4f8f5">
-  <meta property="og:title" content="GalileoEngine">
-  <meta property="og:description" content="A Servo-derived browser engine developed to power Galileo Browser.">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://galileobrowser.com/">
-  <meta property="og:image" content="https://galileobrowser.com/assets/galileo-symbol.png">
-  <meta name="twitter:card" content="summary">
+  <title>Galileo — open source, accelerated</title>
+  <meta name="description" content="A small team from Europe using AI to critically accelerate open-source software development, prioritizing security and features. First project: Galileo Engine and Galileo Browser — a browser engine and browser forked from Servo, aimed at full completion in months, not years.">
+  <meta name="theme-color" content="#f5f2ea">
   <link rel="canonical" href="https://galileobrowser.com/">
-  <link rel="icon" href="/assets/galileo-symbol.png" type="image/png">
+  <meta property="og:title" content="Galileo — open source, accelerated">
+  <meta property="og:description" content="A European team accelerating open source with AI. First proof: a browser engine and browser forked from Servo — months, not years.">
+  <meta property="og:url" content="https://galileobrowser.com/">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://galileobrowser.com/assets/galileo-symbol.png">
+  <meta name="twitter:card" content="summary_large_image">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/galileo.css?v=20260814-route-theme-fix">
-  <script src="/site.js?v=20260814-route-theme-fix" defer></script>
+  <link rel="stylesheet" href="/galileo.css?v=20260818c">
+  <script src="/site.js?v=20260818c" defer></script>
 </head>
 <body data-page="galileo-home">
   <a class="skip-link" href="#main-content">Skip to content</a>
-
   <header class="site-header">
     <div class="site-header__inner">
-      <a class="site-brand" href="#top" aria-label="GalileoEngine home">
-        <img src="/assets/galileo-symbol.png" alt="" width="52" height="52">
-        <span class="site-brand__name">Galileo<span>Engine</span></span>
-      </a>
-
+      <a class="site-brand" href="#top" aria-label="Galileo home"><img src="/assets/galileo-symbol.png" alt="" width="52" height="52"><span class="site-brand__name">Galileo<span>Browser</span></span></a>
       <nav class="site-nav" id="primary-navigation" aria-label="Primary navigation">
-        <a href="/platform/">Engine</a>
+        <a href="/platform/">Browser engine</a>
         <a href="/roadmap/">Roadmap</a>
-        <a href="/galileo-browser/">Galileo Browser</a>
+        <a href="/galileo-browser/">Browser</a>
         <a href="/journal/">Discussions</a>
         <a href="/team/">Team</a>
         <a class="nav-support" href="/support/">Contribute to the project</a>
       </nav>
-
-      <a class="header-status" href="/status/"><span></span>Research stage</a>
       <div class="theme-switch" role="group" aria-label="Color theme"><button type="button" data-theme-choice="light" aria-pressed="true">Light</button><button type="button" data-theme-choice="dark" aria-pressed="false">Dark</button></div>
-      <button class="menu-toggle" type="button" aria-label="Open navigation" aria-controls="primary-navigation" aria-expanded="false"><span class="menu-toggle__icon" aria-hidden="true"></span></button>
+      <button class="menu-toggle" type="button" aria-label="Open navigation" aria-controls="primary-navigation" aria-expanded="false"><span class="menu-toggle__icon"></span></button>
     </div>
   </header>
 
   <main id="main-content">
-    <section class="hero" id="top" aria-labelledby="hero-title">
-      <div class="hero__grid" aria-hidden="true"></div>
-      <div class="hero__glow hero__glow--teal" aria-hidden="true"></div>
-      <div class="hero__glow hero__glow--green" aria-hidden="true"></div>
-
+    <section class="hero--home" id="top" aria-labelledby="hero-title">
       <div class="hero__inner">
         <div class="hero__copy">
-          <p class="eyebrow"><span></span> Built on Servo / early development</p>
-          <h1 id="hero-title">Building a browser on Servo.</h1>
-          <p class="hero__lead">GalileoEngine is the Servo-based engine layer behind Galileo Browser. We are turning Servo’s development shell into a desktop browser, one tested piece at a time.</p>
+          <p class="eyebrow">From Europe / open source, accelerated</p>
+          <h1 id="hero-title">Open source, <em>accelerated.</em></h1>
+          <p class="hero__lead">We are a small team from Europe that uses AI to critically accelerate the development of open-source software. We prioritize security and features. Our first project is a web browser engine and a web browser — Galileo Engine and Galileo Browser — forked from Servo, an existing project. The target: full completion in months, not years.</p>
           <div class="hero__actions">
-            <a class="button button--primary" href="/roadmap/">See the roadmap <span aria-hidden="true">→</span></a>
-            <a class="button button--ghost" href="/platform/">How it fits together <span aria-hidden="true">↗</span></a>
+            <a class="button button--primary" href="/galileo-browser/">See what it does today <span aria-hidden="true">→</span></a>
+            <a class="button button--ghost" href="https://github.com/GalileoBrowser/GalileoEngine">Read the source <span aria-hidden="true">↗</span></a>
+          </div>
+          <div class="hero__facts" aria-label="Project snapshot">
+            <span><strong>26 Jul 2026</strong> forked from Servo</span>
+            <span><strong>months, not years</strong> the target, not a promise</span>
+            <span><strong>68</strong> capability areas tracked in public</span>
           </div>
         </div>
-
-        <div class="hero__visual" aria-label="GalileoEngine symbol">
-          <div class="hero__orbit hero__orbit--one" aria-hidden="true"></div>
-          <div class="hero__orbit hero__orbit--two" aria-hidden="true"></div>
-          <img src="/assets/galileo-symbol.png" alt="GalileoEngine symbol" width="1254" height="1254" fetchpriority="high">
-          <p class="hero__caption"><span>01</span> Work in progress</p>
+        <div class="hero__visual">
+          <figure class="hero-art">
+            <div class="hero-art__frame"><img src="/assets/ai-acceleration.png" alt="A human runner and a robot runner exchanging a glowing baton marked with web and code symbols" width="1492" height="1054"></div>
+            <figcaption class="hero-art__caption"><span><strong>Galileo method</strong><br>humans set direction · AI carries volume</span><span>browser / first proof</span></figcaption>
+          </figure>
         </div>
-      </div>
-
-      <div class="hero__facts" aria-label="Project snapshot">
-        <div><span>Built on</span><strong>Servo</strong></div>
-        <div><span>Engine layer</span><strong>GalileoEngine</strong></div>
-        <div><span>Current stage</span><strong>Early development</strong></div>
-        <div><span>First product</span><strong>Galileo Browser</strong></div>
       </div>
     </section>
 
-    <section class="status-note" id="current-work" aria-labelledby="status-title">
-      <div class="status-note__indicator" aria-hidden="true"><span></span></div>
-      <div>
-        <p class="eyebrow">Where we are now</p>
-        <h2 id="status-title">It builds and runs. It is not ready for daily use.</h2>
-      </div>
-      <p>We can build the current desktop shell and test selected browsing tasks. Compatibility, security, accessibility, packaging, and updates still need substantial work before we can offer a public release.</p>
-    </section>
-
-    <section class="platform section" id="engine" aria-labelledby="platform-title">
-      <div class="section__intro">
-        <p class="eyebrow">How the project fits together</p>
-        <h2 id="platform-title">Servo provides the engine. We build the browser around it.</h2>
-        <p>Servo, GalileoEngine, and Galileo Browser are three parts of the same technical path. Each has a different job.</p>
-      </div>
-
-      <div class="lineage-map" aria-label="Servo to GalileoEngine to Galileo Browser">
-        <article class="lineage-card">
-          <span class="lineage-card__type">Upstream foundation</span>
-          <div class="lineage-card__index">01</div>
-          <h3>Servo</h3>
-          <p>The independent Rust web engine that provides our starting point.</p>
-        </article>
-        <div class="lineage-map__connector" aria-hidden="true"><span>derived</span></div>
-        <article class="lineage-card lineage-card--engine">
-          <span class="lineage-card__type">Derived engine</span>
-          <img src="/assets/galileo-symbol.png" alt="" width="56" height="56">
-          <h3>GalileoEngine</h3>
-          <p>Our engine layer for integration, compatibility work, and browser features.</p>
-        </article>
-        <div class="lineage-map__connector" aria-hidden="true"><span>powers</span></div>
-        <article class="lineage-card">
-          <span class="lineage-card__type">First product</span>
-          <div class="lineage-card__index">03</div>
-          <h3>Galileo Browser</h3>
-          <p>The desktop browser we are building for people to use.</p>
-        </article>
-        <p class="lineage-map__note">GalileoEngine is an independent project and is not affiliated with or endorsed by Servo. Reusable engine improvements should be contributed upstream whenever practical.</p>
+    <section class="proof-strip" aria-label="Current project evidence">
+      <div class="proof-strip__inner">
+        <div class="proof-stat"><strong>286 / 286</strong><span>Phase 0 subtests, bounded shard</span></div>
+        <div class="proof-stat"><strong>3 / 3</strong><span>official Turnstile canary modes</span></div>
+        <div class="proof-stat"><strong>54 / 68</strong><span>capability rows observed partial</span></div>
+        <div class="proof-stat"><strong>0</strong><span>gaps hidden from the roadmap</span></div>
       </div>
     </section>
 
-    <section class="principles section" aria-labelledby="principles-title">
-      <div class="section__intro section__intro--split">
-        <div>
-          <p class="eyebrow">What we are working on</p>
-          <h2 id="principles-title">The work between Servo and a usable browser.</h2>
-        </div>
-        <p>Our job is to connect the engine to a complete desktop experience and test the result honestly.</p>
+    <section class="page-section where-start" id="why" aria-labelledby="manifesto-title">
+      <div class="section-heading">
+        <div><p class="eyebrow">Where we start</p><h2 id="manifesto-title">First, the praise. It is earned.</h2></div>
+        <p>Our first project stands on a browser engine that is more than a decade old. This is the lineage, in order — and the one policy that shapes how we work.</p>
       </div>
-      <div class="principle-grid">
-        <article>
-          <span>01</span>
-          <h3>Keep up with Servo</h3>
-          <p>Stay close enough to upstream that useful fixes can move both ways and updates remain practical.</p>
-        </article>
-        <article>
-          <span>02</span>
-          <h3>Build the missing browser pieces</h3>
-          <p>Connect navigation, storage, media, permissions, profiles, and desktop integration into one product.</p>
-        </article>
-        <article>
-          <span>03</span>
-          <h3>Test before we release</h3>
-          <p>Compatibility, security, privacy, accessibility, stability, installation, and updates all need to work together.</p>
-        </article>
+      <div class="lineage" aria-label="The lineage of Galileo: Mozilla Research, the open-source community, and the Galileo fork">
+        <article class="lineage__item"><span class="lineage__number">2012 / the start</span><h3> Mozilla Research starts Servo.</h3><p>A browser engine in Rust, with a real rendering pipeline, serious standards work, and an architecture built to be embedded and extended.</p></article>
+        <article class="lineage__item"><span class="lineage__number">2013–2026 / the long build</span><h3>The open-source community carries it.</h3><p>Maintainers — later with the Linux Foundation — turn Servo into a serious, embeddable engine. Browsers have been built on it for years; the work is real.</p></article>
+        <article class="lineage__item"><span class="lineage__number">26 Jul 2026 / the fork</span><img src="/assets/galileo-symbol.png" alt="" width="64" height="64"><h3>We fork it — and accelerate.</h3><p>Galileo Engine and Galileo Browser take the same foundation, with AI carrying the volume and humans holding every gate — aimed at full completion in months, not years.</p></article>
       </div>
-    </section>
-
-    <section class="evidence-preview section" id="progress" aria-labelledby="evidence-title">
-      <div class="section__intro section__intro--split">
-        <div>
-          <p class="eyebrow">What works today</p>
-          <h2 id="evidence-title">What we can show today.</h2>
-        </div>
-        <p>These checks help us track progress. They are not a claim that Galileo Browser is ready for general use.</p>
+      <div class="where-start__evidence">
+        <figure class="policy-figure">
+          <div class="policy-figure__frame"><img src="/assets/servo-ai-policy.png" alt="Screenshot of the Servo Book section: AI contributions must not include content generated by large language models"></div>
+          <figcaption><span>Source: Servo Book / AI contributions</span><a href="https://book.servo.org/contributing/getting-started.html#ai-contributions">Read the full policy ↗</a></figcaption>
+        </figure>
+        <p class="policy-figure__note">Servo does not accept AI-generated contributions — and that is a fair rule: it protects maintainers from code nobody can explain, test, or defend. Galileo is the other side of the same question. A small team uses AI to generate the volume, and the volume has to earn its place — with tests, retained evidence, and human review. We started with a browser because the web needs one now more than ever: a browser you can actually own, whose rules you can read, whose ad-blockers stay yours. If the method works here, it applies to whatever deserves to move next.</p>
       </div>
-      <div class="evidence-grid">
-        <article>
-          <span class="evidence-state evidence-state--observed">Working</span>
-          <h3>Development build &amp; launch</h3>
-          <p>The current desktop shell builds and launches in our development environment.</p>
-          <small>Not a signed installer or public release.</small>
-        </article>
-        <article>
-          <span class="evidence-state">Started</span>
-          <h3>Core browsing journeys</h3>
-          <p>We repeat selected checks for rendering, navigation, search, and back navigation.</p>
-          <small>Not a broad real-site compatibility result.</small>
-        </article>
-        <article>
-          <span class="evidence-state evidence-state--partial">Partial</span>
-          <h3>Compatibility &amp; media probes</h3>
-          <p>We are testing selected WebDriver, browser API, cache, and media paths.</p>
-          <small>Many standards, media, security, and accessibility areas remain unqualified.</small>
-        </article>
-      </div>
-      <a class="text-link evidence-preview__link" href="/roadmap/">See the full roadmap <span aria-hidden="true">→</span></a>
-    </section>
-
-    <section class="roadmap section" id="roadmap" aria-labelledby="roadmap-title">
-      <div class="roadmap__header">
-        <div class="section__intro">
-          <p class="eyebrow">Roadmap</p>
-          <h2 id="roadmap-title">Where we go from here.</h2>
-        </div>
-        <p>The next steps move from a reproducible development build toward a secure, accessible, maintainable browser.</p>
-      </div>
-      <ol class="roadmap-list">
-        <li class="roadmap-item roadmap-item--active">
-          <span class="roadmap-item__index">Now</span>
-          <div><h3>Foundation &amp; browser baseline</h3><p>Reproducible builds, a clear capability inventory, and dependable core checks.</p></div>
-          <span class="roadmap-item__state">In progress</span>
-        </li>
-        <li class="roadmap-item">
-          <span class="roadmap-item__index">Next</span>
-          <div><h3>Compatibility &amp; hardening</h3><p>Broader standards coverage, real-site reliability, accessibility, privacy, security, and media support.</p></div>
-          <span class="roadmap-item__state">Planned</span>
-        </li>
-        <li class="roadmap-item">
-          <span class="roadmap-item__index">Then</span>
-          <div><h3>Packaging &amp; release preparation</h3><p>Installers, updates, recovery, stability, performance, and release checks.</p></div>
-          <span class="roadmap-item__state">Later</span>
-        </li>
-      </ol>
-    </section>
-
-    <section class="products section" id="products" aria-labelledby="products-title">
-      <div class="products__top" id="browser">
-        <div class="section__intro">
-          <p class="eyebrow">The product</p>
-          <h2 id="products-title">Galileo Browser is what people will use.</h2>
-        </div>
-        <p>GalileoEngine does the engine work underneath. Galileo Browser turns it into a desktop experience with tabs, profiles, settings, downloads, and the other parts people expect.</p>
-      </div>
-      <article class="browser-card" id="galileo-browser">
-        <div class="browser-card__copy">
-          <p class="browser-card__eyebrow">Browser product / in development</p>
-          <div class="browser-card__lockup" aria-label="Galileo Browser"><strong>Galileo Browser</strong></div>
-          <h3>A desktop browser built on GalileoEngine.</h3>
-          <p>It is still in development and there is no public download yet. The roadmap shows what works and what remains.</p>
-          <a class="browser-card__coming" href="/galileo-browser/">Explore Galileo Browser <span aria-hidden="true">→</span></a>
-        </div>
-        <div class="browser-card__visual" aria-hidden="true">
-          <div class="browser-card__orb"></div>
-          <div class="browser-card__window"><span></span><span></span><span></span><i></i><b></b></div>
-          <img src="/assets/galileo-symbol.png" alt="">
-        </div>
-      </article>
-    </section>
-
-    <section class="team-teaser section" id="team" aria-labelledby="team-title">
-      <div>
-        <p class="eyebrow">Founding team</p>
-        <h2 id="team-title">Meet the people building Galileo.</h2>
-      </div>
-      <div class="team-teaser__people">
-        <span>Loren Bufanu</span><span>Ionel Silviu Ghimpau</span><span>Manuel Condurache</span>
-      </div>
-      <a class="text-link" href="/team/">Meet the team <span aria-hidden="true">↗</span></a>
     </section>
   </main>
 
   <footer class="site-footer">
-    <div class="site-footer__brand">
-      <img src="/assets/galileo-symbol.png" alt="" width="44" height="44">
-      <span>Galileo<span>Engine</span></span>
+    <div class="site-footer__inner">
+      <a class="site-footer__brand" href="#top"><img src="/assets/galileo-symbol.png" alt="" width="42" height="42"><span>Galileo<span>Browser</span></span></a>
+      <p class="site-footer__note">A small team from Europe accelerating open-source software — starting with a browser, aiming at the missing tools around it.</p>
+      <div class="site-footer__links"><a href="/platform/">Browser engine</a><a href="/roadmap/">Roadmap</a><a href="/galileo-browser/">Browser</a><a href="/team/">Team</a><a href="/journal/">Discussions</a><a href="/status/">Status</a><a href="https://github.com/GalileoBrowser/GalileoEngine">Source ↗</a></div>
+      <p class="site-footer__meta">GalileoEngine / research stage / 2026</p>
     </div>
-    <p>An independent experimental browser engine derived from Servo.</p>
-    <p class="site-footer__legal">GalileoEngine is not affiliated with or endorsed by the Servo project. <a href="https://github.com/GalileoBrowser/galileoengine-site-v2">Source on GitHub ↗</a></p>
   </footer>
 </body>
 </html>
