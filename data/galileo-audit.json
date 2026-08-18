@@ -1,0 +1,35 @@
+{
+  "captured": "2026-08-18",
+  "sourceCommit": "2fe12e0e8f82ee57690e31fea9db95a62a2e1592",
+  "firstGalileoCommit": "525533a36279e16e81ad57be0da6b5d2d032515b",
+  "firstGalileoDate": "2026-07-26",
+  "daysSinceFirstCommit": 23,
+  "featureMatrix": {
+    "tracked": 68,
+    "observedPartial": 54,
+    "unmeasured": 5,
+    "planned": 4,
+    "decisionRequired": 3,
+    "blocked": 2
+  },
+  "phase0Core": {
+    "captured": "2026-08-13",
+    "topLevelTests": 3,
+    "subtests": 286,
+    "passedSubtests": 286,
+    "unexpectedResults": 0
+  },
+  "implementedSlices": [
+    "desktop browser shell",
+    "profiles and private browsing work",
+    "native content blocking",
+    "reviewed WebExtensions runtime",
+    "media and developer-tools work"
+  ],
+  "openQualification": [
+    "broad web compatibility",
+    "process isolation and product security",
+    "startup, speed, and memory measurement",
+    "release packaging and updates"
+  ]
+}

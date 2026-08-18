@@ -57,6 +57,10 @@ REQUIRED_ASSETS = (
     "site.js",
     "evidence-chart.js",
     "assets/galileo-symbol.png",
+    "assets/ai-acceleration.png",
+    "assets/servo-ai-policy.png",
+    "assets/fork-comparison.png",
+    "assets/ublock-origin-icon.png",
     "team-loren.png",
     "team-manuel.png",
     "team-silviu.png",
@@ -67,6 +71,7 @@ REQUIRED_ASSETS = (
     "data/evidence/2026-W30-phase0-core-fork-base.json",
     "data/evidence/2026-W33-phase0-core-comparison.json",
     "data/evidence/phase0-core-series.json",
+    "data/galileo-audit.json",
 )
 TEXT_SUFFIXES = {".css", ".html", ".ini", ".js", ".json", ".md", ".txt", ".xml", ".yaml", ".yml"}
 IGNORED_DIRECTORIES = {".git", ".next", "__pycache__", "dist", "node_modules", "output", "public"}
@@ -255,35 +260,52 @@ def validate_public_page(relative: str) -> list[str]:
             errors.append(f"{relative}: placeholder marker remains: {marker!r}")
 
     if relative == "index.html":
-        for marker in ("GalileoEngine", "Galileo Browser", "Servo", "assets/galileo-symbol.png"):
+        for marker in (
+            "GalileoEngine",
+            "Galileo Browser",
+            "Servo",
+            "assets/galileo-symbol.png",
+            "assets/fork-comparison.png",
+            "assets/servo-ai-policy.png",
+            "26 July 2026",
+            "Mozilla Research started Servo in 2012",
+            "in under a month",
+            "Manifest V2",
+            "Cloudflare Turnstile",
+        ):
             if marker not in text:
                 errors.append(f"{relative}: identity marker is missing {marker!r}")
     elif relative == "galileo-browser.html":
-        for marker in ("Desktop browser / in development", "In development", "No public release"):
+        for marker in (
+            "Desktop browser / in development",
+            "In development",
+            "No public release",
+            "Manifest V2",
+            "uBlock Origin",
+            "assets/ublock-origin-icon.png",
+            "device-to-device",
+            "Mozilla Research",
+        ):
             if marker not in text:
                 errors.append(f"{relative}: product boundary is missing {marker!r}")
     elif relative == "roadmap.html":
         for marker in (
-            "Same tests. Two code lines.",
-            "Galileo begins on Servo’s line, then moves independently.",
-            "2 verified checkpoints",
-            "Fixed denominator <span>286 subtests</span>",
-            "Fork · 24 Jul",
-            "Inherited identical source",
-            "68 tracked items",
-            "286 / 286",
-            "246 / 286",
-            "40 failed",
-            "Upstream reference",
-            "all 286 ordered subtest names match",
-            "not a web-compatibility score",
-            "They do not prove that GalileoEngine is “248 commits behind”",
-            "data/progress/2026-W33.json",
-            "data/evidence/2026-W30-phase0-core-fork-base.json",
-            "data/evidence/2026-W33-phase0-core-comparison.json",
-            "data/evidence/phase0-core-series.json",
-            "https://github.com/servo/servo/actions/runs/30115162450",
-            "https://github.com/servo/servo/actions/runs/31788413088",
+            "Loading bars with receipts.",
+            "54 observed partial",
+            "68 rows",
+            "286 / 286 phase 0 subtests",
+            "isolation and threat model",
+            "startup and performance baseline",
+            "Manifest V2",
+            "uBlock Origin",
+            "assets/ublock-origin-icon.png",
+            "GalileoEngine @ 2fe12e0",
+            "feature matrix",
+            "never a general browser score",
+            "compatibility target, not a current claim",
+            "compatibility first, then security, then speed",
+            "Months, not years.",
+            "72-item",
         ):
             if marker not in text:
                 errors.append(f"{relative}: evidence boundary is missing {marker!r}")
@@ -299,7 +321,13 @@ def validate_public_page(relative: str) -> list[str]:
             if f'href="mailto:{email}"' not in text:
                 errors.append(f"{relative}: team contact is missing {email!r}")
     elif relative == "support.html":
-        for marker in ("Contribute code", "Fund the work", "We are not accepting money yet", "GitHub Sponsors pending"):
+        for marker in (
+            "Contribute code",
+            "We are not accepting money yet",
+            "GitHub Sponsors is pending",
+            "AI is fast. It is not free.",
+            "tokens cost money",
+        ):
             if marker not in text:
                 errors.append(f"{relative}: support boundary is missing {marker!r}")
     elif relative == "journal/index.html":
@@ -307,6 +335,7 @@ def validate_public_page(relative: str) -> list[str]:
             "GitHub Discussions",
             "JOURNAL_ENTRIES_START",
             "github.com/GalileoBrowser/galileoengine-site-v2/discussions/categories/announcements",
+            "github.com/GalileoBrowser/GalileoEngine/discussions",
         ):
             if marker not in text:
                 errors.append(f"{relative}: Journal integration marker is missing {marker!r}")
@@ -408,16 +437,6 @@ def validate_route_and_theme_runtime() -> list[str]:
         if marker not in script:
             errors.append(f"site.js: route normalization is missing {marker!r}")
 
-    stylesheet = (ROOT / "galileo.css").read_text(encoding="utf-8")
-    for marker in (
-        'html[data-theme="light"] .evolution-chart {',
-        "--chart-panel: #f8fbf9;",
-        "--chart-panel-deep: #e8f2ed;",
-        "color-scheme: light;",
-        'html[data-theme="light"] .evolution-chart__plot {',
-    ):
-        if marker not in stylesheet:
-            errors.append(f"galileo.css: light chart theme is missing {marker!r}")
     return errors
 
 
@@ -606,6 +625,8 @@ def smoke_http(base_url: str) -> list[str]:
         "site.js": ("application/javascript", "text/javascript"),
         "evidence-chart.js": ("application/javascript", "text/javascript"),
         "assets/galileo-symbol.png": "image/png",
+        "assets/ai-acceleration.png": "image/png",
+        "assets/servo-ai-policy.png": "image/png",
         "team-loren.png": "image/png",
         "team-manuel.png": "image/png",
         "team-silviu.png": "image/png",
@@ -615,6 +636,7 @@ def smoke_http(base_url: str) -> list[str]:
         "data/evidence/2026-W30-phase0-core-fork-base.json": "application/json",
         "data/evidence/2026-W33-phase0-core-comparison.json": "application/json",
         "data/evidence/phase0-core-series.json": "application/json",
+        "data/galileo-audit.json": "application/json",
     }
     for relative, expected_type in expected.items():
         url = urljoin(base_url.rstrip("/") + "/", relative)

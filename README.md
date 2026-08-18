@@ -61,14 +61,14 @@ The validator checks public pages, redirects, local links, brand cleanup, access
 ## Public routes
 
 - `/` — GalileoEngine homepage
-- `/platform/` — GalileoEngine and Servo boundary
+- `/platform/` — the browser engine and its relationship with Servo
 - `/roadmap/` — measured delivery path
 - `/galileo-browser/` — Galileo Browser product page
 - `/status/` — current project boundary
 - `/team/` — founding team
-- `/support/` — code contribution and future project funding paths
+- `/support/` — contribution and funding paths
 - `/journal/` — Journal index generated from GitHub Discussions
 
 The build keeps the former `.html` addresses as non-indexed compatibility redirects, so existing bookmarks continue to work while the canonical site uses clean routes.
 
-GalileoEngine is an experimental browser platform derived from Servo. Galileo Browser is the desktop browser product built on that foundation. The site makes no release or everyday-browsing claim.
+GalileoEngine is an experimental browser engine derived from Servo. Galileo Browser is the desktop browser product built on it. The site makes no release or everyday-browsing claim.
