@@ -140,7 +140,7 @@ function renderEmptyState() {
           <p class="journal-entry__meta"><span>No updates yet</span></p>
           <h3>The first project note is being prepared.</h3>
           <p>Until then, GitHub Discussions is the place to ask questions and follow the project.</p>
-          <a class="text-link" href="https://github.com/GalileoBrowser/GalileoEngine/discussions" target="_blank" rel="noopener">Open the project discussions <span aria-hidden="true">↗</span></a>
+          <a class="text-link" href="https://github.com/${repository}/discussions/categories/${discussionCategory}">Open Discussions <span aria-hidden="true">↗</span></a>
         </article>`;
 }
 

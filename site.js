@@ -43,7 +43,7 @@
     });
 
     var themeColor = document.querySelector('meta[name="theme-color"]');
-    if (themeColor) themeColor.setAttribute("content", nextTheme === "light" ? "#f5f2ea" : "#101918");
+    if (themeColor) themeColor.setAttribute("content", nextTheme === "light" ? "#f4f8f5" : "#0d2b25");
 
     if (persist) {
       try {

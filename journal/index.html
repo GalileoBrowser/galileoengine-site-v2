@@ -1,28 +1,96 @@
 <!doctype html>
 <html lang="en" data-theme="light">
 <head>
-  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Galileo Journal — public project notes</title>
-  <meta name="description" content="Public project notes, evidence, and open conversations from the Galileo team."><meta name="theme-color" content="#f5f2ea">
-  <link rel="canonical" href="https://galileobrowser.com/journal/"><meta property="og:title" content="Galileo Journal — public project notes"><meta property="og:description" content="Project notes and open conversations from the Galileo accelerator experiment."><meta property="og:url" content="https://galileobrowser.com/journal/"><meta property="og:type" content="website"><meta property="og:image" content="https://galileobrowser.com/assets/galileo-symbol.png"><meta name="twitter:card" content="summary_large_image">
-  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/galileo.css?v=20260818"><script src="/site.js?v=20260818" defer></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Galileo Journal — GalileoEngine</title>
+  <meta name="description" content="The GalileoEngine engineering journal: verified progress, technical decisions, known limits, and open community discussion.">
+  <meta name="theme-color" content="#f4f8f5">
+  <meta property="og:title" content="Galileo Journal — GalileoEngine">
+  <meta property="og:description" content="Project updates, technical decisions, and open community conversations.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://galileobrowser.com/journal/">
+  <meta property="og:image" content="https://galileobrowser.com/assets/galileo-symbol.png">
+  <meta name="twitter:card" content="summary">
+  <link rel="canonical" href="https://galileobrowser.com/journal/">
+  <link rel="icon" href="/assets/galileo-symbol.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/galileo.css?v=20260814-route-theme-fix">
+  <script src="/site.js?v=20260814-route-theme-fix" defer></script>
 </head>
 <body data-page="journal">
   <a class="skip-link" href="#main-content">Skip to content</a>
-  <header class="site-header"><div class="site-header__inner"><a class="site-brand" href="/" aria-label="Galileo home"><img src="/assets/galileo-symbol.png" alt="" width="52" height="52"><span class="site-brand__name">Galileo<span>Browser</span></span></a><nav class="site-nav" id="primary-navigation" aria-label="Primary navigation"><a href="/platform/">Browser engine</a><a href="/roadmap/">Roadmap</a><a href="/galileo-browser/">Browser</a><a href="/journal/" aria-current="page">Discussions</a><a href="/team/">Team</a><a class="nav-support" href="/support/">Contribute to the project</a></nav><a class="header-status" href="/status/"><span></span>Public notes</a><div class="theme-switch" role="group" aria-label="Color theme"><button type="button" data-theme-choice="light" aria-pressed="true">Light</button><button type="button" data-theme-choice="dark" aria-pressed="false">Dark</button></div><button class="menu-toggle" type="button" aria-label="Open navigation" aria-controls="primary-navigation" aria-expanded="false"><span class="menu-toggle__icon"></span></button></div></header>
+  <header class="site-header">
+    <div class="site-header__inner">
+      <a class="site-brand" href="/" aria-label="GalileoEngine home">
+        <img src="/assets/galileo-symbol.png" alt="" width="52" height="52">
+        <span class="site-brand__name">Galileo<span>Engine</span></span>
+      </a>
+      <nav class="site-nav" id="primary-navigation" aria-label="Primary navigation">
+        <a href="/platform/">Engine</a>
+        <a href="/roadmap/">Roadmap</a>
+        <a href="/galileo-browser/">Galileo Browser</a>
+        <a href="/journal/" aria-current="page">Discussions</a>
+        <a href="/team/">Team</a>
+        <a class="nav-support" href="/support/">Contribute to the project</a>
+      </nav>
+      <a class="header-status" href="/status/"><span></span>Research stage</a>
+      <div class="theme-switch" role="group" aria-label="Color theme"><button type="button" data-theme-choice="light" aria-pressed="true">Light</button><button type="button" data-theme-choice="dark" aria-pressed="false">Dark</button></div>
+      <button class="menu-toggle" type="button" aria-label="Open navigation" aria-controls="primary-navigation" aria-expanded="false"><span class="menu-toggle__icon" aria-hidden="true"></span></button>
+    </div>
+  </header>
 
   <main id="main-content">
-    <section class="page-hero"><div class="page-hero__inner"><p class="eyebrow">Galileo Journal / GitHub Discussions</p><h1>Project notes, with the rough edges left in.</h1><p class="page-hero__lead">The Journal is backed by GitHub Discussions. We use it for evidence, decisions, release boundaries, and the conversations that should stay close to the source. The day-to-day conversation lives in the project repository on GitHub; this page keeps the announcement record.</p><div class="journal-cta"><a class="button button--primary" href="https://github.com/GalileoBrowser/GalileoEngine/discussions" target="_blank" rel="noopener">Open the project discussions on GitHub <span aria-hidden="true">↗</span></a><span class="journal-cta__note">Opens in a new tab · asks, debates, and feature requests happen there</span></div></div><img class="page-hero__mark" src="/assets/galileo-symbol.png" alt="GalileoEngine symbol" width="1254" height="1254"></section>
+    <section class="page-hero page-hero--support">
+      <div class="page-hero__inner">
+        <p class="eyebrow">Updates / GitHub Discussions</p>
+        <h1>Project notes and open conversations.</h1>
+        <p>We use GitHub Discussions for build notes, technical decisions, changes in direction, and community replies. The latest posts also appear here.</p>
+      </div>
+      <img class="page-hero__mark" src="/assets/galileo-symbol.png" alt="GalileoEngine symbol" width="512" height="512">
+    </section>
 
-    <section class="page-section journal-section" aria-labelledby="journal-title"><div class="section-heading"><div><p class="eyebrow">Announcements channel</p><h2 id="journal-title">Follow the work as it changes.</h2></div><p>Each entry keeps its discussion, author, replies, and reactions in one place. The site is a view; GitHub Discussions is the canonical conversation.</p></div><div style="margin-top:50px">
+    <section class="page-section journal-section" aria-labelledby="journal-preview-title">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Latest updates</p>
+          <h2 id="journal-preview-title">What the team has been working on.</h2>
+        </div>
+        <div class="journal-section__intro">
+          <p>Posts include the useful details: what changed, what was tested, what still does not work, and what comes next.</p>
+          <a class="button button--primary" href="https://github.com/GalileoBrowser/galileoengine-site-v2/discussions/categories/announcements">Open Discussions <span aria-hidden="true">↗</span></a>
+        </div>
+      </div>
+      <div class="journal-feed" id="journal-entries">
         <!-- JOURNAL_ENTRIES_START -->
-        <article class="journal-entry journal-entry--empty"><p class="journal-entry__meta"><span>No updates yet</span></p><h3>The first project note is being prepared.</h3><p class="journal-entry__excerpt">Until then, GitHub Discussions is the place to ask questions and follow the project.</p><a class="text-link" href="https://github.com/GalileoBrowser/GalileoEngine/discussions" target="_blank" rel="noopener">Open the project discussions ↗</a></article>
-        <!-- JOURNAL_ENTRIES_END --></div></section>
+        <article class="journal-entry journal-entry--empty">
+          <p class="journal-entry__meta"><span>No updates yet</span></p>
+          <h3>The first project note is being prepared.</h3>
+          <p>Until then, GitHub Discussions is the place to ask questions and follow the project.</p>
+          <a class="text-link" href="https://github.com/GalileoBrowser/galileoengine-site-v2/discussions/categories/announcements">Open Discussions <span aria-hidden="true">↗</span></a>
+        </article>
+        <!-- JOURNAL_ENTRIES_END -->
+      </div>
+    </section>
 
-    <section class="page-section split-statement"><div><p class="eyebrow">What belongs here</p><h2>Evidence, not just announcements.</h2></div><div class="split-statement__copy"><p>What changed, what was tested, what failed, what we learned from upstream, and what we will not claim yet.</p><p>Journal entries are generated from the <a class="text-link" href="https://github.com/GalileoBrowser/galileoengine-site-v2/discussions/categories/announcements" target="_blank" rel="noopener">Announcements category on GitHub Discussions ↗</a>. Day-to-day questions and debates happen in the <a class="text-link" href="https://github.com/GalileoBrowser/GalileoEngine/discussions" target="_blank" rel="noopener">GalileoEngine project discussions ↗</a>.</p></div></section>
+    <section class="page-section support-boundary" aria-labelledby="journal-boundary-title">
+      <div>
+        <p class="eyebrow">Why Discussions</p>
+        <h2 id="journal-boundary-title">Updates and replies stay in one place.</h2>
+      </div>
+      <div>
+        <p>GitHub gives each post an author, a permanent link, moderation tools, and a place for the community to reply. This page simply brings the latest posts into the website.</p>
+        <a class="text-link" href="https://github.com/GalileoBrowser/galileoengine-site-v2">View the website source <span aria-hidden="true">↗</span></a>
+      </div>
+    </section>
   </main>
 
-  <footer class="site-footer"><div class="site-footer__inner"><a class="site-footer__brand" href="/"><img src="/assets/galileo-symbol.png" alt="" width="42" height="42"><span>Galileo<span>Browser</span></span></a><p class="site-footer__note">The Journal keeps the project’s reasoning close to the source and open to replies.</p><div class="site-footer__links"><a href="/platform/">Browser engine</a><a href="/roadmap/">Roadmap</a><a href="/galileo-browser/">Browser</a><a href="/team/">Team</a><a href="/support/">Contribute</a></div><p class="site-footer__meta">Galileo / journal / 2026</p></div></footer>
+  <footer class="site-footer">
+    <div class="site-footer__brand"><img src="/assets/galileo-symbol.png" alt="" width="44" height="44"><span>Galileo<span>Engine</span></span></div>
+    <p>Project updates from the GalileoEngine founding team.</p>
+    <p class="site-footer__legal">Published through GitHub Discussions. <a href="https://github.com/GalileoBrowser/galileoengine-site-v2">Source on GitHub ↗</a></p>
+  </footer>
 </body>
 </html>
