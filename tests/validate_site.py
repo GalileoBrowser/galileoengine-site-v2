@@ -288,22 +288,17 @@ def validate_public_page(relative: str) -> list[str]:
                 errors.append(f"{relative}: product boundary is missing {marker!r}")
     elif relative == "roadmap.html":
         for marker in (
-            "Loading bars with receipts.",
-            "54 observed partial",
-            "68 rows",
-            "286 / 286 phase 0 subtests",
-            "isolation and threat model",
-            "startup and performance baseline",
-            "Manifest V2",
-            "uBlock Origin",
-            "assets/ublock-origin-icon.png",
-            "GalileoEngine @ 2fe12e0",
-            "feature matrix",
-            "never a general browser score",
-            "compatibility target, not a current claim",
+            "A browser is a sequence of milestones.",
+            "26 July 2026",
+            "Cloudflare Turnstile",
+            "YouTube, working",
+            "Extensions",
+            "Pre-alpha release",
+            "Google and Facebook login",
+            "Alpha release",
+            "Release candidate 1",
             "compatibility first, then security, then speed",
-            "Months, not years.",
-            "72-item",
+            "months, not years",
         ):
             if marker not in text:
                 errors.append(f"{relative}: evidence boundary is missing {marker!r}")

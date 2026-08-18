@@ -110,17 +110,18 @@ html[data-theme="dark"] .site-brand__name span, html[data-theme="dark"] .site-fo
   margin-left: auto;
 }
 .site-nav a {
-  padding: 9px 11px;
+  padding: 9px 13px;
+  border: 1px solid var(--line-strong);
   border-radius: 999px;
-  color: var(--ink-faint);
+  color: var(--ink);
   font-size: 12px;
   font-weight: 800;
   text-decoration: none;
   white-space: nowrap;
   transition: color .18s ease, background .18s ease;
 }
-.site-nav a:hover, .site-nav a[aria-current="page"] { background: var(--panel-muted); color: var(--ink); }
-.nav-support { border: 1px solid var(--line-strong); color: var(--ink) !important; }
+.site-nav a:hover, .site-nav a[aria-current="page"] { background: var(--panel-muted); }
+.nav-support { color: var(--ink); }
 .header-status {
   display: inline-flex;
   flex: 0 0 auto;
@@ -384,7 +385,8 @@ html[data-theme="dark"] .text-link { color: var(--aqua); }
 .cta-band .button--dark { flex: 0 0 auto; }
 
 /* Homepage: lineage + policy evidence */
-.where-start__evidence { max-width: 880px; margin-top: 64px; }
+.where-start__evidence { display: grid; grid-template-columns: .95fr 1.05fr; gap: 70px; align-items: center; margin-top: 64px; }
+.where-start__note { margin: 0; color: var(--ink-soft); font-size: 16px; line-height: 1.78; }
 
 /* Homepage: pace chart + current state */
 .pace__head, .stand__head { display: flex; justify-content: space-between; align-items: end; gap: 50px; }
@@ -480,6 +482,7 @@ html[data-theme="dark"] .info-card > span { color: var(--aqua); }
 .roadmap-list p { margin: 0; color: #a3bdb0; font-size: 13px; line-height: 1.65; }
 .roadmap-list__state { justify-self: end; padding: 6px 8px; border: 1px solid rgba(226,255,230,.18); border-radius: 999px; color: #9fc0af; font: 500 9px "DM Mono", monospace; text-transform: uppercase; }
 .roadmap-list li.is-current .roadmap-list__state { border-color: rgba(200,255,98,.5); color: var(--acid); }
+.roadmap-list li.is-done .roadmap-list__state { border-color: rgba(67,184,141,.55); color: #43b88d; }
 .extension-plan { background: var(--paper); }
 .extension-plan__grid { display: grid; grid-template-columns: .92fr 1.08fr; gap: 80px; align-items: start; }
 .extension-plan__copy h2 { max-width: 11ch; }
@@ -633,7 +636,8 @@ html[data-theme="dark"] .journal-entry__content > span { color: var(--aqua); }
   .proof-strip__inner { grid-template-columns: repeat(2, 1fr); }
   .proof-stat:nth-child(2) { border-right: 1px solid var(--line); }
   .proof-stat:nth-child(n+3) { border-top: 1px solid var(--line); }
-  .manifesto, .frontier__inner, .upstream-band__inner, .roadmap-intro, .browser-intro, .status-boundary, .team-principle, .extension-plan__grid, .extension-callout__inner { grid-template-columns: 1fr; gap: 34px; }
+  .manifesto, .frontier__inner, .upstream-band__inner, .roadmap-intro, .browser-intro, .status-boundary, .team-principle, .extension-plan__grid, .extension-callout__inner, .where-start__evidence { grid-template-columns: 1fr; gap: 34px; }
+  .where-start__evidence { align-items: start; }
   .method__intro, .roadmap-preview__header, .roadmap-dashboard__intro, .section-heading, .cta-band__inner, .pace__head, .stand__head { display: block; }
   .method__intro > p:last-child, .roadmap-preview__header > p, .roadmap-dashboard__intro > p, .section-heading > p:last-child, .pace__head > p, .stand__head > p { margin-top: 22px; }
   .method-grid, .card-grid, .lineage, .browser-pillars, .support-grid { grid-template-columns: 1fr; }
