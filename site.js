@@ -9,6 +9,7 @@
     "/status.html": "/status/",
     "/team.html": "/team/",
     "/support.html": "/support/",
+    "/contact.html": "/contact/",
   };
 
   function redirectLegacyPageRoute() {

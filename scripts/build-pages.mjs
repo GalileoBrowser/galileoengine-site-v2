@@ -15,6 +15,7 @@ const cleanPages = [
   { source: "status.html", route: "status", title: "Project status" },
   { source: "team.html", route: "team", title: "Team" },
   { source: "support.html", route: "support", title: "Contribute to the project" },
+  { source: "contact.html", route: "contact", title: "Contact" },
 ];
 
 const publicFiles = [

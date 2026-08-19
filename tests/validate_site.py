@@ -23,6 +23,7 @@ PUBLIC_PAGES = (
     "status.html",
     "team.html",
     "support.html",
+    "contact.html",
     "journal/index.html",
     "404.html",
 )
@@ -34,6 +35,7 @@ CLEAN_ROUTES = {
     "status.html": "/status/",
     "team.html": "/team/",
     "support.html": "/support/",
+    "contact.html": "/contact/",
     "journal/index.html": "/journal/",
     "404.html": "/404.html",
 }
@@ -323,6 +325,19 @@ def validate_public_page(relative: str) -> list[str]:
         ):
             if marker not in text:
                 errors.append(f"{relative}: support boundary is missing {marker!r}")
+    elif relative == "contact.html":
+        for marker in (
+            "contact@galileobrowser.com",
+            "loren@galileobrowser.com",
+            "silviu@galileobrowser.com",
+            "manuel@galileobrowser.com",
+            "github.com/GalileoBrowser/GalileoEngine",
+            "github.com/GalileoBrowser/GalileoExtensions",
+            "galileoengine-site-v2",
+            "Where to say what",
+        ):
+            if marker not in text:
+                errors.append(f"{relative}: contact page is missing {marker!r}")
     elif relative == "journal/index.html":
         for marker in (
             "GitHub Discussions",
