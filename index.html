@@ -24,12 +24,12 @@
   <header class="site-header">
     <div class="site-header__inner">
       <a class="site-brand" href="#top" aria-label="Galileo home"><img src="/assets/galileo-symbol.png" alt="" width="52" height="52"><span class="site-brand__name">Galileo<span>Browser</span></span></a>
-      <nav class="site-nav" id="primary-navigation" aria-label="Primary navigation">
+      <nav class="site-nav" id="primary-navigation" aria-label="Primary navigation"><a href="/" aria-current="page">Home</a>
         <a href="/galileo-browser/">Galileo Browser</a>
         <a href="/roadmap/">Roadmap</a>
-        <a href="/journal/">Discussions</a>
+        <a href="/journal/">Newsletter</a>
         <a href="/team/">Team</a>
-        <a class="nav-support" href="/support/">Contribute to the project</a>
+        <a class="nav-support" href="/support/">About</a>
         <a href="/contact/">Contact</a>
       </nav>
       <div class="theme-switch" role="group" aria-label="Color theme"><button type="button" data-theme-choice="light" aria-pressed="true">Light</button><button type="button" data-theme-choice="dark" aria-pressed="false">Dark</button></div>
@@ -42,7 +42,7 @@
       <div class="hero__inner">
         <div class="hero__copy">
           <p class="eyebrow">From Europe / open source, accelerated</p>
-          <h1 id="hero-title">Open source, <em>accelerated.</em></h1>
+          <h1 id="hero-title">Open source, <em>accelerated&#8288;.</em></h1>
           <p class="hero__lead">We are a small team from Europe that uses AI to critically accelerate the development of open-source software. We prioritize security and features. Our first project is a web browser engine and a web browser — Galileo Engine and Galileo Browser — forked from Servo, an existing project. The target: full completion in months, not years.</p>
           <div class="hero__actions">
             <a class="button button--primary" href="/galileo-browser/">See what it does today <span aria-hidden="true">→</span></a>
@@ -54,9 +54,10 @@
           </div>
         </div>
         <div class="hero__visual">
-          <figure class="hero-art">
-            <div class="hero-art__frame"><img src="/assets/ai-acceleration.png" alt="A human runner and a robot runner exchanging a glowing baton marked with web and code symbols" width="1492" height="1054"></div>
-          </figure>
+          <div class="hero__orbit hero__orbit--one" aria-hidden="true"></div>
+          <div class="hero__orbit hero__orbit--two" aria-hidden="true"></div>
+          <img src="/assets/galileo-symbol.png" alt="GalileoEngine symbol" width="1254" height="1254">
+          <p class="hero__caption"><span>01</span>Work in progress</p>
         </div>
       </div>
     </section>
@@ -79,13 +80,20 @@
         </figure>
       </div>
     </section>
+    <section class="page-section ai-accel">
+      <p class="eyebrow">The method</p>
+      <figure class="ai-accel__frame">
+        <img src="/assets/ai-acceleration.png" alt="A human runner and a robot runner exchanging a glowing baton marked with web and code symbols" width="1492" height="1054" loading="lazy">
+        <figcaption><span>02</span> The handoff — volume from AI, ownership from the team</figcaption>
+      </figure>
+    </section>
   </main>
 
   <footer class="site-footer">
     <div class="site-footer__inner">
       <a class="site-footer__brand" href="#top"><img src="/assets/galileo-symbol.png" alt="" width="42" height="42"><span>Galileo<span>Browser</span></span></a>
       <p class="site-footer__note">A small team from Europe accelerating open-source software — starting with a browser, aiming at the missing tools around it.</p>
-      <div class="site-footer__links"><a href="/platform/">Browser engine</a><a href="/roadmap/">Roadmap</a><a href="/galileo-browser/">Browser</a><a href="/team/">Team</a><a href="/journal/">Discussions</a><a href="/status/">Status</a><a href="https://github.com/GalileoBrowser/GalileoEngine">Source ↗</a></div>
+      <div class="site-footer__links"><a href="/platform/">Browser engine</a><a href="/roadmap/">Roadmap</a><a href="/galileo-browser/">Browser</a><a href="/team/">Team</a><a href="/journal/">Newsletter</a><a href="/status/">Status</a><a href="https://github.com/GalileoBrowser/GalileoEngine">Source ↗</a></div>
       <p class="site-footer__meta">GalileoEngine / research stage / 2026</p>
     </div>
   </footer>

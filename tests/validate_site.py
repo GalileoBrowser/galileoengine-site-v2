@@ -232,12 +232,12 @@ def validate_public_page(relative: str) -> list[str]:
         errors.append(f"{relative}: more than one current-page marker")
     if 'href="/team/"' not in text:
         errors.append(f"{relative}: Team navigation link is missing")
-    if '<a class="nav-support" href="/support/"' not in text or "Contribute to the project</a>" not in text:
-        errors.append(f"{relative}: Contribute navigation link is missing or mislabeled")
+    if '<a class="nav-support" href="/support/"' not in text or "About</a>" not in text:
+        errors.append(f"{relative}: About navigation link is missing or mislabeled")
     if 'href="/roadmap/"' not in text or "Roadmap</a>" not in text:
         errors.append(f"{relative}: Roadmap navigation link is missing or mislabeled")
-    if 'href="/journal/"' not in text or "Discussions</a>" not in text:
-        errors.append(f"{relative}: Discussions navigation link is missing or mislabeled")
+    if 'href="/journal/"' not in text or "Newsletter</a>" not in text:
+        errors.append(f"{relative}: Newsletter navigation link is missing or mislabeled")
     if "family=Manrope" not in text:
         errors.append(f"{relative}: Manrope font request is missing")
     if 'href="/galileo.css?' not in text or 'src="/site.js?' not in text:
