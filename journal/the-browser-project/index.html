@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The browser project — Galileo Journal</title>
+  <meta name="description" content="Why a small team decided to build a browser: Europe's dependence on a handful of platforms, the Manifest V2/3 transition, Servo as the starting point, and the experiment of AI-assisted, human-owned development.">
+  <meta name="theme-color" content="#f4f8f5">
+  <link rel="canonical" href="https://galileobrowser.com/journal/the-browser-project/"><meta property="og:title" content="The browser project"><meta property="og:description" content="Why a small team decided to build a browser, why Servo is the starting point, and what AI-assisted, human-owned development is actually meant to test."><meta property="og:url" content="https://galileobrowser.com/journal/the-browser-project/"><meta property="og:type" content="article"><meta property="article:published_time" content="2026-07-26"><meta property="article:author" content="Loren Bufanu"><meta property="og:image" content="https://galileobrowser.com/assets/galileo-symbol.png"><meta name="twitter:card" content="summary_large_image">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/galileo.css?v=20260818c"><script src="/site.js?v=20260818c" defer></script>
+</head>
+<body data-page="post">
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <header class="site-header"><div class="site-header__inner"><a class="site-brand" href="/" aria-label="Galileo home"><img src="/assets/galileo-symbol.png" alt="" width="52" height="52"><span class="site-brand__name">Galileo<span>Browser</span></span></a><nav class="site-nav" id="primary-navigation" aria-label="Primary navigation"><a href="/">Home</a><a href="/galileo-browser/">Galileo Browser</a><a href="/roadmap/">Roadmap</a><a href="/journal/" aria-current="page">Newsletter</a><a href="/team/">Team</a><a class="nav-support" href="/support/">About</a><a href="/contact/">Contact</a></nav><div class="theme-switch" role="group" aria-label="Color theme"><button type="button" data-theme-choice="light" aria-pressed="true">Light</button><button type="button" data-theme-choice="dark" aria-pressed="false">Dark</button></div><button class="menu-toggle" type="button" aria-label="Open navigation" aria-controls="primary-navigation" aria-expanded="false"><span class="menu-toggle__icon"></span></button></div></header>
+
+  <main id="main-content">
+    <section class="page-hero"><div class="page-hero__inner"><p class="eyebrow">Newsletter / first post</p><h1>The browser project.</h1><p class="page-hero__lead">Why a small team decided to build a browser, why Servo is the starting point, and what “AI-assisted, human-owned” development is actually meant to test.</p></div><img class="page-hero__mark" src="/assets/galileo-symbol.png" alt="GalileoEngine symbol" width="1254" height="1254"></section>
+
+    <section class="page-section">
+      <article class="post">
+        <p class="post__byline"><strong>Loren Bufanu</strong><span>26 July 2026</span><span>8 min read</span></p>
+
+        <p>I've been spending a lot of time lately experimenting with AI-assisted development.</p>
+
+        <p>After finishing my latest project — an Arduino core for a very power-efficient microcontroller — I wanted a new challenge. Not another weekend project, but something difficult enough that, a few years ago, I probably would not even have considered attempting it with such a small team.</p>
+
+        <p>So, naturally, we decided to build a browser.</p>
+
+        <p>There is a bit more reasoning behind that than it sounds.</p>
+
+        <p>I've also been reading a lot about Europe's position in technology and our increasing dependence on products and platforms built elsewhere. This is not just the usual “Europe is falling behind” argument. The Draghi report on European competitiveness makes the problem fairly explicit: Europe largely missed the internet-led digital revolution, the technology sector explains a large part of the productivity gap with the US, and only four of the world's top 50 technology companies were European when the report was written.</p>
+
+        <p>That does not mean that everything needs to be European for the sake of being European. But I do think it is unhealthy for so much of our digital infrastructure to depend on decisions made by a very small number of companies.</p>
+
+        <p>Browsers are a particularly good example.</p>
+
+        <p>Chrome alone currently represents roughly two-thirds of worldwide browser usage. That does not mean Google literally “controls the web”, but it does mean that decisions made around Chrome and Chromium can have an enormous effect on developers, extensions and ultimately users.</p>
+
+        <p>The Manifest V2/Manifest V3 transition is one of the things that pushed this higher on my list.</p>
+
+        <p>Chrome has now disabled Manifest V2, and the extension model that replaced it removed the <em>blockingWebRequest</em> capability that full uBlock Origin depended on. Firefox chose differently: Mozilla continues to support both Manifest V2 and V3 and has explicitly retained the blocking API alongside <em>declarativeNetRequest</em>.</p>
+
+        <p>So no, this is not me claiming that Firefox is about to do exactly what Chrome did. Right now, the evidence says the opposite.</p>
+
+        <p>What bothered me was the bigger principle behind it: the browser is the platform through which we access an enormous part of modern computing, yet users have surprisingly little influence over the direction of that platform.</p>
+
+        <p>And when one implementation becomes dominant enough, everyone else eventually has to spend a lot of time being compatible with its decisions.</p>
+
+        <p>There are alternatives, of course. Safari has WebKit. Firefox has Gecko. There are Chromium-based browsers with very different philosophies from Chrome, and there are Firefox derivatives doing interesting work as well. But changing the interface around an existing engine is not the same thing as creating another genuinely independent engine ecosystem.</p>
+
+        <p>That was the rabbit hole.</p>
+
+        <p>Two open-source projects in particular stood out to me: Ladybird and Servo.</p>
+
+        <p>Ladybird is fascinating. It is building an independent browser engine from the ground up rather than forking Blink, WebKit or Gecko. Its team has also become very open about using AI tools in development, while incrementally moving parts of the browser — particularly components handling untrusted data — from C++ to Rust.</p>
+
+        <p>I have a lot of respect for what they are doing, but it was not the starting point I wanted.</p>
+
+        <p>Servo was.</p>
+
+        <p>Servo already gives us a substantial, modern web engine written in Rust. It was originally created by Mozilla Research, moved into Linux Foundation stewardship in 2020 and has been part of Linux Foundation Europe since 2023, with renewed development involving Igalia.</p>
+
+        <p>Most importantly for what I had in mind, we would not be starting from zero.</p>
+
+        <p>Servo is nowhere near “finished”, and I do not want to pretend otherwise. It has made a huge amount of progress, but important browser functionality and web compatibility work is still ongoing. Its June 2026 update, for example, was still introducing visible interactive text selection, expanding accessibility support and fixing interaction problems on real-world sites.</p>
+
+        <p>And that is precisely what made it interesting to me.</p>
+
+        <p>There was one major incompatibility between our idea and the upstream Servo project: AI.</p>
+
+        <p>Servo has a very clear policy that does not allow AI-generated contributions. That applies not only to code but also to documentation, issues, comments and other project contributions. Their maintainers have explained their reasons, including review burden, correctness, security and provenance concerns.</p>
+
+        <figure class="policy-figure post__figure">
+          <div class="policy-figure__frame"><img src="/assets/servo-ai-policy.png" alt="Screenshot of the Servo Book section: AI contributions must not include content generated by large language models"></div>
+          <figcaption><span>Source: Servo Book / AI contributions</span><a href="https://book.servo.org/contributing/getting-started.html#ai-contributions">Read the full policy ↗</a></figcaption>
+        </figure>
+
+        <p>I respect that decision. It is their project and their community, and trying to work around that policy would be the wrong thing to do.</p>
+
+        <p>But the experiment I wanted to run was almost the opposite:</p>
+
+        <blockquote>How far can a small team push a modern browser engine if AI is treated as a development tool, while humans remain responsible for architecture, review, testing and every line that actually gets merged?</blockquote>
+
+        <p>So instead of trying to push AI-generated work upstream, I decided to make an independent fork and take it in a different direction.</p>
+
+        <p>I called two friends of mine, Silviu and Manuel.</p>
+
+        <p>They were both on board.</p>
+
+        <p>And we got to work.</p>
+
+        <p>The slightly ridiculous version of the mission is:</p>
+
+        <blockquote>Let's finish the browser.</blockquote>
+
+        <p>The more serious version is that we want to take our Servo-based engine all the way from an experimental rendering engine to a browser that people can genuinely use.</p>
+
+        <p>Our first major goal is extension compatibility.</p>
+
+        <p>Long term, we want extensions written for Firefox and Chromium-style WebExtensions to require as little modification as possible. We do not want to invent a completely incompatible extension ecosystem and then ask developers to support one more proprietary platform.</p>
+
+        <p>At the same time, we want to experiment with additional capabilities through our own optional extension APIs. Things browsers do not expose today could become possible without breaking standard WebExtensions — for example richer floating UI surfaces, persistent panels or bubble-style extension interfaces rather than being limited to the traditional rectangular action popup.</p>
+
+        <p>The distinction matters: websites should remain standards-compatible; experimental features should live in an explicitly browser-specific extension layer. That lets us innovate without creating yet another version of “this website only works in browser X”.</p>
+
+        <p>Privacy and user control are equally important.</p>
+
+        <p>The goal is no mandatory online account. Browser data should belong to the user. For people who want synchronisation between computers, the idea is encrypted device-to-device synchronisation over the local network or a user-controlled VPN rather than requiring everybody to create an account on our servers.</p>
+
+        <p>Bookmarks, open tabs, settings, history and eventually other browser state should be able to follow you between your own machines without us needing to sit in the middle.</p>
+
+        <p>Ad blocking will not be treated as an adversarial feature that the browser reluctantly tolerates. We want powerful content blocking to remain possible, whether through compatible extension APIs or native browser functionality.</p>
+
+        <p>And the entire project will remain open source throughout development.</p>
+
+        <p>The biggest difference from upstream Servo will be our contribution policy.</p>
+
+        <p>We will allow AI-assisted contributions.</p>
+
+        <p>That does not mean automatically merging whatever an AI model produces.</p>
+
+        <p>AI-generated code does not get a lower quality bar. It gets the same — and in security-sensitive areas, probably a higher — bar.</p>
+
+        <p>A contributor must still understand the change. The code must fit the architecture. It must compile. It must be tested. It must survive review. It must not introduce obvious security problems. Where relevant, it must pass web-platform and regression tests. If the implementation is bad, it gets rewritten or rejected, regardless of whether it was produced by a human, an AI model or some combination of the two.</p>
+
+        <p>AI has become dramatically more useful as a software-development tool. Our experiment is to find out how much development time it can genuinely remove when it is combined with strict engineering rather than used as a substitute for engineering.</p>
+
+        <p>I think that distinction is important.</p>
+
+        <p>I'm not interested in generating millions of lines of code as quickly as possible.</p>
+
+        <p>I'm interested in shipping a good browser sooner.</p>
+
+        <p>That also means being realistic about the timeline.</p>
+
+        <p>I would like us to reach a genuinely usable alpha in months rather than years. Full Chrome/Firefox/Safari-level browser parity is a much larger goal, and I am not going to pretend that three people and a collection of AI models can magically compress decades of accumulated browser engineering into six months.</p>
+
+        <p>But Servo means we are not starting from an empty repository. AI means certain classes of implementation, testing, debugging and repetitive integration work can now move considerably faster. And a small team means we can make architectural decisions without spending six months organising the meeting about the meeting.</p>
+
+        <p>So that is the experiment:</p>
+
+        <blockquote>Can we turn an existing independent open-source engine into a real daily-use browser much faster than would previously have been practical?</blockquote>
+
+        <p class="post__statement">Servo does not accept AI-generated contributions — and that is a fair rule: it protects maintainers from code nobody can explain, test, or defend. Galileo is the other side of the same question. A small team uses AI to generate the volume, and the volume has to earn its place — with tests, retained evidence, and human review. We started with a browser because the web needs one now more than ever: a browser you can actually own, whose rules you can read, whose ad-blockers stay yours. If the method works here, it applies to whatever deserves to move next.</p>
+
+        <p>The browser is only intended to be the first product.</p>
+
+        <p>The longer-term idea is a larger open-source ecosystem built around the same principles: local-first where practical, interoperable, user-controlled, no mandatory cloud account, open to modification, and designed so that the people using the software are not trapped behind one company's services.</p>
+
+        <p>That is a much bigger ambition, and we're nowhere near it yet.</p>
+
+        <p>For now, we have one job.</p>
+
+        <p>Build the browser.</p>
+
+        <p>Or, as we've started saying between ourselves:</p>
+
+        <blockquote>Let's finish the web browser.</blockquote>
+
+        <p class="post__back"><a class="text-link" href="/journal/">← Back to the newsletter</a></p>
+      </article>
+    </section>
+  </main>
+
+  <footer class="site-footer"><div class="site-footer__inner"><a class="site-footer__brand" href="/"><img src="/assets/galileo-symbol.png" alt="" width="42" height="42"><span>Galileo<span>Browser</span></span></a><p class="site-footer__note">The Journal keeps the project’s reasoning close to the source and open to replies.</p><div class="site-footer__links"><a href="/platform/">Browser engine</a><a href="/roadmap/">Roadmap</a><a href="/galileo-browser/">Browser</a><a href="/team/">Team</a><a href="/support/">Contribute</a><a href="/status/">Status</a></div><p class="site-footer__meta">Galileo / journal / 2026</p></div></footer>
+</body>
+</html>

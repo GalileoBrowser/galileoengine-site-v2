@@ -25,6 +25,7 @@ PUBLIC_PAGES = (
     "support.html",
     "contact.html",
     "journal/index.html",
+    "journal/the-browser-project/index.html",
     "404.html",
 )
 CLEAN_ROUTES = {
@@ -43,6 +44,10 @@ LEGACY_CLEAN_PAGES = {
     page: route
     for page, route in CLEAN_ROUTES.items()
     if page not in {"index.html", "journal/index.html", "404.html"}
+}
+CANONICAL_ROUTES = {
+    **CLEAN_ROUTES,
+    "journal/the-browser-project/index.html": "/journal/the-browser-project/",
 }
 REDIRECT_PAGES = {
     "Home.dc.html": "/",
@@ -247,7 +252,7 @@ def validate_public_page(relative: str) -> list[str]:
     if 'name="theme-color"' not in text:
         errors.append(f"{relative}: theme color metadata is missing")
     if relative != "404.html":
-        expected_url = "https://galileobrowser.com" + CLEAN_ROUTES[relative]
+        expected_url = "https://galileobrowser.com" + CANONICAL_ROUTES[relative]
         if f'<link rel="canonical" href="{expected_url}">' not in text:
             errors.append(f"{relative}: canonical URL is missing or incorrect")
         if f'<meta property="og:url" content="{expected_url}">' not in text:
@@ -267,11 +272,25 @@ def validate_public_page(relative: str) -> list[str]:
             "Galileo Browser",
             "Servo",
             "assets/galileo-symbol.png",
-            "assets/servo-ai-policy.png",
             "26 Jul 2026",
             "Mozilla Research starts Servo",
             "in months, not years",
             "2012",
+        ):
+            if marker not in text:
+                errors.append(f"{relative}: identity marker is missing {marker!r}")
+    elif relative == "journal/the-browser-project/index.html":
+        for marker in (
+            "The browser project",
+            "26 July 2026",
+            "Loren Bufanu",
+            "Servo was.",
+            "Ladybird",
+            "Draghi report",
+            "Manifest V2",
+            "assets/servo-ai-policy.png",
+            "Let's finish the browser.",
+            "AI-assisted contributions",
         ):
             if marker not in text:
                 errors.append(f"{relative}: identity marker is missing {marker!r}")
@@ -344,6 +363,9 @@ def validate_public_page(relative: str) -> list[str]:
             "JOURNAL_ENTRIES_START",
             "github.com/GalileoBrowser/galileoengine-site-v2/discussions/categories/announcements",
             "github.com/GalileoBrowser/GalileoEngine/discussions",
+            'href="/journal/the-browser-project/"',
+            "The browser project",
+            "26 July 2026",
         ):
             if marker not in text:
                 errors.append(f"{relative}: Journal integration marker is missing {marker!r}")
@@ -624,7 +646,7 @@ def smoke_http(base_url: str) -> list[str]:
     errors: list[str] = []
     expected = {
         **{
-            CLEAN_ROUTES[page].lstrip("/"): "text/html"
+            CANONICAL_ROUTES[page].lstrip("/"): "text/html"
             for page in PUBLIC_PAGES
         },
         **{page: "text/html" for page in REDIRECT_PAGES},
