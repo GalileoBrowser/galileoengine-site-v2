@@ -5,8 +5,6 @@ import { fileURLToPath } from "node:url";
 const scriptDirectory = path.dirname(fileURLToPath(import.meta.url));
 const projectRoot = path.resolve(scriptDirectory, "..");
 const outputRoot = path.join(projectRoot, "dist");
-const repository = process.env.GITHUB_REPOSITORY || "GalileoBrowser/galileoengine-site-v2";
-const discussionCategory = "announcements";
 
 const cleanPages = [
   { source: "platform.html", route: "platform", title: "Engine" },
@@ -14,8 +12,9 @@ const cleanPages = [
   { source: "galileo-browser.html", route: "galileo-browser", title: "Galileo Browser" },
   { source: "status.html", route: "status", title: "Project status" },
   { source: "team.html", route: "team", title: "Team" },
-  { source: "support.html", route: "support", title: "Contribute to the project" },
+  { source: "support.html", route: "support", title: "About" },
   { source: "contact.html", route: "contact", title: "Contact" },
+  { source: "newsletter.html", route: "newsletter", title: "Newsletter" },
 ];
 
 const publicFiles = [
@@ -65,86 +64,6 @@ function formatDate(value) {
   }).format(new Date(value));
 }
 
-async function loadJournalEntries() {
-  const token = process.env.GITHUB_TOKEN || process.env.GH_TOKEN;
-  if (!token) {
-    console.warn("GitHub token not available; building the Journal empty state.");
-    return [];
-  }
-
-  const [owner, name] = repository.split("/");
-  const query = `
-    query JournalEntries($owner: String!, $name: String!) {
-      repository(owner: $owner, name: $name) {
-        discussions(first: 24, orderBy: { field: CREATED_AT, direction: DESC }) {
-          nodes {
-            number
-            title
-            url
-            bodyText
-            createdAt
-            category { name slug }
-            author { login avatarUrl url }
-            comments { totalCount }
-            upvoteCount
-          }
-        }
-      }
-    }
-  `;
-
-  const response = await fetch("https://api.github.com/graphql", {
-    method: "POST",
-    headers: {
-      Accept: "application/vnd.github+json",
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-      "User-Agent": "galileoengine-pages-build",
-    },
-    body: JSON.stringify({ query, variables: { owner, name } }),
-  });
-
-  if (!response.ok) {
-    throw new Error(`GitHub Discussions request failed with HTTP ${response.status}.`);
-  }
-
-  const payload = await response.json();
-  if (payload.errors?.length) {
-    throw new Error(`GitHub Discussions request failed: ${payload.errors[0].message}`);
-  }
-
-  return (payload.data?.repository?.discussions?.nodes ?? []).filter(
-    (item) => item.category?.slug === discussionCategory,
-  );
-}
-
-function renderEntry(item) {
-  const author = item.author?.login || "GalileoEngine team";
-  const avatar = item.author?.avatarUrl || "/assets/galileo-symbol.png";
-  const replies = Number(item.comments?.totalCount || 0);
-  const upvotes = Number(item.upvoteCount || 0);
-
-  return `        <article class="journal-entry">
-          <p class="journal-entry__meta"><span>${escapeHtml(formatDate(item.createdAt))}</span><span>Discussion #${escapeHtml(item.number)}</span></p>
-          <div class="journal-entry__content">
-            <span>${escapeHtml(item.category?.name || "Galileo Journal")}</span>
-            <h3><a href="${escapeHtml(item.url)}">${escapeHtml(item.title)}</a></h3>
-            <p class="journal-entry__excerpt">${escapeHtml(excerpt(item.bodyText))}</p>
-            <a class="journal-entry__author" href="${escapeHtml(item.author?.url || item.url)}"><img src="${escapeHtml(avatar)}" alt="" width="26" height="26"><span>@${escapeHtml(author)}</span></a>
-          </div>
-          <div class="journal-entry__signals"><span>${replies} ${replies === 1 ? "reply" : "replies"}</span><span>${upvotes} ${upvotes === 1 ? "upvote" : "upvotes"}</span><a href="${escapeHtml(item.url)}">Read &amp; discuss <span aria-hidden="true">↗</span></a></div>
-        </article>`;
-}
-
-function renderEmptyState() {
-  return `        <article class="journal-entry journal-entry--empty">
-          <p class="journal-entry__meta"><span>No updates yet</span></p>
-          <h3>The first project note is being prepared.</h3>
-          <p>Until then, GitHub Discussions is the place to ask questions and follow the project.</p>
-          <a class="text-link" href="https://github.com/GalileoBrowser/GalileoEngine/discussions" target="_blank" rel="noopener">Open the project discussions <span aria-hidden="true">↗</span></a>
-        </article>`;
-}
-
 function renderLegacyPageRedirect({ route, title }) {
   const destination = `/${route}/`;
   const canonical = `https://galileobrowser.com${destination}`;
@@ -183,6 +102,9 @@ async function build() {
   await cp(path.join(projectRoot, "journal"), path.join(outputRoot, "journal"), {
     recursive: true,
   });
+  await cp(path.join(projectRoot, "newsletter"), path.join(outputRoot, "newsletter"), {
+    recursive: true,
+  });
   await cp(path.join(projectRoot, "data"), path.join(outputRoot, "data"), {
     recursive: true,
   });
@@ -195,23 +117,8 @@ async function build() {
     await writeFile(path.join(outputRoot, page.source), renderLegacyPageRedirect(page), "utf8");
   }
 
-  const entries = await loadJournalEntries();
-  const journalPath = path.join(outputRoot, "journal", "index.html");
-  const template = await readFile(journalPath, "utf8");
-  const startMarker = "        <!-- JOURNAL_ENTRIES_START -->";
-  const endMarker = "        <!-- JOURNAL_ENTRIES_END -->";
-  const start = template.indexOf(startMarker);
-  const end = template.indexOf(endMarker);
-  if (start < 0 || end < 0 || end <= start) {
-    throw new Error("Journal entry markers are missing or out of order.");
-  }
-
-  const rendered = entries.length ? entries.map(renderEntry).join("\n") : renderEmptyState();
-  const output = `${template.slice(0, start)}${startMarker}\n${rendered}\n${template.slice(end)}`;
-  await writeFile(journalPath, output, "utf8");
-
   console.log(
-    `Built GitHub Pages artifact with ${cleanPages.length} clean routes and ${entries.length} Journal entr${entries.length === 1 ? "y" : "ies"}.`,
+    `Built GitHub Pages artifact with ${cleanPages.length} clean routes.`,
   );
 }
 

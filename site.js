@@ -10,6 +10,7 @@
     "/team.html": "/team/",
     "/support.html": "/support/",
     "/contact.html": "/contact/",
+    "/newsletter.html": "/newsletter/",
   };
 
   function redirectLegacyPageRoute() {

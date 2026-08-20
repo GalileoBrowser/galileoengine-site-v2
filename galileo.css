@@ -678,6 +678,18 @@ html[data-theme="dark"] .journal-entry__content > span { color: var(--aqua); }
 .journal-entry--empty { display: block; padding: 42px 0; }
 .journal-entry--empty h3 { margin-top: 20px; }
 
+/* Newsletter */
+.newsletter-hero .page-hero__inner { display: flex; justify-content: space-between; align-items: flex-start; gap: 60px; }
+.newsletter-hero__copy { max-width: 720px; }
+.newsletter-hero__side { flex-shrink: 0; display: grid; gap: 14px; justify-items: end; text-align: right; max-width: 230px; padding-top: 10px; }
+.newsletter-hero__side .button--ghost { border-color: rgba(30, 78, 59, .3); color: var(--ink); white-space: nowrap; }
+.newsletter-hero__side .button--ghost:hover { background: rgba(30, 78, 59, .07); }
+html[data-theme="dark"] .newsletter-hero__side .button--ghost { border-color: rgba(226, 255, 230, .28); color: #f0f8ed; }
+html[data-theme="dark"] .newsletter-hero__side .button--ghost:hover { background: rgba(255, 255, 255, .08); }
+.newsletter-hero__note { color: var(--slab-muted); font: 500 10px/1.7 "DM Mono", monospace; letter-spacing: .06em; text-transform: uppercase; }
+.newsletter-hero .page-hero__mark { top: auto; bottom: 44px; width: min(22vw, 280px); opacity: .9; }
+.newsletter-soon { margin: 26px 0 0; color: var(--ink-faint); font: 500 11px/1.6 "DM Mono", monospace; letter-spacing: .06em; text-transform: uppercase; }
+
 /* Newsletter post */
 .post { max-width: 72ch; margin: 0 auto; }
 .post__byline { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 18px; margin: 0 0 38px; padding: 13px 18px; border: 1px solid var(--line); border-radius: 14px; background: var(--panel); color: var(--ink-faint); font: 500 10px/1.6 "DM Mono", monospace; letter-spacing: .06em; text-transform: uppercase; }
@@ -752,6 +764,8 @@ html[data-theme="dark"] .post__statement { background: rgba(255, 255, 255, .035)
   .journal-entry { grid-template-columns: 1fr; gap: 11px; }
   .journal-entry__signals { display: flex; justify-content: flex-start; align-items: center; flex-wrap: wrap; justify-items: start; }
   .journal-entry__signals a { margin-top: 0; }
+  .newsletter-hero .page-hero__inner { flex-direction: column; align-items: stretch; }
+  .newsletter-hero__side { justify-items: start; text-align: left; padding-top: 28px; }
   .site-footer__inner { grid-template-columns: 1fr 1fr; }
   .site-footer__meta { grid-column: 1/-1; text-align: left; }
 }

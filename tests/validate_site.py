@@ -24,8 +24,8 @@ PUBLIC_PAGES = (
     "team.html",
     "support.html",
     "contact.html",
-    "journal/index.html",
-    "journal/the-browser-project/index.html",
+    "newsletter.html",
+    "newsletter/the-browser-project/index.html",
     "404.html",
 )
 CLEAN_ROUTES = {
@@ -37,7 +37,7 @@ CLEAN_ROUTES = {
     "team.html": "/team/",
     "support.html": "/support/",
     "contact.html": "/contact/",
-    "journal/index.html": "/journal/",
+    "newsletter.html": "/newsletter/",
     "404.html": "/404.html",
 }
 LEGACY_CLEAN_PAGES = {
@@ -47,7 +47,7 @@ LEGACY_CLEAN_PAGES = {
 }
 CANONICAL_ROUTES = {
     **CLEAN_ROUTES,
-    "journal/the-browser-project/index.html": "/journal/the-browser-project/",
+    "newsletter/the-browser-project/index.html": "/newsletter/the-browser-project/",
 }
 REDIRECT_PAGES = {
     "Home.dc.html": "/",
@@ -58,6 +58,7 @@ REDIRECT_PAGES = {
     "Status.dc.html": "/status/",
     "Team.dc.html": "/team/",
     "products.html": "/galileo-browser/",
+    "journal/index.html": "/newsletter/",
 }
 REQUIRED_ASSETS = (
     "galileo.css",
@@ -241,7 +242,7 @@ def validate_public_page(relative: str) -> list[str]:
         errors.append(f"{relative}: About navigation link is missing or mislabeled")
     if 'href="/roadmap/"' not in text or "Roadmap</a>" not in text:
         errors.append(f"{relative}: Roadmap navigation link is missing or mislabeled")
-    if 'href="/journal/"' not in text or "Newsletter</a>" not in text:
+    if 'href="/newsletter/"' not in text or "Newsletter</a>" not in text:
         errors.append(f"{relative}: Newsletter navigation link is missing or mislabeled")
     if "family=Manrope" not in text:
         errors.append(f"{relative}: Manrope font request is missing")
@@ -279,7 +280,18 @@ def validate_public_page(relative: str) -> list[str]:
         ):
             if marker not in text:
                 errors.append(f"{relative}: identity marker is missing {marker!r}")
-    elif relative == "journal/the-browser-project/index.html":
+    elif relative == "newsletter.html":
+        for marker in (
+            "Galileo Newsletter",
+            'href="/newsletter/the-browser-project/"',
+            "github.com/GalileoBrowser/GalileoEngine/discussions",
+            "26 July 2026",
+            "The browser project",
+            "more will follow soon",
+        ):
+            if marker not in text:
+                errors.append(f"{relative}: newsletter marker is missing {marker!r}")
+    elif relative == "newsletter/the-browser-project/index.html":
         for marker in (
             "The browser project",
             "26 July 2026",
@@ -357,19 +369,6 @@ def validate_public_page(relative: str) -> list[str]:
         ):
             if marker not in text:
                 errors.append(f"{relative}: contact page is missing {marker!r}")
-    elif relative == "journal/index.html":
-        for marker in (
-            "GitHub Discussions",
-            "JOURNAL_ENTRIES_START",
-            "github.com/GalileoBrowser/galileoengine-site-v2/discussions/categories/announcements",
-            "github.com/GalileoBrowser/GalileoEngine/discussions",
-            'href="/journal/the-browser-project/"',
-            "The browser project",
-            "26 July 2026",
-        ):
-            if marker not in text:
-                errors.append(f"{relative}: Journal integration marker is missing {marker!r}")
-
     return errors
 
 
