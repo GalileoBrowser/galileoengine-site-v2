@@ -22,23 +22,23 @@
 
         <p>I've been spending a lot of time lately experimenting with AI-assisted development.</p>
 
-        <p>After finishing my latest project — an Arduino core for a very power-efficient microcontroller — I wanted a new challenge. Not another weekend project, but something difficult enough that, a few years ago, I probably would not even have considered attempting it with such a small team.</p>
+        <p>After finishing my latest project — an <a class="post-link" href="https://github.com/lolren/nrf54-arduino-core" target="_blank" rel="noopener">Arduino core↗</a> for a very power-efficient microcontroller — I wanted a new challenge. Not another weekend project, but something difficult enough that, a few years ago, I probably would not even have considered attempting it with such a small team.</p>
 
         <p>So, naturally, we decided to build a browser.</p>
 
         <p>There is a bit more reasoning behind that than it sounds.</p>
 
-        <p>I've also been reading a lot about Europe's position in technology and our increasing dependence on products and platforms built elsewhere. This is not just the usual “Europe is falling behind” argument. The Draghi report on European competitiveness makes the problem fairly explicit: Europe largely missed the internet-led digital revolution, the technology sector explains a large part of the productivity gap with the US, and only four of the world's top 50 technology companies were European when the report was written.</p>
+        <p>I've also been reading a lot about Europe's position in technology and our increasing dependence on products and platforms built elsewhere. This is not just the usual “Europe is falling behind” argument. The <a class="post-link" href="https://ec.europa.eu/commission/presscorner/detail/en/ip_24_5112" target="_blank" rel="noopener">Draghi report↗</a> on European competitiveness makes the problem fairly explicit: Europe largely missed the internet-led digital revolution, the technology sector explains a large part of the productivity gap with the US, and only four of the world's top 50 technology companies were European when the report was written.</p>
 
         <p>That does not mean that everything needs to be European for the sake of being European. But I do think it is unhealthy for so much of our digital infrastructure to depend on decisions made by a very small number of companies.</p>
 
         <p>Browsers are a particularly good example.</p>
 
-        <p>Chrome alone currently represents roughly two-thirds of worldwide browser usage. That does not mean Google literally “controls the web”, but it does mean that decisions made around Chrome and Chromium can have an enormous effect on developers, extensions and ultimately users.</p>
+        <p>Chrome alone currently represents roughly <a class="post-link" href="https://gs.statcounter.com/browser-market-share" target="_blank" rel="noopener">two-thirds of worldwide browser usage↗</a>. That does not mean Google literally “controls the web”, but it does mean that decisions made around Chrome and Chromium can have an enormous effect on developers, extensions and ultimately users.</p>
 
         <p>The Manifest V2/Manifest V3 transition is one of the things that pushed this higher on my list.</p>
 
-        <p>Chrome has now disabled Manifest V2, and the extension model that replaced it removed the <em>blockingWebRequest</em> capability that full uBlock Origin depended on. Firefox chose differently: Mozilla continues to support both Manifest V2 and V3 and has explicitly retained the blocking API alongside <em>declarativeNetRequest</em>.</p>
+        <p>Chrome has now <a class="post-link" href="https://developer.chrome.com/docs/extensions/develop/migrate/" target="_blank" rel="noopener">disabled Manifest V2↗</a>, and the extension model that replaced it removed the <em><a class="post-link" href="https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/webRequest" target="_blank" rel="noopener">blockingWebRequest↗</a></em> capability that full <a class="post-link" href="https://github.com/gorhill/uBlock" target="_blank" rel="noopener">uBlock Origin↗</a> depended on. Firefox chose differently: Mozilla continues to support both Manifest V2 and V3 and has explicitly retained the blocking API alongside <em><a class="post-link" href="https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/declarativeNetRequest" target="_blank" rel="noopener">declarativeNetRequest↗</a></em>.</p>
 
         <p>So no, this is not me claiming that Firefox is about to do exactly what Chrome did. Right now, the evidence says the opposite.</p>
 
@@ -46,11 +46,11 @@
 
         <p>And when one implementation becomes dominant enough, everyone else eventually has to spend a lot of time being compatible with its decisions.</p>
 
-        <p>There are alternatives, of course. Safari has WebKit. Firefox has Gecko. There are Chromium-based browsers with very different philosophies from Chrome, and there are Firefox derivatives doing interesting work as well. But changing the interface around an existing engine is not the same thing as creating another genuinely independent engine ecosystem.</p>
+        <p>There are alternatives, of course. Safari has <a class="post-link" href="https://webkit.org" target="_blank" rel="noopener">WebKit↗</a>. Firefox has <a class="post-link" href="https://en.wikipedia.org/wiki/Gecko_(layout_engine)" target="_blank" rel="noopener">Gecko↗</a>. There are Chromium-based browsers with very different philosophies from Chrome, and there are Firefox derivatives doing interesting work as well. But changing the interface around an existing engine is not the same thing as creating another genuinely independent engine ecosystem.</p>
 
         <p>That was the rabbit hole.</p>
 
-        <p>Two open-source projects in particular stood out to me: Ladybird and Servo.</p>
+        <p>Two open-source projects in particular stood out to me: <a class="post-link" href="https://ladybird.org" target="_blank" rel="noopener">Ladybird↗</a> and <a class="post-link" href="https://servo.org" target="_blank" rel="noopener">Servo↗</a>.</p>
 
         <p>Ladybird is fascinating. It is building an independent browser engine from the ground up rather than forking Blink, WebKit or Gecko. Its team has also become very open about using AI tools in development, while incrementally moving parts of the browser — particularly components handling untrusted data — from C++ to Rust.</p>
 
@@ -58,7 +58,7 @@
 
         <p>Servo was.</p>
 
-        <p>Servo already gives us a substantial, modern web engine written in Rust. It was originally created by Mozilla Research, moved into Linux Foundation stewardship in 2020 and has been part of Linux Foundation Europe since 2023, with renewed development involving Igalia.</p>
+        <p>Servo already gives us a substantial, modern web engine written in Rust. It was originally created by Mozilla Research, moved into <a class="post-link" href="https://www.linuxfoundation.org" target="_blank" rel="noopener">Linux Foundation↗</a> stewardship in 2020 and has been part of Linux Foundation Europe since 2023, with renewed development involving <a class="post-link" href="https://www.igalia.com" target="_blank" rel="noopener">Igalia↗</a>.</p>
 
         <p>Most importantly for what I had in mind, we would not be starting from zero.</p>
 

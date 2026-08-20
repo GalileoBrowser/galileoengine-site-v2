@@ -695,6 +695,9 @@ html[data-theme="dark"] .newsletter-hero__side .button--ghost:hover { background
 .post__byline { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 18px; margin: 0 0 38px; padding: 13px 18px; border: 1px solid var(--line); border-radius: 14px; background: var(--panel); color: var(--ink-faint); font: 500 10px/1.6 "DM Mono", monospace; letter-spacing: .06em; text-transform: uppercase; }
 .post__byline strong { color: var(--ink); font-weight: 700; }
 .post p { margin: 0 0 22px; color: var(--ink-soft); font-size: 16.5px; line-height: 1.85; }
+.post a { color: inherit; font-weight: 650; text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; text-decoration-color: rgba(35, 122, 75, .45); }
+.post a:hover { text-decoration-color: currentColor; }
+html[data-theme="dark"] .post a { color: #fff; text-decoration-color: rgba(121, 239, 108, .5); }
 .post blockquote { margin: 36px 0; padding: 10px 0 10px 26px; border-left: 3px solid #237a4b; color: var(--ink); font-size: 19px; line-height: 1.6; font-weight: 600; }
 html[data-theme="dark"] .post blockquote { border-color: var(--slab-accent); }
 .post__statement { padding: 24px 28px; border: 1px solid var(--line); border-radius: 20px; background: var(--paper-deep); color: var(--ink-soft); font-size: 17px; line-height: 1.8; }
