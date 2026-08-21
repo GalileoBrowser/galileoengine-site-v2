@@ -16,7 +16,7 @@ Local builds use `data/newsletter-discussions.json` as a reproducible snapshot. 
 
 ## Evidence and status
 
-Roadmap and Status keep different kinds of evidence separate:
+Roadmap keeps current engineering status and longer-term milestones together while separating verified evidence from plans:
 
 - a bounded Phase 0 Core WPT shard;
 - the reviewed Galileo feature inventory;
@@ -44,20 +44,24 @@ pnpm build
 Remove-Item Env:GITHUB_TOKEN
 ```
 
-The build produces `dist/`, including clean route directories and compatibility redirects for former `.html` addresses.
+The build produces `dist/`, including clean route directories and noindex compatibility redirects for former addresses.
 
 ## Public routes
 
 - `/` — project overview
 - `/platform/` — Galileo Engine and its relationship with Servo
 - `/galileo-browser/` — the browser product
-- `/roadmap/` — milestones and current evidence
-- `/status/` — current engineering boundary
+- `/roadmap/` — milestones, current evidence, and the engineering boundary
 - `/newsletter/` — project writing and Discussion-backed updates
 - `/newsletter/discussions/<number>/` — generated update with its public conversation
-- `/team/` — founding team
-- `/contact/` — contact details and repositories
-- `/support/` — contribution and future funding information
+- `/about/` — project identity, Servo foundation, and engineering principles
+- `/contact/` — shared project email and the right channel for each message
+- `/team/` — co-founders, responsibilities, direct email, and GitHub profiles
+- `/github/` — public organization, repositories, Discussions, and issue trackers
+- `/get-involved/` — code, testing, discussion, and future funding information
+- `/contributing/` — contribution scope, review expectations, and evidence guidelines
+
+Former `/status/` and `/support/` URLs are retained only as noindex compatibility redirects to the relevant section above. They are not separate pages or navigation items. Legacy `.html` addresses also redirect to their clean routes.
 
 ## Deployment
 

@@ -15,11 +15,18 @@ const cleanPages = [
   { source: "platform.html", route: "platform", title: "Engine" },
   { source: "roadmap.html", route: "roadmap", title: "Roadmap" },
   { source: "galileo-browser.html", route: "galileo-browser", title: "Galileo Browser" },
-  { source: "status.html", route: "status", title: "Project status" },
-  { source: "team.html", route: "team", title: "Team" },
-  { source: "support.html", route: "support", title: "Contribute" },
+  { source: "about.html", route: "about", title: "About" },
   { source: "contact.html", route: "contact", title: "Contact" },
+  { source: "team.html", route: "team", title: "Team" },
+  { source: "github.html", route: "github", title: "GitHub" },
+  { source: "get-involved.html", route: "get-involved", title: "Get involved" },
+  { source: "contributing.html", route: "contributing", title: "Contributing" },
   { source: "newsletter.html", route: "newsletter", title: "Newsletter" },
+];
+
+const routeRedirects = [
+  { route: "status", destination: "/roadmap/#current-status", title: "Status", legacySource: "status.html" },
+  { route: "support", destination: "/get-involved/", title: "Get involved", legacySource: "support.html" },
 ];
 
 const publicFiles = [
@@ -168,9 +175,8 @@ async function loadDiscussions() {
   };
 }
 
-function renderLegacyPageRedirect({ route, title }) {
-  const destination = `/${route}/`;
-  const canonical = `${siteOrigin}${destination}`;
+function renderRedirectPage({ destination, title }) {
+  const canonical = new URL(destination, siteOrigin).href;
 
   return `<!doctype html>
 <html lang="en">
@@ -180,8 +186,8 @@ function renderLegacyPageRedirect({ route, title }) {
   <meta name="robots" content="noindex">
   <noscript><meta http-equiv="refresh" content="0; url=${destination}"></noscript>
   <link rel="canonical" href="${canonical}">
-  <title>${escapeHtml(title)} moved — GalileoEngine</title>
-  <script>const target = new URL(${JSON.stringify(destination)}, window.location.origin); target.search = window.location.search; target.hash = window.location.hash; window.location.replace(target);</script>
+  <title>${escapeHtml(title)} moved — Galileo Browser</title>
+  <script>const target = new URL(${JSON.stringify(destination)}, window.location.origin); target.search = window.location.search; if (window.location.hash) target.hash = window.location.hash; window.location.replace(target);</script>
 </head>
 <body>
   <main>
@@ -240,11 +246,11 @@ function renderDiscussionPage(discussion, giscusEnabled) {
   <meta name="theme-color" content="#f4f8f5">
   <link rel="canonical" href="${canonical}"><meta property="og:title" content="${title}"><meta property="og:description" content="${escapeHtml(excerpt)}"><meta property="og:url" content="${canonical}"><meta property="og:type" content="article"><meta property="article:published_time" content="${escapeHtml(discussion.createdAt)}"><meta property="article:author" content="${escapeHtml(author.name)}"><meta property="og:image" content="${siteOrigin}/assets/galileo-symbol.png"><meta name="twitter:card" content="summary_large_image">
   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/galileo.css?v=20260821f"><script src="/site.js?v=20260821f" defer></script>
+  <link rel="stylesheet" href="/galileo.css?v=20260821k"><script src="/site.js?v=20260821k" defer></script>
 </head>
 <body data-page="post">
   <a class="skip-link" href="#main-content">Skip to content</a>
-  <header class="site-header"><div class="site-header__inner"><a class="site-brand" href="/" aria-label="Galileo home"><img src="/assets/galileo-symbol.png" alt="" width="52" height="52"><span class="site-brand__name">Galileo<span>Browser</span></span></a><nav class="site-nav" id="primary-navigation" aria-label="Primary navigation"><a href="/">Home</a><a href="/platform/">Engine</a><a href="/galileo-browser/">Galileo Browser</a><a href="/roadmap/">Roadmap</a><a href="/newsletter/" aria-current="page">Newsletter</a><a href="/team/">Team</a><a href="/contact/">Contact</a></nav><div class="theme-switch" role="group" aria-label="Color theme"><button type="button" data-theme-choice="light" aria-pressed="true">Light</button><button type="button" data-theme-choice="dark" aria-pressed="false">Dark</button></div><button class="menu-toggle" type="button" aria-label="Open navigation" aria-controls="primary-navigation" aria-expanded="false"><span class="menu-toggle__icon"></span></button></div></header>
+  <header class="site-header"><div class="site-header__inner"><a class="site-brand" href="/" aria-label="Galileo home"><img src="/assets/galileo-symbol.png" alt="" width="52" height="52"><span class="site-brand__name">Galileo<span>Browser</span></span></a><nav class="site-nav" id="primary-navigation" aria-label="Primary navigation"><div class="site-nav__group" data-nav-group><button class="site-nav__trigger" id="nav-get-involved-trigger" type="button" aria-expanded="false" aria-controls="nav-get-involved-menu">Get involved <span class="site-nav__chevron" aria-hidden="true"></span></button><div class="site-nav__menu" id="nav-get-involved-menu" aria-labelledby="nav-get-involved-trigger"><a href="/get-involved/">Overview <small>Ways to help</small></a><a href="/contributing/">Contributing <small>Code + tests</small></a><a href="https://github.com/GalileoBrowser/galileoengine-site-v2/discussions">Discussions <small>GitHub ↗</small></a></div></div><div class="site-nav__group" data-nav-group><button class="site-nav__trigger" id="nav-engine-trigger" type="button" aria-expanded="false" aria-controls="nav-engine-menu">Engine <span class="site-nav__chevron" aria-hidden="true"></span></button><div class="site-nav__menu" id="nav-engine-menu" aria-labelledby="nav-engine-trigger"><a href="/platform/">Galileo Engine <small>Foundation</small></a><a href="/galileo-browser/">Galileo Browser <small>Product</small></a><a href="/roadmap/">Roadmap <small>Progress</small></a></div></div><a class="site-nav__link" href="/newsletter/" aria-current="page">Newsletter</a><div class="site-nav__group" data-nav-group><button class="site-nav__trigger" id="nav-about-trigger" type="button" aria-expanded="false" aria-controls="nav-about-menu">About <span class="site-nav__chevron" aria-hidden="true"></span></button><div class="site-nav__menu" id="nav-about-menu" aria-labelledby="nav-about-trigger"><a href="/about/">About Galileo <small>Project</small></a><a href="/contact/">Contact <small>Reach us</small></a><a href="/team/">Team <small>People</small></a><a href="/github/">GitHub <small>Public work</small></a></div></div></nav><div class="theme-switch" role="group" aria-label="Color theme"><button type="button" data-theme-choice="light" aria-pressed="true">Light</button><button type="button" data-theme-choice="dark" aria-pressed="false">Dark</button></div><button class="menu-toggle" type="button" aria-label="Open navigation" aria-controls="primary-navigation" aria-expanded="false"><span class="menu-toggle__icon"></span></button></div></header>
   <main id="main-content">
     <section class="page-hero"><div class="page-hero__inner"><p class="eyebrow">Galileo Newsletter / Discussion ${discussion.number}</p><h1>${title}</h1><p class="page-hero__lead">${escapeHtml(excerpt)}</p></div><img class="page-hero__mark" src="/assets/galileo-symbol.png" alt="GalileoEngine symbol" width="1254" height="1254"></section>
     <section class="page-section">
@@ -260,7 +266,7 @@ function renderDiscussionPage(discussion, giscusEnabled) {
       </article>
     </section>
   </main>
-  <footer class="site-footer"><div class="site-footer__inner"><a class="site-footer__brand" href="/"><img src="/assets/galileo-symbol.png" alt="" width="42" height="42"><span>Galileo<span>Browser</span></span></a><p class="site-footer__note">The newsletter keeps the project’s reasoning close to the source.</p><div class="site-footer__links"><a href="/platform/">Browser engine</a><a href="/roadmap/">Roadmap</a><a href="/galileo-browser/">Browser</a><a href="/team/">Team</a><a href="/support/">Contribute</a><a href="/status/">Status</a></div><p class="site-footer__meta">Galileo / newsletter / 2026</p></div></footer>
+  <footer class="site-footer"><div class="site-footer__inner"><a class="site-footer__brand" href="/"><img src="/assets/galileo-symbol.png" alt="" width="42" height="42"><span>Galileo<span>Browser</span></span></a><p class="site-footer__note">The newsletter keeps the project’s reasoning close to the source.</p><div class="site-footer__links"><a href="/get-involved/">Get involved</a><a href="/contributing/">Contributing</a><a href="/platform/">Galileo Engine</a><a href="/galileo-browser/">Galileo Browser</a><a href="/roadmap/">Roadmap</a><a href="/newsletter/">Newsletter</a><a href="/about/">About</a><a href="/contact/">Contact</a><a href="/team/">Team</a><a href="/github/">GitHub</a></div><p class="site-footer__meta">Galileo / newsletter / 2026</p></div></footer>
 </body>
 </html>
 `;
@@ -289,7 +295,19 @@ async function build() {
       : rawSource;
     await mkdir(routeDirectory, { recursive: true });
     await writeFile(path.join(routeDirectory, "index.html"), source, "utf8");
-    await writeFile(path.join(outputRoot, page.source), renderLegacyPageRedirect(page), "utf8");
+    await writeFile(
+      path.join(outputRoot, page.source),
+      renderRedirectPage({ destination: `/${page.route}/`, title: page.title }),
+      "utf8",
+    );
+  }
+
+  for (const redirect of routeRedirects) {
+    const redirectPage = renderRedirectPage(redirect);
+    const routeDirectory = path.join(outputRoot, redirect.route);
+    await mkdir(routeDirectory, { recursive: true });
+    await writeFile(path.join(routeDirectory, "index.html"), redirectPage, "utf8");
+    await writeFile(path.join(outputRoot, redirect.legacySource), redirectPage, "utf8");
   }
 
   for (const discussion of newsletter.discussions) {

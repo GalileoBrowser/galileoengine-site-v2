@@ -2,12 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://galileobrowser.com/</loc></url>
   <url><loc>https://galileobrowser.com/platform/</loc></url>
-  <url><loc>https://galileobrowser.com/roadmap/</loc></url>
   <url><loc>https://galileobrowser.com/galileo-browser/</loc></url>
-  <url><loc>https://galileobrowser.com/status/</loc></url>
-  <url><loc>https://galileobrowser.com/team/</loc></url>
-  <url><loc>https://galileobrowser.com/support/</loc></url>
-  <url><loc>https://galileobrowser.com/contact/</loc></url>
+  <url><loc>https://galileobrowser.com/roadmap/</loc></url>
   <url><loc>https://galileobrowser.com/newsletter/</loc></url>
+  <url><loc>https://galileobrowser.com/about/</loc></url>
+  <url><loc>https://galileobrowser.com/contact/</loc></url>
+  <url><loc>https://galileobrowser.com/team/</loc></url>
+  <url><loc>https://galileobrowser.com/github/</loc></url>
+  <url><loc>https://galileobrowser.com/get-involved/</loc></url>
+  <url><loc>https://galileobrowser.com/contributing/</loc></url>
   <url><loc>https://galileobrowser.com/newsletter/the-browser-project/</loc></url>
 </urlset>
