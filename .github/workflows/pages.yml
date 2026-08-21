@@ -1,12 +1,10 @@
-name: Build and deploy GalileoEngine Pages
+name: Build and deploy GalileoBrowser Pages
 
 on:
   push:
     branches: [main]
   discussion:
-    types: [created, edited, deleted, transferred, pinned, unpinned, category_changed, locked, unlocked]
-  discussion_comment:
-    types: [created, edited, deleted]
+    types: [created, edited, deleted, category_changed]
   workflow_dispatch:
 
 permissions:
@@ -34,10 +32,11 @@ jobs:
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
 
-      - name: Build static site and Journal index
+      - name: Build static site
         run: node scripts/build-pages.mjs
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ github.token }}
+          GISCUS_ENABLED: ${{ vars.GISCUS_ENABLED }}
 
       - name: Validate clean routes and generated pages
         shell: bash

@@ -5,6 +5,11 @@ import { fileURLToPath } from "node:url";
 const scriptDirectory = path.dirname(fileURLToPath(import.meta.url));
 const projectRoot = path.resolve(scriptDirectory, "..");
 const outputRoot = path.join(projectRoot, "dist");
+const siteOrigin = "https://galileobrowser.com";
+const discussionRepository = "GalileoBrowser/galileoengine-site-v2";
+const discussionCategory = "Announcements";
+const discussionCategorySlug = "announcements";
+const discussionCache = path.join(projectRoot, "data", "newsletter-discussions.json");
 
 const cleanPages = [
   { source: "platform.html", route: "platform", title: "Engine" },
@@ -12,7 +17,7 @@ const cleanPages = [
   { source: "galileo-browser.html", route: "galileo-browser", title: "Galileo Browser" },
   { source: "status.html", route: "status", title: "Project status" },
   { source: "team.html", route: "team", title: "Team" },
-  { source: "support.html", route: "support", title: "About" },
+  { source: "support.html", route: "support", title: "Contribute" },
   { source: "contact.html", route: "contact", title: "Contact" },
   { source: "newsletter.html", route: "newsletter", title: "Newsletter" },
 ];
@@ -40,6 +45,12 @@ const publicFiles = [
   "Team.dc.html",
 ];
 
+const authorProfiles = {
+  Silviu3369: { name: "Ionel Silviu Ghimpau", avatar: "/team-silviu.png" },
+  lolren: { name: "Loren Bufanu", avatar: "/team-loren.png" },
+  ionaselmd: { name: "Manuel Ionasel", avatar: "/team-manuel.png" },
+};
+
 function escapeHtml(value) {
   return String(value ?? "")
     .replaceAll("&", "&amp;")
@@ -49,24 +60,117 @@ function escapeHtml(value) {
     .replaceAll("'", "&#039;");
 }
 
-function excerpt(value, maximum = 250) {
-  const normalised = String(value ?? "").replace(/\s+/g, " ").trim();
-  if (normalised.length <= maximum) return normalised;
-  return `${normalised.slice(0, maximum).replace(/\s+\S*$/, "")}…`;
-}
-
 function formatDate(value) {
-  return new Intl.DateTimeFormat("en", {
-    day: "2-digit",
-    month: "short",
+  return new Intl.DateTimeFormat("en-GB", {
+    day: "numeric",
+    month: "long",
     year: "numeric",
     timeZone: "UTC",
   }).format(new Date(value));
 }
 
+function readingTime(value) {
+  const words = String(value ?? "").trim().split(/\s+/).filter(Boolean).length;
+  return Math.max(1, Math.ceil(words / 220));
+}
+
+function excerptFrom(value) {
+  const lines = String(value ?? "")
+    .split(/\r?\n/)
+    .map((line) => line.trim())
+    .filter(Boolean);
+  const candidate = lines.find((line) => line.length >= 90) ?? lines[0] ?? "Project update from the Galileo team.";
+  if (candidate.length <= 220) return candidate;
+  const shortened = candidate.slice(0, 217).replace(/\s+\S*$/, "");
+  return `${shortened}…`;
+}
+
+function authorFor(discussion) {
+  const login = discussion.author?.login || "GalileoBrowser";
+  const known = authorProfiles[login];
+  return {
+    login,
+    name: known?.name ?? login,
+    avatar: known?.avatar ?? discussion.author?.avatarUrl ?? "/assets/galileo-symbol.png",
+    url: discussion.author?.url ?? `https://github.com/${encodeURIComponent(login)}`,
+  };
+}
+
+function normalizeDiscussion(raw) {
+  const number = Number(raw.number);
+  const bodyHtml = String(raw.bodyHTML ?? raw.bodyHtml ?? "").trim();
+  const bodyText = String(raw.bodyText ?? "").trim();
+  const createdAt = String(raw.createdAt ?? "");
+  if (!Number.isInteger(number) || number < 1) throw new Error("Newsletter discussion has an invalid number.");
+  if (!String(raw.title ?? "").trim()) throw new Error(`Discussion #${number} has no title.`);
+  if (!bodyHtml || !bodyText) throw new Error(`Discussion #${number} has no publishable body.`);
+  if (!Number.isFinite(Date.parse(createdAt))) throw new Error(`Discussion #${number} has an invalid creation date.`);
+  return {
+    number,
+    title: String(raw.title).trim(),
+    url: String(raw.url),
+    createdAt,
+    updatedAt: String(raw.updatedAt || createdAt),
+    bodyHtml,
+    bodyText,
+    author: raw.author || null,
+  };
+}
+
+async function fetchDiscussions(token) {
+  const [owner, name] = discussionRepository.split("/");
+  const query = `query NewsletterDiscussions($owner: String!, $name: String!) {
+    repository(owner: $owner, name: $name) {
+      discussions(first: 100, orderBy: { field: CREATED_AT, direction: DESC }) {
+        nodes {
+          number
+          title
+          url
+          createdAt
+          updatedAt
+          bodyHTML
+          bodyText
+          category { slug }
+          author { login avatarUrl url }
+        }
+      }
+    }
+  }`;
+  const response = await fetch("https://api.github.com/graphql", {
+    method: "POST",
+    headers: {
+      Accept: "application/vnd.github+json",
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+      "User-Agent": "galileoengine-site-v2",
+    },
+    body: JSON.stringify({ query, variables: { owner, name } }),
+  });
+  if (!response.ok) throw new Error(`GitHub Discussions request failed with HTTP ${response.status}.`);
+  const payload = await response.json();
+  if (payload.errors?.length) throw new Error(`GitHub Discussions query failed: ${payload.errors[0].message}`);
+  const nodes = payload.data?.repository?.discussions?.nodes;
+  if (!Array.isArray(nodes)) throw new Error("GitHub Discussions returned an unexpected response.");
+  return nodes
+    .filter((item) => item.category?.slug === discussionCategorySlug)
+    .map(normalizeDiscussion);
+}
+
+async function loadDiscussions() {
+  const token = process.env.GITHUB_TOKEN?.trim();
+  if (token) {
+    return { source: "GitHub Discussions", discussions: await fetchDiscussions(token) };
+  }
+  const cached = JSON.parse(await readFile(discussionCache, "utf8"));
+  return {
+    source: "checked-in discussion snapshot",
+    discussions: (cached.discussions ?? []).map(normalizeDiscussion),
+  };
+}
+
 function renderLegacyPageRedirect({ route, title }) {
   const destination = `/${route}/`;
-  const canonical = `https://galileobrowser.com${destination}`;
+  const canonical = `${siteOrigin}${destination}`;
 
   return `<!doctype html>
 <html lang="en">
@@ -89,36 +193,126 @@ function renderLegacyPageRedirect({ route, title }) {
 `;
 }
 
+function renderDiscussionCard(discussion) {
+  const author = authorFor(discussion);
+  const route = `/newsletter/discussions/${discussion.number}/`;
+  return `<article class="journal-entry journal-entry--discussion"><p class="journal-entry__meta"><span>${escapeHtml(formatDate(discussion.createdAt))}</span><span>Discussion ${discussion.number.toString().padStart(3, "0")}</span></p><div class="journal-entry__content"><span>Project update</span><h3><a href="${route}">${escapeHtml(discussion.title)}</a></h3><p class="journal-entry__excerpt">${escapeHtml(excerptFrom(discussion.bodyText))}</p><a class="journal-entry__author" href="${escapeHtml(author.url)}" target="_blank" rel="noopener"><img src="${escapeHtml(author.avatar)}" alt="" width="25" height="25"><span>${escapeHtml(author.name)}</span></a></div><div class="journal-entry__signals"><span>${readingTime(discussion.bodyText)} min read</span><a href="${route}">Read and discuss <span aria-hidden="true">→</span></a></div></article>`;
+}
+
+function renderNewsletterIndex(source, discussions) {
+  const entries = discussions.length
+    ? discussions.map(renderDiscussionCard).join("\n")
+    : '<article class="journal-entry journal-entry--empty"><p class="eyebrow">Project updates</p><h3>No public updates yet.</h3><p class="journal-entry__excerpt">The team will publish here when there is something concrete to report.</p></article>';
+  return source.replace("<!-- newsletter-discussion-posts -->", entries);
+}
+
+function renderSitemap(source, discussions) {
+  const entries = discussions.map((discussion) => {
+    const route = `${siteOrigin}/newsletter/discussions/${discussion.number}/`;
+    const lastModified = new Date(discussion.updatedAt).toISOString().slice(0, 10);
+    return `  <url><loc>${route}</loc><lastmod>${lastModified}</lastmod></url>`;
+  });
+  return source.replace("</urlset>", `${entries.length ? `${entries.join("\n")}\n` : ""}</urlset>`);
+}
+
+function renderDiscussionPage(discussion, giscusEnabled) {
+  const author = authorFor(discussion);
+  const date = formatDate(discussion.createdAt);
+  const excerpt = excerptFrom(discussion.bodyText);
+  const canonicalPath = `/newsletter/discussions/${discussion.number}/`;
+  const canonical = `${siteOrigin}${canonicalPath}`;
+  const title = escapeHtml(discussion.title);
+  const discussionUrl = escapeHtml(discussion.url);
+  const minutes = readingTime(discussion.bodyText);
+  const commentsProvider = giscusEnabled ? "giscus" : "github-link";
+  const embeddedComments = giscusEnabled
+    ? `<div class="giscus" data-giscus-comments></div>
+          <script src="https://giscus.app/client.js" data-repo="${discussionRepository}" data-repo-id="R_kgDOTyjo4g" data-category="${discussionCategory}" data-category-id="DIC_kwDOTyjo4s4DC9Tu" data-mapping="number" data-term="${discussion.number}" data-strict="1" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="light" data-lang="en" data-loading="lazy" crossorigin="anonymous" async></script>
+          <noscript><p>JavaScript is required for embedded comments. <a href="${discussionUrl}">Open the discussion on GitHub</a>.</p></noscript>`
+    : '<p class="comments-notice">Read the replies or add your own in the public GitHub thread.</p>';
+
+  return `<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>${title} — Galileo Newsletter</title>
+  <meta name="description" content="${escapeHtml(excerpt)}">
+  <meta name="theme-color" content="#f4f8f5">
+  <link rel="canonical" href="${canonical}"><meta property="og:title" content="${title}"><meta property="og:description" content="${escapeHtml(excerpt)}"><meta property="og:url" content="${canonical}"><meta property="og:type" content="article"><meta property="article:published_time" content="${escapeHtml(discussion.createdAt)}"><meta property="article:author" content="${escapeHtml(author.name)}"><meta property="og:image" content="${siteOrigin}/assets/galileo-symbol.png"><meta name="twitter:card" content="summary_large_image">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/galileo.css?v=20260821f"><script src="/site.js?v=20260821f" defer></script>
+</head>
+<body data-page="post">
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <header class="site-header"><div class="site-header__inner"><a class="site-brand" href="/" aria-label="Galileo home"><img src="/assets/galileo-symbol.png" alt="" width="52" height="52"><span class="site-brand__name">Galileo<span>Browser</span></span></a><nav class="site-nav" id="primary-navigation" aria-label="Primary navigation"><a href="/">Home</a><a href="/platform/">Engine</a><a href="/galileo-browser/">Galileo Browser</a><a href="/roadmap/">Roadmap</a><a href="/newsletter/" aria-current="page">Newsletter</a><a href="/team/">Team</a><a href="/contact/">Contact</a></nav><div class="theme-switch" role="group" aria-label="Color theme"><button type="button" data-theme-choice="light" aria-pressed="true">Light</button><button type="button" data-theme-choice="dark" aria-pressed="false">Dark</button></div><button class="menu-toggle" type="button" aria-label="Open navigation" aria-controls="primary-navigation" aria-expanded="false"><span class="menu-toggle__icon"></span></button></div></header>
+  <main id="main-content">
+    <section class="page-hero"><div class="page-hero__inner"><p class="eyebrow">Galileo Newsletter / Discussion ${discussion.number}</p><h1>${title}</h1><p class="page-hero__lead">${escapeHtml(excerpt)}</p></div><img class="page-hero__mark" src="/assets/galileo-symbol.png" alt="GalileoEngine symbol" width="1254" height="1254"></section>
+    <section class="page-section">
+      <article class="post post--discussion">
+        <p class="post__byline"><strong><a href="${escapeHtml(author.url)}" target="_blank" rel="noopener">${escapeHtml(author.name)}</a></strong><span>${escapeHtml(date)}</span><span>${minutes} min read</span><a href="${discussionUrl}" target="_blank" rel="noopener">Original discussion ↗</a></p>
+        <div class="post__body">${discussion.bodyHtml}</div>
+        <section class="post-comments" data-comments-provider="${commentsProvider}" aria-labelledby="comments-title">
+          <div class="post-comments__heading"><div><p class="eyebrow">Conversation</p><h2 id="comments-title">Questions, context, and replies.</h2></div><p>Comments are stored in the public GitHub Discussion. Sign in with GitHub to join, or open the thread directly.</p></div>
+          ${embeddedComments}
+          <p class="comments-fallback"><a class="button button--ghost" href="${discussionUrl}" target="_blank" rel="noopener">Open discussion on GitHub <span aria-hidden="true">↗</span></a></p>
+        </section>
+        <p class="post__back"><a class="text-link" href="/newsletter/">← Back to the newsletter</a></p>
+      </article>
+    </section>
+  </main>
+  <footer class="site-footer"><div class="site-footer__inner"><a class="site-footer__brand" href="/"><img src="/assets/galileo-symbol.png" alt="" width="42" height="42"><span>Galileo<span>Browser</span></span></a><p class="site-footer__note">The newsletter keeps the project’s reasoning close to the source.</p><div class="site-footer__links"><a href="/platform/">Browser engine</a><a href="/roadmap/">Roadmap</a><a href="/galileo-browser/">Browser</a><a href="/team/">Team</a><a href="/support/">Contribute</a><a href="/status/">Status</a></div><p class="site-footer__meta">Galileo / newsletter / 2026</p></div></footer>
+</body>
+</html>
+`;
+}
+
 async function build() {
   await rm(outputRoot, { recursive: true, force: true });
   await mkdir(outputRoot, { recursive: true });
 
+  const newsletter = await loadDiscussions();
+  const giscusEnabled = process.env.GISCUS_ENABLED === "true";
+
   for (const file of publicFiles) {
     await cp(path.join(projectRoot, file), path.join(outputRoot, file));
   }
-  await cp(path.join(projectRoot, "assets"), path.join(outputRoot, "assets"), {
-    recursive: true,
-  });
-  await cp(path.join(projectRoot, "journal"), path.join(outputRoot, "journal"), {
-    recursive: true,
-  });
-  await cp(path.join(projectRoot, "newsletter"), path.join(outputRoot, "newsletter"), {
-    recursive: true,
-  });
-  await cp(path.join(projectRoot, "data"), path.join(outputRoot, "data"), {
-    recursive: true,
-  });
+  await cp(path.join(projectRoot, "assets"), path.join(outputRoot, "assets"), { recursive: true });
+  await cp(path.join(projectRoot, "journal"), path.join(outputRoot, "journal"), { recursive: true });
+  await cp(path.join(projectRoot, "newsletter"), path.join(outputRoot, "newsletter"), { recursive: true });
+  await cp(path.join(projectRoot, "data"), path.join(outputRoot, "data"), { recursive: true });
 
   for (const page of cleanPages) {
     const routeDirectory = path.join(outputRoot, page.route);
-    const source = await readFile(path.join(projectRoot, page.source), "utf8");
+    const rawSource = await readFile(path.join(projectRoot, page.source), "utf8");
+    const source = page.source === "newsletter.html"
+      ? renderNewsletterIndex(rawSource, newsletter.discussions)
+      : rawSource;
     await mkdir(routeDirectory, { recursive: true });
     await writeFile(path.join(routeDirectory, "index.html"), source, "utf8");
     await writeFile(path.join(outputRoot, page.source), renderLegacyPageRedirect(page), "utf8");
   }
 
+  for (const discussion of newsletter.discussions) {
+    const routeDirectory = path.join(outputRoot, "newsletter", "discussions", String(discussion.number));
+    await mkdir(routeDirectory, { recursive: true });
+    await writeFile(path.join(routeDirectory, "index.html"), renderDiscussionPage(discussion, giscusEnabled), "utf8");
+  }
+
+  const sitemap = await readFile(path.join(projectRoot, "sitemap.xml"), "utf8");
+  await writeFile(path.join(outputRoot, "sitemap.xml"), renderSitemap(sitemap, newsletter.discussions), "utf8");
+
+  await writeFile(
+    path.join(outputRoot, "data", "newsletter-discussions.json"),
+    `${JSON.stringify({
+      source: { repository: discussionRepository, category: discussionCategory },
+      fetchedAt: new Date().toISOString(),
+      discussions: newsletter.discussions,
+    }, null, 2)}\n`,
+    "utf8",
+  );
+
   console.log(
-    `Built GitHub Pages artifact with ${cleanPages.length} clean routes.`,
+    `Built GitHub Pages artifact with ${cleanPages.length} clean routes and ${newsletter.discussions.length} discussion post(s) from ${newsletter.source}; comments: ${giscusEnabled ? "embedded giscus" : "GitHub link fallback"}.`,
   );
 }
 

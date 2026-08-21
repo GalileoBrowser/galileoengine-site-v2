@@ -45,7 +45,9 @@
     });
 
     var themeColor = document.querySelector('meta[name="theme-color"]');
-    if (themeColor) themeColor.setAttribute("content", nextTheme === "light" ? "#f5f2ea" : "#101918");
+    if (themeColor) themeColor.setAttribute("content", nextTheme === "light" ? "#f4f8f5" : "#0d2b25");
+
+    syncGiscusTheme(nextTheme);
 
     if (persist) {
       try {
@@ -54,6 +56,15 @@
         // The theme still works for this visit when storage is unavailable.
       }
     }
+  }
+
+  function syncGiscusTheme(theme) {
+    var frame = document.querySelector("iframe.giscus-frame");
+    if (!frame || !frame.contentWindow) return;
+    frame.contentWindow.postMessage(
+      { giscus: { setConfig: { theme: theme === "dark" ? "dark_dimmed" : "light" } } },
+      "https://giscus.app",
+    );
   }
 
   applyTheme(readStoredTheme(), false);
@@ -71,6 +82,14 @@
     var toggle = header.querySelector(".menu-toggle");
     var nav = header.querySelector(".site-nav");
     if (!toggle || !nav) return;
+
+    var desktopThemeSwitch = header.querySelector(".theme-switch");
+    if (desktopThemeSwitch && !nav.querySelector(".theme-switch--mobile")) {
+      var mobileThemeSwitch = desktopThemeSwitch.cloneNode(true);
+      mobileThemeSwitch.classList.add("theme-switch--mobile");
+      mobileThemeSwitch.setAttribute("aria-label", "Color theme on mobile");
+      nav.appendChild(mobileThemeSwitch);
+    }
 
     header.dataset.enhanced = "true";
     header.dataset.menuOpen = "false";
@@ -115,9 +134,30 @@
     applyTheme(document.documentElement.dataset.theme, false);
   }
 
+  function enhanceDiscussionComments() {
+    var host = document.querySelector("[data-giscus-comments]");
+    if (!host) return;
+
+    syncGiscusTheme(document.documentElement.dataset.theme);
+
+    var observer = new MutationObserver(function () {
+      if (!host.querySelector("iframe.giscus-frame")) return;
+      syncGiscusTheme(document.documentElement.dataset.theme);
+      observer.disconnect();
+    });
+    observer.observe(host, { childList: true, subtree: true });
+
+    window.addEventListener("message", function (event) {
+      if (event.origin === "https://giscus.app") {
+        syncGiscusTheme(document.documentElement.dataset.theme);
+      }
+    });
+  }
+
   function enhancePage() {
-    enhanceThemeSwitch();
     document.querySelectorAll(".site-header").forEach(enhanceHeader);
+    enhanceThemeSwitch();
+    enhanceDiscussionComments();
   }
 
   if (document.readyState === "loading") {

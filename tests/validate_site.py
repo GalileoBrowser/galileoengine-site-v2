@@ -79,6 +79,7 @@ REQUIRED_ASSETS = (
     "data/evidence/2026-W33-phase0-core-comparison.json",
     "data/evidence/phase0-core-series.json",
     "data/galileo-audit.json",
+    "data/newsletter-discussions.json",
 )
 TEXT_SUFFIXES = {".css", ".html", ".ini", ".js", ".json", ".md", ".txt", ".xml", ".yaml", ".yml"}
 IGNORED_DIRECTORIES = {".git", ".next", "__pycache__", "dist", "node_modules", "output", "public"}
@@ -133,6 +134,14 @@ def parse_page(path: Path) -> tuple[str, PageParser]:
     parser.feed(text)
     parser.close()
     return text, parser
+
+
+def load_newsletter_snapshot() -> dict:
+    path = ROOT / "data/newsletter-discussions.json"
+    try:
+        return json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, UnicodeDecodeError, json.JSONDecodeError):
+        return {}
 
 
 def check_local_reference(source: Path, raw_value: str) -> str | None:
@@ -231,15 +240,15 @@ def validate_public_page(relative: str) -> list[str]:
             errors.append(f"{relative}: image is missing an alt attribute")
         if tag == "button" and not attrs.get("type"):
             errors.append(f"{relative}: button is missing an explicit type")
-        if tag == "script" and attrs.get("src") and "defer" not in attrs:
-            errors.append(f"{relative}: external script is not deferred")
+        if tag == "script" and attrs.get("src") and "defer" not in attrs and "async" not in attrs:
+            errors.append(f"{relative}: external script is neither deferred nor asynchronous")
 
     if text.count('aria-current="page"') > 1:
         errors.append(f"{relative}: more than one current-page marker")
     if 'href="/team/"' not in text:
         errors.append(f"{relative}: Team navigation link is missing")
-    if '<a class="nav-support" href="/support/"' not in text or "About</a>" not in text:
-        errors.append(f"{relative}: About navigation link is missing or mislabeled")
+    if 'href="/platform/"' not in text or ">Engine</a>" not in text:
+        errors.append(f"{relative}: Engine navigation link is missing or mislabeled")
     if 'href="/roadmap/"' not in text or "Roadmap</a>" not in text:
         errors.append(f"{relative}: Roadmap navigation link is missing or mislabeled")
     if 'href="/newsletter/"' not in text or "Newsletter</a>" not in text:
@@ -275,7 +284,7 @@ def validate_public_page(relative: str) -> list[str]:
             "assets/galileo-symbol.png",
             "26 Jul 2026",
             "Mozilla Research starts Servo",
-            "in months, not years",
+            "usable alpha",
             "2012",
         ):
             if marker not in text:
@@ -284,10 +293,11 @@ def validate_public_page(relative: str) -> list[str]:
         for marker in (
             "Galileo Newsletter",
             'href="/newsletter/the-browser-project/"',
-            "github.com/GalileoBrowser/GalileoEngine/discussions",
+            "github.com/GalileoBrowser/galileoengine-site-v2/discussions/categories/announcements",
+            "<!-- newsletter-discussion-posts -->",
             "26 July 2026",
             "The browser project",
-            "more will follow soon",
+            "appear here automatically",
         ):
             if marker not in text:
                 errors.append(f"{relative}: newsletter marker is missing {marker!r}")
@@ -321,17 +331,21 @@ def validate_public_page(relative: str) -> list[str]:
                 errors.append(f"{relative}: product boundary is missing {marker!r}")
     elif relative == "roadmap.html":
         for marker in (
-            "A browser is a sequence of milestones.",
+            "A browser moves through gates.",
             "26 July 2026",
             "Cloudflare Turnstile",
             "YouTube, working",
-            "Extensions",
-            "Pre-alpha release",
-            "Google and Facebook login",
-            "Alpha release",
-            "Release candidate 1",
-            "compatibility first, then security, then speed",
-            "months, not years",
+            "Baseline and product shell",
+            "Security foundation",
+            "Extensions and ecosystem",
+            "Engineering pre-alpha package",
+            "Public pre-alpha",
+            "Alpha and release qualification",
+            "54 / 68 observed",
+            "286 / 286 subtests",
+            "Security qualification",
+            "Performance baseline",
+            "next · gates open",
         ):
             if marker not in text:
                 errors.append(f"{relative}: evidence boundary is missing {marker!r}")
@@ -348,7 +362,8 @@ def validate_public_page(relative: str) -> list[str]:
                 errors.append(f"{relative}: team contact is missing {email!r}")
     elif relative == "support.html":
         for marker in (
-            "Contribute code",
+            "Contribute where the work is public.",
+            "galileoengine-site-v2/discussions/categories/general",
             "We are not accepting money yet",
             "GitHub Sponsors is pending",
             "AI is fast. It is not free.",
@@ -362,13 +377,18 @@ def validate_public_page(relative: str) -> list[str]:
             "loren@galileobrowser.com",
             "silviu@galileobrowser.com",
             "manuel@galileobrowser.com",
-            "github.com/GalileoBrowser/GalileoEngine",
+            "github.com/GalileoBrowser",
             "github.com/GalileoBrowser/GalileoExtensions",
+            "galileoengine-site-v2/discussions",
             "galileoengine-site-v2",
             "Where to say what",
         ):
             if marker not in text:
                 errors.append(f"{relative}: contact page is missing {marker!r}")
+    if relative == "platform.html" and 'href="/platform/" aria-current="page">Engine</a>' not in text:
+        errors.append(f"{relative}: Engine must be the current navigation item")
+    if relative == "status.html" and "19 / 31" in text:
+        errors.append(f"{relative}: stale product inventory remains")
     return errors
 
 
@@ -415,8 +435,16 @@ def validate_built_routes() -> list[str]:
         clean_page = output_root / route.strip("/") / "index.html"
         if not clean_page.is_file():
             errors.append(f"dist{route}: clean route entry file is missing")
-        elif clean_page.read_text(encoding="utf-8") != (ROOT / source).read_text(encoding="utf-8"):
-            errors.append(f"dist{route}: generated page differs from {source}")
+        else:
+            built_text = clean_page.read_text(encoding="utf-8")
+            source_text = (ROOT / source).read_text(encoding="utf-8")
+            if source == "newsletter.html":
+                if "<!-- newsletter-discussion-posts -->" in built_text:
+                    errors.append("dist/newsletter/: discussion placeholder was not rendered")
+                if "The browser project" not in built_text or "journal-entry--discussion" not in built_text:
+                    errors.append("dist/newsletter/: static and discussion-backed entries were not both rendered")
+            elif built_text != source_text:
+                errors.append(f"dist{route}: generated page differs from {source}")
 
         legacy_page = output_root / source
         if not legacy_page.is_file():
@@ -437,6 +465,39 @@ def validate_built_routes() -> list[str]:
             if marker not in legacy_text:
                 errors.append(f"dist/{source}: compatibility redirect is missing {marker!r}")
 
+    snapshot = load_newsletter_snapshot()
+    discussions = snapshot.get("discussions", []) if isinstance(snapshot, dict) else []
+    for discussion in discussions:
+        number = discussion.get("number") if isinstance(discussion, dict) else None
+        if not isinstance(number, int) or number < 1:
+            errors.append("data/newsletter-discussions.json: invalid discussion number")
+            continue
+        relative = f"newsletter/discussions/{number}/index.html"
+        page_path = output_root / relative
+        if not page_path.is_file():
+            errors.append(f"dist/{relative}: generated discussion post is missing")
+            continue
+        text, parser = parse_page(page_path)
+        for landmark in ("header", "main", "nav", "h1", "footer"):
+            if parser.tags[landmark] != 1:
+                errors.append(f"dist/{relative}: expected exactly one <{landmark}>")
+        if "Open discussion on GitHub" not in text:
+            errors.append(f"dist/{relative}: discussion integration is missing the GitHub fallback link")
+
+        if 'data-comments-provider="giscus"' in text:
+            for marker in (
+                "https://giscus.app/client.js",
+                'data-mapping="number"',
+                f'data-term="{discussion["number"]}"',
+            ):
+                if marker not in text:
+                    errors.append(f"dist/{relative}: giscus integration is missing {marker!r}")
+        elif 'data-comments-provider="github-link"' in text:
+            if "Read the replies or add your own" not in text:
+                errors.append(f"dist/{relative}: GitHub discussion fallback copy is missing")
+        else:
+            errors.append(f"dist/{relative}: discussion integration has no supported comments provider")
+
     sitemap_path = output_root / "sitemap.xml"
     if not sitemap_path.is_file():
         return errors + ["dist/sitemap.xml: generated sitemap is missing"]
@@ -448,6 +509,10 @@ def validate_built_routes() -> list[str]:
             continue
         if f"https://galileobrowser.com{route}</loc>" not in sitemap:
             errors.append(f"dist/sitemap.xml: clean route is missing {route}")
+    for discussion in discussions:
+        number = discussion.get("number") if isinstance(discussion, dict) else None
+        if isinstance(number, int) and f"https://galileobrowser.com/newsletter/discussions/{number}/</loc>" not in sitemap:
+            errors.append(f"dist/sitemap.xml: discussion route is missing /newsletter/discussions/{number}/")
     return errors
 
 
@@ -462,9 +527,21 @@ def validate_route_and_theme_runtime() -> list[str]:
         "target.search = window.location.search",
         "target.hash = window.location.hash",
         "window.location.replace(target)",
+        "syncGiscusTheme",
+        'theme === "dark" ? "dark_dimmed" : "light"',
     ):
         if marker not in script:
             errors.append(f"site.js: route normalization is missing {marker!r}")
+
+    workflow = (ROOT / ".github/workflows/pages.yml").read_text(encoding="utf-8")
+    for marker in ("discussion:", "types: [created, edited, deleted, category_changed]", "discussions: read", "GISCUS_ENABLED"):
+        if marker not in workflow:
+            errors.append(f"pages workflow: discussion publishing is missing {marker!r}")
+
+    build_script = (ROOT / "scripts/build-pages.mjs").read_text(encoding="utf-8")
+    for marker in ("NewsletterDiscussions", "newsletter-discussions.json", "renderDiscussionPage", "giscus.app/client.js"):
+        if marker not in build_script:
+            errors.append(f"build-pages.mjs: newsletter publishing is missing {marker!r}")
 
     return errors
 
@@ -621,6 +698,41 @@ def validate_progress_snapshot() -> list[str]:
     return errors
 
 
+def validate_newsletter_snapshot() -> list[str]:
+    relative = "data/newsletter-discussions.json"
+    snapshot = load_newsletter_snapshot()
+    if not snapshot:
+        return [f"{relative}: invalid or unreadable JSON"]
+
+    source = snapshot.get("source", {})
+    if source.get("repository") != "GalileoBrowser/galileoengine-site-v2":
+        return [f"{relative}: public website repository is not the newsletter source"]
+    if source.get("category") != "Announcements":
+        return [f"{relative}: Announcements must be the newsletter category"]
+
+    discussions = snapshot.get("discussions")
+    if not isinstance(discussions, list) or not discussions:
+        return [f"{relative}: at least one cached announcement is required for local preview"]
+
+    errors: list[str] = []
+    seen: set[int] = set()
+    for item in discussions:
+        if not isinstance(item, dict):
+            errors.append(f"{relative}: discussion entries must be objects")
+            continue
+        number = item.get("number")
+        if not isinstance(number, int) or number < 1 or number in seen:
+            errors.append(f"{relative}: discussion number must be unique and positive")
+            continue
+        seen.add(number)
+        if not str(item.get("url", "")).startswith("https://github.com/GalileoBrowser/galileoengine-site-v2/discussions/"):
+            errors.append(f"{relative}: discussion #{number} has an unexpected source URL")
+        for field in ("title", "createdAt", "bodyHtml", "bodyText"):
+            if not isinstance(item.get(field), str) or not item[field].strip():
+                errors.append(f"{relative}: discussion #{number} is missing {field}")
+    return errors
+
+
 def validate_files() -> list[str]:
     errors = validate_brand_cleanup()
     for relative in REQUIRED_ASSETS:
@@ -632,6 +744,7 @@ def validate_files() -> list[str]:
     errors.extend(validate_built_routes())
     errors.extend(validate_route_and_theme_runtime())
     errors.extend(validate_progress_snapshot())
+    errors.extend(validate_newsletter_snapshot())
     return errors
 
 
@@ -643,6 +756,8 @@ def fetch(url: str) -> tuple[int, str, int]:
 
 def smoke_http(base_url: str) -> list[str]:
     errors: list[str] = []
+    snapshot = load_newsletter_snapshot()
+    discussions = snapshot.get("discussions", []) if isinstance(snapshot, dict) else []
     expected = {
         **{
             CANONICAL_ROUTES[page].lstrip("/"): "text/html"
@@ -666,6 +781,12 @@ def smoke_http(base_url: str) -> list[str]:
         "data/evidence/2026-W33-phase0-core-comparison.json": "application/json",
         "data/evidence/phase0-core-series.json": "application/json",
         "data/galileo-audit.json": "application/json",
+        "data/newsletter-discussions.json": "application/json",
+        **{
+            f"newsletter/discussions/{discussion['number']}/": "text/html"
+            for discussion in discussions
+            if isinstance(discussion, dict) and isinstance(discussion.get("number"), int)
+        },
     }
     for relative, expected_type in expected.items():
         url = urljoin(base_url.rstrip("/") + "/", relative)
@@ -700,7 +821,9 @@ def main() -> int:
 
     mode = "structure, brand, links, accessibility basics, and HTTP" if args.base_url else "structure, brand, links, and accessibility basics"
     redirect_count = len(REDIRECT_PAGES) + len(LEGACY_CLEAN_PAGES)
-    print(f"PASS: {len(PUBLIC_PAGES)} public pages and {redirect_count} compatibility redirects passed {mode}")
+    snapshot = load_newsletter_snapshot()
+    generated_posts = len(snapshot.get("discussions", [])) if isinstance(snapshot, dict) else 0
+    print(f"PASS: {len(PUBLIC_PAGES)} public pages, {generated_posts} discussion post(s), and {redirect_count} compatibility redirects passed {mode}")
     return 0
 
 

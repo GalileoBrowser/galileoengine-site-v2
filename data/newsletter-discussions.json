@@ -1,0 +1,24 @@
+{
+  "source": {
+    "repository": "GalileoBrowser/galileoengine-site-v2",
+    "category": "Announcements",
+    "categoryId": "DIC_kwDOTyjo4s4DC9Tu"
+  },
+  "fetchedAt": "2026-08-21T14:05:31Z",
+  "discussions": [
+    {
+      "number": 1,
+      "title": "Galileo Journal: what we are building and how we will report progress",
+      "url": "https://github.com/GalileoBrowser/galileoengine-site-v2/discussions/1",
+      "createdAt": "2026-08-08T20:20:37Z",
+      "updatedAt": "2026-08-08T20:20:37Z",
+      "bodyHtml": "<h2 dir=\"auto\">Why this Journal exists</h2>\n<p dir=\"auto\">GalileoEngine is an experimental browser platform derived from Servo. Galileo Browser is the desktop browser product being built on that foundation.</p>\n<p dir=\"auto\">The project is still in the research stage. There is no public browser release yet, and we are not claiming that it is ready for everyday browsing. This Journal exists so progress can be evaluated from a clear public record instead of broad promises.</p>\n<h2 dir=\"auto\">What we will publish</h2>\n<p dir=\"auto\">Future entries will separate:</p>\n<ul dir=\"auto\">\n<li>work completed from work still planned;</li>\n<li>focused test results from wider compatibility claims;</li>\n<li>Galileo-specific work from Servo's upstream engine work;</li>\n<li>prototypes from features that have passed a defined release gate.</li>\n</ul>\n<p dir=\"auto\">Where relevant, an entry will name the evidence, test environment, known limits, and next gate. Roadmap changes, engineering decisions, compatibility work, and product milestones all belong here.</p>\n<h2 dir=\"auto\">Join the conversation</h2>\n<p dir=\"auto\">Use the replies below for questions and constructive technical discussion. For a concrete bug or scoped task, open an issue in the repository so it can be tracked independently.</p>\n<p dir=\"auto\">This is the first entry in the Galileo Journal and the standard we intend to keep for the entries that follow.</p>",
+      "bodyText": "Why this Journal exists\nGalileoEngine is an experimental browser platform derived from Servo. Galileo Browser is the desktop browser product being built on that foundation.\nThe project is still in the research stage. There is no public browser release yet, and we are not claiming that it is ready for everyday browsing. This Journal exists so progress can be evaluated from a clear public record instead of broad promises.\nWhat we will publish\nFuture entries will separate:\nwork completed from work still planned;\nfocused test results from wider compatibility claims;\nGalileo-specific work from Servo's upstream engine work;\nprototypes from features that have passed a defined release gate.\nWhere relevant, an entry will name the evidence, test environment, known limits, and next gate. Roadmap changes, engineering decisions, compatibility work, and product milestones all belong here.\nJoin the conversation\nUse the replies below for questions and constructive technical discussion. For a concrete bug or scoped task, open an issue in the repository so it can be tracked independently.\nThis is the first entry in the Galileo Journal and the standard we intend to keep for the entries that follow.",
+      "author": {
+        "login": "Silviu3369",
+        "avatarUrl": "https://avatars.githubusercontent.com/u/217186355",
+        "url": "https://github.com/Silviu3369"
+      }
+    }
+  ]
+}

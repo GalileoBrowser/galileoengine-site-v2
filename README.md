@@ -1,42 +1,31 @@
 # GalileoEngine website
 
-The public presentation site for GalileoEngine and Galileo Browser, including an engineering Journal backed by GitHub Discussions.
+The public website for Galileo Engine and Galileo Browser.
 
-- Official organization site: <https://galileobrowser.com/>
-- Galileo Discussions: <https://galileobrowser.com/journal/>
-- Journal discussions: <https://github.com/GalileoBrowser/galileoengine-site-v2/discussions/categories/announcements>
-- Legacy V1 site: <https://silviu3369.github.io/galileoengine-site/>
+- Official site: <https://galileobrowser.com/>
+- GitHub organization: <https://github.com/GalileoBrowser>
+- Project discussions: <https://github.com/GalileoBrowser/galileoengine-site-v2/discussions>
 
 ## Architecture
 
-- GitHub Pages hosts the static presentation site.
-- GitHub Discussions provides Journal publishing, author identity, replies, reactions, notifications, and moderation.
-- The `Announcements` discussion category is the canonical Galileo Journal channel. Only maintainers and administrators can create announcement discussions; the community can reply.
-- GitHub Actions rebuilds the Journal index when the site changes or an announcement discussion is created, edited, moved, or deleted.
-- The site has no custom authentication, application server, database, Supabase project, or Vercel deployment.
+The site is static and is published with GitHub Pages. It has no application server, database, custom authentication, Supabase project, or Vercel deployment.
 
-This keeps the public engineering record close to the source repository and avoids simulating unfinished backend capabilities.
+The Newsletter uses the public website repository's `Announcements` discussion category as its publishing source. A maintainer writes or edits a GitHub Discussion; the Pages workflow reads the category through GitHub's GraphQL API, regenerates the Newsletter index and article routes, validates them, and deploys the result. Comments stay attached to the source discussion.
 
-## Weekly evidence snapshot
+Local builds use `data/newsletter-discussions.json` as a reproducible snapshot. A build with `GITHUB_TOKEN` reads the live public Discussions instead. Production enables embedded comments through the giscus GitHub App and the `GISCUS_ENABLED` repository variable. If that integration is unavailable, generated articles retain a clean direct link to their public discussion.
 
-The Roadmap keeps separate measurements instead of publishing one blended readiness score:
+## Evidence and status
 
-- Phase 0 Core history for GalileoEngine and Servo on the same 286 named WPT subtests;
-- Servo revision movement and the explicitly recorded Galileo integration base;
-- the evidence state of every row in the reviewed Galileo feature inventory.
+Roadmap and Status keep different kinds of evidence separate:
 
-The graph series lives in `data/evidence/phase0-core-series.json`. Its first checkpoint comes from Servo's official WPT artefact at the verified fork commit and is recorded in `data/evidence/2026-W30-phase0-core-fork-base.json`. Galileo's value at that point is labelled as an inherited identical-source baseline, not a separate execution. The first separate Galileo/Servo comparison is retained in `data/evidence/2026-W33-phase0-core-comparison.json`.
+- a bounded Phase 0 Core WPT shard;
+- the reviewed Galileo feature inventory;
+- security and performance gates that remain unmeasured;
+- dated milestones taken from the project history.
 
-The current series has two reviewed checkpoints. Weekly automation is not active yet, and the latest captures used different Linux environments. Until both binaries run in one controlled job, the graph is a bounded upstream reference rather than a benchmark. A failed collection must not create a point: the site keeps the last reviewed data instead of drawing a guessed line.
+The reviewed snapshot lives in `data/progress/2026-W33.json`, with the compact site audit in `data/galileo-audit.json`. The 286-subtest shard is a narrow upstream reference, not a general browser-compatibility score. The retained Galileo and Servo runs used different Linux environments, so the site does not present them as a benchmark.
 
-## Publishing a Journal entry
-
-1. Open the repository's `Announcements` discussion category.
-2. Create a new discussion using a direct, descriptive title.
-3. Write the entry in Markdown and state evidence, environment, limits, and the next gate where relevant.
-4. Publish the discussion. The GitHub Pages workflow rebuilds the Journal index automatically.
-
-The discussion remains the canonical article and conversation. The website displays its title, excerpt, author, publication date, reply count, and upvotes.
+Weekly automation is not active. Until a newer reviewed snapshot exists, the site keeps the last verified data instead of estimating progress.
 
 ## Local build
 
@@ -47,28 +36,31 @@ pnpm build
 python tests\validate_site.py
 ```
 
-The build produces `dist/`. Without a GitHub token, the Journal uses its deliberate empty state. To build with live Discussions locally, set `GH_TOKEN` to a token that can read the public repository before running the build.
-
-## Verification
+To preview the current live Announcements locally without changing site code:
 
 ```powershell
+$env:GITHUB_TOKEN = gh auth token
 pnpm build
-python tests\validate_site.py
+Remove-Item Env:GITHUB_TOKEN
 ```
 
-The validator checks public pages, redirects, local links, brand cleanup, accessibility basics, canonical URLs, and required assets. The GitHub workflow deploys only the generated `dist/` artifact.
+The build produces `dist/`, including clean route directories and compatibility redirects for former `.html` addresses.
 
 ## Public routes
 
-- `/` — GalileoEngine homepage
-- `/platform/` — the browser engine and its relationship with Servo
-- `/roadmap/` — measured delivery path
-- `/galileo-browser/` — Galileo Browser product page
-- `/status/` — current project boundary
+- `/` — project overview
+- `/platform/` — Galileo Engine and its relationship with Servo
+- `/galileo-browser/` — the browser product
+- `/roadmap/` — milestones and current evidence
+- `/status/` — current engineering boundary
+- `/newsletter/` — project writing and Discussion-backed updates
+- `/newsletter/discussions/<number>/` — generated update with its public conversation
 - `/team/` — founding team
-- `/support/` — contribution and funding paths
-- `/journal/` — Journal index generated from GitHub Discussions
+- `/contact/` — contact details and repositories
+- `/support/` — contribution and future funding information
 
-The build keeps the former `.html` addresses as non-indexed compatibility redirects, so existing bookmarks continue to work while the canonical site uses clean routes.
+## Deployment
 
-GalileoEngine is an experimental browser engine derived from Servo. Galileo Browser is the desktop browser product built on it. The site makes no release or everyday-browsing claim.
+`.github/workflows/pages.yml` builds the static artifact, serves it locally for validation, and deploys only after those checks pass. Pushes to `main`, changes to repository Discussions, and manual workflow runs trigger a rebuild. Only Announcements are rendered as Newsletter posts.
+
+Galileo Engine is derived from Servo. Galileo Browser is the desktop product built on it. Neither the site nor the repository currently presents it as ready for everyday or security-sensitive browsing.
