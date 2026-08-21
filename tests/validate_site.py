@@ -20,10 +20,12 @@ PUBLIC_PAGES = (
     "platform.html",
     "roadmap.html",
     "galileo-browser.html",
-    "status.html",
-    "team.html",
-    "support.html",
+    "about.html",
     "contact.html",
+    "team.html",
+    "github.html",
+    "get-involved.html",
+    "contributing.html",
     "newsletter.html",
     "newsletter/the-browser-project/index.html",
     "404.html",
@@ -33,10 +35,12 @@ CLEAN_ROUTES = {
     "platform.html": "/platform/",
     "roadmap.html": "/roadmap/",
     "galileo-browser.html": "/galileo-browser/",
-    "status.html": "/status/",
-    "team.html": "/team/",
-    "support.html": "/support/",
+    "about.html": "/about/",
     "contact.html": "/contact/",
+    "team.html": "/team/",
+    "github.html": "/github/",
+    "get-involved.html": "/get-involved/",
+    "contributing.html": "/contributing/",
     "newsletter.html": "/newsletter/",
     "404.html": "/404.html",
 }
@@ -50,15 +54,21 @@ CANONICAL_ROUTES = {
     "newsletter/the-browser-project/index.html": "/newsletter/the-browser-project/",
 }
 REDIRECT_PAGES = {
+    "status.html": "/roadmap/#current-status",
+    "support.html": "/get-involved/",
     "Home.dc.html": "/",
-    "About.dc.html": "/platform/",
+    "About.dc.html": "/about/",
     "Build.dc.html": "/platform/",
     "Goals.dc.html": "/roadmap/",
-    "Contribute.dc.html": "/roadmap/",
-    "Status.dc.html": "/status/",
+    "Contribute.dc.html": "/get-involved/",
+    "Status.dc.html": "/roadmap/#current-status",
     "Team.dc.html": "/team/",
     "products.html": "/galileo-browser/",
     "journal/index.html": "/newsletter/",
+}
+ROUTE_REDIRECTS = {
+    "status": "/roadmap/#current-status",
+    "support": "/get-involved/",
 }
 REQUIRED_ASSETS = (
     "galileo.css",
@@ -245,14 +255,43 @@ def validate_public_page(relative: str) -> list[str]:
 
     if text.count('aria-current="page"') > 1:
         errors.append(f"{relative}: more than one current-page marker")
-    if 'href="/team/"' not in text:
-        errors.append(f"{relative}: Team navigation link is missing")
-    if 'href="/platform/"' not in text or ">Engine</a>" not in text:
-        errors.append(f"{relative}: Engine navigation link is missing or mislabeled")
-    if 'href="/roadmap/"' not in text or "Roadmap</a>" not in text:
-        errors.append(f"{relative}: Roadmap navigation link is missing or mislabeled")
-    if 'href="/newsletter/"' not in text or "Newsletter</a>" not in text:
-        errors.append(f"{relative}: Newsletter navigation link is missing or mislabeled")
+    for href, label in (
+        ("/", "Galileo home"),
+        ("/platform/", "Galileo Engine"),
+        ("/galileo-browser/", "Galileo Browser"),
+        ("/roadmap/", "Roadmap"),
+        ("/newsletter/", "Newsletter"),
+        ("/about/", "About Galileo"),
+        ("/contact/", "Contact"),
+        ("/team/", "Team"),
+        ("/github/", "GitHub"),
+        ("/get-involved/", "Overview"),
+        ("/contributing/", "Contributing"),
+    ):
+        if f'href="{href}"' not in text or label not in text:
+            errors.append(f"{relative}: {label} navigation link is missing or mislabeled")
+    for marker in (
+        'class="site-nav__group" data-nav-group',
+        'class="site-nav__trigger" id="nav-get-involved-trigger"',
+        'class="site-nav__trigger" id="nav-engine-trigger"',
+        'class="site-nav__trigger" id="nav-about-trigger"',
+        'aria-controls="nav-get-involved-menu"',
+        'aria-controls="nav-engine-menu"',
+        'aria-controls="nav-about-menu"',
+        'class="site-nav__link" href="/newsletter/"',
+    ):
+        if marker not in text:
+            errors.append(f"{relative}: grouped navigation is missing {marker!r}")
+    nav_start = text.find('<nav class="site-nav"')
+    nav_end = text.find("</nav>", nav_start)
+    nav_text = text[nav_start:nav_end]
+    if ">Home</a>" in nav_text:
+        errors.append(f"{relative}: Home must be represented by the brand, not a separate navigation link")
+    if not (nav_text.find("Get involved") < nav_text.find("Engine") < nav_text.find("Newsletter") < nav_text.find("About")):
+        errors.append(f"{relative}: primary navigation order is incorrect")
+    for retired_route in ("/status/", "/support/"):
+        if f'href="{retired_route}"' in text:
+            errors.append(f"{relative}: retired navigation route remains: {retired_route}")
     if "family=Manrope" not in text:
         errors.append(f"{relative}: Manrope font request is missing")
     if 'href="/galileo.css?' not in text or 'src="/site.js?' not in text:
@@ -346,9 +385,35 @@ def validate_public_page(relative: str) -> list[str]:
             "Security qualification",
             "Performance baseline",
             "next · gates open",
+            "Useful progress. Not a finished browser.",
+            "What works is not yet what we can guarantee.",
+            'id="current-status"',
         ):
             if marker not in text:
                 errors.append(f"{relative}: evidence boundary is missing {marker!r}")
+    elif relative == "about.html":
+        for marker in (
+            "Build the browser. Keep the work open.",
+            "One foundation. Two Galileo layers.",
+            "Servo",
+            "Galileo Engine",
+            "Galileo Browser",
+            "Browser work should remain inspectable.",
+            "The roadmap is the source of truth.",
+        ):
+            if marker not in text:
+                errors.append(f"{relative}: About Galileo marker is missing {marker!r}")
+    elif relative == "contact.html":
+        for marker in (
+            "A clear route for every message.",
+            "contact@galileobrowser.com",
+            "GitHub Discussions",
+            "website issue tracker",
+            'href="/team/"',
+            'href="/contributing/"',
+        ):
+            if marker not in text:
+                errors.append(f"{relative}: professional contact marker is missing {marker!r}")
     elif relative == "team.html":
         for person in ("Loren Bufanu", "Ionel Silviu Ghimpau", "Manuel Ionasel"):
             if person not in text:
@@ -360,35 +425,44 @@ def validate_public_page(relative: str) -> list[str]:
         ):
             if f'href="mailto:{email}"' not in text:
                 errors.append(f"{relative}: team contact is missing {email!r}")
-    elif relative == "support.html":
+        for marker in ("Three people. One engineering responsibility.", "Fast work still needs a named owner.", 'href="/contact/"'):
+            if marker not in text:
+                errors.append(f"{relative}: team boundary is missing {marker!r}")
+    elif relative == "github.html":
         for marker in (
+            "The public record of the project.",
+            "https://github.com/GalileoBrowser",
+            "galileoengine-site-v2",
+            "GalileoExtensions",
+            "GitHub Discussions",
+            "This page links only to public work",
+        ):
+            if marker not in text:
+                errors.append(f"{relative}: public GitHub marker is missing {marker!r}")
+    elif relative == "get-involved.html":
+        for marker in (
+            "There is more than one way to move a browser forward.",
             "Contribute where the work is public.",
             "galileoengine-site-v2/discussions/categories/general",
             "We are not accepting money yet",
-            "GitHub Sponsors is pending",
-            "AI is fast. It is not free.",
-            "tokens cost money",
+            "GitHub Sponsors",
+            "A browser costs more than code.",
         ):
             if marker not in text:
-                errors.append(f"{relative}: support boundary is missing {marker!r}")
-    elif relative == "contact.html":
+                errors.append(f"{relative}: involvement boundary is missing {marker!r}")
+    elif relative == "contributing.html":
         for marker in (
-            "contact@galileobrowser.com",
-            "loren@galileobrowser.com",
-            "silviu@galileobrowser.com",
-            "manuel@galileobrowser.com",
-            "github.com/GalileoBrowser",
-            "github.com/GalileoBrowser/GalileoExtensions",
-            "galileoengine-site-v2/discussions",
-            "galileoengine-site-v2",
-            "Where to say what",
+            "Make one change. Show why it works.",
+            "Start where the work is visible.",
+            "Leave a trail another engineer can follow.",
+            "If AI assisted the work",
+            "Browse the repositories",
+            "Start a discussion",
         ):
             if marker not in text:
-                errors.append(f"{relative}: contact page is missing {marker!r}")
-    if relative == "platform.html" and 'href="/platform/" aria-current="page">Engine</a>' not in text:
+                errors.append(f"{relative}: contribution guidance is missing {marker!r}")
+    if relative == "platform.html" and 'href="/platform/" aria-current="page">Galileo Engine' not in text:
         errors.append(f"{relative}: Engine must be the current navigation item")
-    if relative == "status.html" and "19 / 31" in text:
-        errors.append(f"{relative}: stale product inventory remains")
     return errors
 
 
@@ -465,13 +539,43 @@ def validate_built_routes() -> list[str]:
             if marker not in legacy_text:
                 errors.append(f"dist/{source}: compatibility redirect is missing {marker!r}")
 
+    for route, destination in ROUTE_REDIRECTS.items():
+        canonical = f"https://galileobrowser.com{destination}"
+        for relative in (f"{route}/index.html", f"{route}.html"):
+            redirect_path = output_root / relative
+            if not redirect_path.is_file():
+                errors.append(f"dist/{relative}: retired route redirect is missing")
+                continue
+            redirect_text = redirect_path.read_text(encoding="utf-8")
+            for marker in (
+                'name="robots" content="noindex"',
+                '<noscript><meta http-equiv="refresh"',
+                f'content="0; url={destination}"',
+                f'<link rel="canonical" href="{canonical}">',
+                f'<a href="{destination}">',
+                "target.search = window.location.search",
+                "target.hash = window.location.hash",
+                "window.location.replace(target)",
+            ):
+                if marker not in redirect_text:
+                    errors.append(f"dist/{relative}: retired route redirect is missing {marker!r}")
+
     snapshot = load_newsletter_snapshot()
     discussions = snapshot.get("discussions", []) if isinstance(snapshot, dict) else []
-    for discussion in discussions:
-        number = discussion.get("number") if isinstance(discussion, dict) else None
-        if not isinstance(number, int) or number < 1:
-            errors.append("data/newsletter-discussions.json: invalid discussion number")
-            continue
+    discussion_numbers = {
+        discussion["number"]
+        for discussion in discussions
+        if isinstance(discussion, dict) and isinstance(discussion.get("number"), int) and discussion["number"] > 0
+    }
+    discussion_root = output_root / "newsletter" / "discussions"
+    if discussion_root.is_dir():
+        for candidate in discussion_root.glob("*/index.html"):
+            try:
+                discussion_numbers.add(int(candidate.parent.name))
+            except ValueError:
+                errors.append(f"dist/{candidate.relative_to(output_root).as_posix()}: discussion route must use a number")
+
+    for number in sorted(discussion_numbers):
         relative = f"newsletter/discussions/{number}/index.html"
         page_path = output_root / relative
         if not page_path.is_file():
@@ -483,12 +587,15 @@ def validate_built_routes() -> list[str]:
                 errors.append(f"dist/{relative}: expected exactly one <{landmark}>")
         if "Open discussion on GitHub" not in text:
             errors.append(f"dist/{relative}: discussion integration is missing the GitHub fallback link")
+        for marker in ('data-nav-group', 'href="/contributing/"', 'class="site-nav__link" href="/newsletter/"'):
+            if marker not in text:
+                errors.append(f"dist/{relative}: grouped navigation is missing {marker!r}")
 
         if 'data-comments-provider="giscus"' in text:
             for marker in (
                 "https://giscus.app/client.js",
                 'data-mapping="number"',
-                f'data-term="{discussion["number"]}"',
+                f'data-term="{number}"',
             ):
                 if marker not in text:
                     errors.append(f"dist/{relative}: giscus integration is missing {marker!r}")
@@ -509,9 +616,11 @@ def validate_built_routes() -> list[str]:
             continue
         if f"https://galileobrowser.com{route}</loc>" not in sitemap:
             errors.append(f"dist/sitemap.xml: clean route is missing {route}")
-    for discussion in discussions:
-        number = discussion.get("number") if isinstance(discussion, dict) else None
-        if isinstance(number, int) and f"https://galileobrowser.com/newsletter/discussions/{number}/</loc>" not in sitemap:
+    for route in ROUTE_REDIRECTS:
+        if f"https://galileobrowser.com/{route}/</loc>" in sitemap:
+            errors.append(f"dist/sitemap.xml: retired route must not be indexed /{route}/")
+    for number in sorted(discussion_numbers):
+        if f"https://galileobrowser.com/newsletter/discussions/{number}/</loc>" not in sitemap:
             errors.append(f"dist/sitemap.xml: discussion route is missing /newsletter/discussions/{number}/")
     return errors
 
@@ -523,10 +632,17 @@ def validate_route_and_theme_runtime() -> list[str]:
         source_path = f"/{source}"
         if f'"{source_path}": "{route}"' not in script:
             errors.append(f"site.js: cached legacy route recovery is missing {source_path} -> {route}")
+    for route, destination in ROUTE_REDIRECTS.items():
+        source_path = f"/{route}.html"
+        if f'"{source_path}": "{destination}"' not in script:
+            errors.append(f"site.js: retired route recovery is missing {source_path} -> {destination}")
     for marker in (
         "target.search = window.location.search",
         "target.hash = window.location.hash",
         "window.location.replace(target)",
+        "setNavGroupOpen",
+        "data-nav-group",
+        'event.key !== "ArrowDown"',
         "syncGiscusTheme",
         'theme === "dark" ? "dark_dimmed" : "light"',
     ):
@@ -758,6 +874,18 @@ def smoke_http(base_url: str) -> list[str]:
     errors: list[str] = []
     snapshot = load_newsletter_snapshot()
     discussions = snapshot.get("discussions", []) if isinstance(snapshot, dict) else []
+    discussion_numbers = {
+        discussion["number"]
+        for discussion in discussions
+        if isinstance(discussion, dict) and isinstance(discussion.get("number"), int) and discussion["number"] > 0
+    }
+    discussion_root = ROOT / "dist" / "newsletter" / "discussions"
+    if discussion_root.is_dir():
+        for candidate in discussion_root.glob("*/index.html"):
+            try:
+                discussion_numbers.add(int(candidate.parent.name))
+            except ValueError:
+                pass
     expected = {
         **{
             CANONICAL_ROUTES[page].lstrip("/"): "text/html"
@@ -783,9 +911,8 @@ def smoke_http(base_url: str) -> list[str]:
         "data/galileo-audit.json": "application/json",
         "data/newsletter-discussions.json": "application/json",
         **{
-            f"newsletter/discussions/{discussion['number']}/": "text/html"
-            for discussion in discussions
-            if isinstance(discussion, dict) and isinstance(discussion.get("number"), int)
+            f"newsletter/discussions/{number}/": "text/html"
+            for number in discussion_numbers
         },
     }
     for relative, expected_type in expected.items():
@@ -822,7 +949,21 @@ def main() -> int:
     mode = "structure, brand, links, accessibility basics, and HTTP" if args.base_url else "structure, brand, links, and accessibility basics"
     redirect_count = len(REDIRECT_PAGES) + len(LEGACY_CLEAN_PAGES)
     snapshot = load_newsletter_snapshot()
-    generated_posts = len(snapshot.get("discussions", [])) if isinstance(snapshot, dict) else 0
+    generated_numbers = {
+        discussion["number"]
+        for discussion in snapshot.get("discussions", [])
+        if isinstance(snapshot, dict)
+        and isinstance(discussion, dict)
+        and isinstance(discussion.get("number"), int)
+    }
+    discussion_root = ROOT / "dist" / "newsletter" / "discussions"
+    if discussion_root.is_dir():
+        for candidate in discussion_root.glob("*/index.html"):
+            try:
+                generated_numbers.add(int(candidate.parent.name))
+            except ValueError:
+                pass
+    generated_posts = len(generated_numbers)
     print(f"PASS: {len(PUBLIC_PAGES)} public pages, {generated_posts} discussion post(s), and {redirect_count} compatibility redirects passed {mode}")
     return 0
 
