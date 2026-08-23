@@ -10,6 +10,9 @@ const discussionRepository = "GalileoBrowser/galileoengine-site-v2";
 const discussionCategory = "Announcements";
 const discussionCategorySlug = "announcements";
 const discussionCache = path.join(projectRoot, "data", "newsletter-discussions.json");
+const newsletterPermalinks = new Map([
+  [1, "what-we-are-building"],
+]);
 
 const cleanPages = [
   { source: "platform.html", route: "platform", title: "Engine" },
@@ -92,6 +95,11 @@ function excerptFrom(value) {
   return `${shortened}…`;
 }
 
+function publicDiscussionRoute(discussion) {
+  const slug = newsletterPermalinks.get(discussion.number) ?? `update-${discussion.number}`;
+  return `/newsletter/${slug}/`;
+}
+
 function authorFor(discussion) {
   const login = discussion.author?.login || "GalileoBrowser";
   const known = authorProfiles[login];
@@ -105,8 +113,8 @@ function authorFor(discussion) {
 
 function normalizeDiscussion(raw) {
   const number = Number(raw.number);
-  const bodyHtml = String(raw.bodyHTML ?? raw.bodyHtml ?? "").trim();
-  const bodyText = String(raw.bodyText ?? "").trim();
+  const bodyHtml = String(raw.bodyHTML ?? raw.bodyHtml ?? "").trim().replaceAll("Galileo Journal", "Galileo Newsletter").replaceAll("this Journal", "this Newsletter").replaceAll("This Journal", "This Newsletter");
+  const bodyText = String(raw.bodyText ?? "").trim().replaceAll("Galileo Journal", "Galileo Newsletter").replaceAll("this Journal", "this Newsletter").replaceAll("This Journal", "This Newsletter");
   const createdAt = String(raw.createdAt ?? "");
   if (!Number.isInteger(number) || number < 1) throw new Error("Newsletter discussion has an invalid number.");
   if (!String(raw.title ?? "").trim()) throw new Error(`Discussion #${number} has no title.`);
@@ -114,7 +122,9 @@ function normalizeDiscussion(raw) {
   if (!Number.isFinite(Date.parse(createdAt))) throw new Error(`Discussion #${number} has an invalid creation date.`);
   return {
     number,
-    title: String(raw.title).trim(),
+    title: number === 1
+      ? "What we are building — and how we will report progress"
+      : String(raw.title).trim().replace(/^Galileo Journal:/, "Galileo Newsletter:"),
     url: String(raw.url),
     createdAt,
     updatedAt: String(raw.updatedAt || createdAt),
@@ -201,8 +211,8 @@ function renderRedirectPage({ destination, title }) {
 
 function renderDiscussionCard(discussion) {
   const author = authorFor(discussion);
-  const route = `/newsletter/discussions/${discussion.number}/`;
-  return `<article class="journal-entry journal-entry--discussion"><p class="journal-entry__meta"><span>${escapeHtml(formatDate(discussion.createdAt))}</span><span>Discussion ${discussion.number.toString().padStart(3, "0")}</span></p><div class="journal-entry__content"><span>Project update</span><h3><a href="${route}">${escapeHtml(discussion.title)}</a></h3><p class="journal-entry__excerpt">${escapeHtml(excerptFrom(discussion.bodyText))}</p><a class="journal-entry__author" href="${escapeHtml(author.url)}" target="_blank" rel="noopener"><img src="${escapeHtml(author.avatar)}" alt="" width="25" height="25"><span>${escapeHtml(author.name)}</span></a></div><div class="journal-entry__signals"><span>${readingTime(discussion.bodyText)} min read</span><a href="${route}">Read and discuss <span aria-hidden="true">→</span></a></div></article>`;
+  const route = publicDiscussionRoute(discussion);
+  return `<article class="journal-entry journal-entry--discussion"><p class="journal-entry__meta"><span>${escapeHtml(formatDate(discussion.createdAt))}</span><span>Update ${discussion.number.toString().padStart(3, "0")}</span></p><div class="journal-entry__content"><span>Project update</span><h3><a href="${route}">${escapeHtml(discussion.title)}</a></h3><p class="journal-entry__excerpt">${escapeHtml(excerptFrom(discussion.bodyText))}</p><a class="journal-entry__author" href="${escapeHtml(author.url)}" target="_blank" rel="noopener"><img src="${escapeHtml(author.avatar)}" alt="" width="25" height="25"><span>${escapeHtml(author.name)}</span></a></div><div class="journal-entry__signals"><span>${readingTime(discussion.bodyText)} min read</span><a href="${route}">Read the update <span aria-hidden="true">→</span></a></div></article>`;
 }
 
 function renderNewsletterIndex(source, discussions) {
@@ -214,7 +224,7 @@ function renderNewsletterIndex(source, discussions) {
 
 function renderSitemap(source, discussions) {
   const entries = discussions.map((discussion) => {
-    const route = `${siteOrigin}/newsletter/discussions/${discussion.number}/`;
+    const route = `${siteOrigin}${publicDiscussionRoute(discussion)}`;
     const lastModified = new Date(discussion.updatedAt).toISOString().slice(0, 10);
     return `  <url><loc>${route}</loc><lastmod>${lastModified}</lastmod></url>`;
   });
@@ -225,7 +235,7 @@ function renderDiscussionPage(discussion, giscusEnabled) {
   const author = authorFor(discussion);
   const date = formatDate(discussion.createdAt);
   const excerpt = excerptFrom(discussion.bodyText);
-  const canonicalPath = `/newsletter/discussions/${discussion.number}/`;
+  const canonicalPath = publicDiscussionRoute(discussion);
   const canonical = `${siteOrigin}${canonicalPath}`;
   const title = escapeHtml(discussion.title);
   const discussionUrl = escapeHtml(discussion.url);
@@ -234,7 +244,7 @@ function renderDiscussionPage(discussion, giscusEnabled) {
   const embeddedComments = giscusEnabled
     ? `<div class="giscus" data-giscus-comments></div>
           <script src="https://giscus.app/client.js" data-repo="${discussionRepository}" data-repo-id="R_kgDOTyjo4g" data-category="${discussionCategory}" data-category-id="DIC_kwDOTyjo4s4DC9Tu" data-mapping="number" data-term="${discussion.number}" data-strict="1" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="light" data-lang="en" data-loading="lazy" crossorigin="anonymous" async></script>
-          <noscript><p>JavaScript is required for embedded comments. <a href="${discussionUrl}">Open the discussion on GitHub</a>.</p></noscript>`
+    <noscript><p>JavaScript is required for embedded comments. <a href="${discussionUrl}">Open the post on GitHub</a>.</p></noscript>`
     : '<p class="comments-notice">Read the replies or add your own in the public GitHub thread.</p>';
 
   return `<!doctype html>
@@ -244,23 +254,25 @@ function renderDiscussionPage(discussion, giscusEnabled) {
   <title>${title} — Galileo Newsletter</title>
   <meta name="description" content="${escapeHtml(excerpt)}">
   <meta name="theme-color" content="#f4f8f5">
+  <link rel="icon" type="image/png" href="/assets/galileo-symbol.png">
+  <link rel="apple-touch-icon" href="/assets/galileo-symbol.png">
   <link rel="canonical" href="${canonical}"><meta property="og:title" content="${title}"><meta property="og:description" content="${escapeHtml(excerpt)}"><meta property="og:url" content="${canonical}"><meta property="og:type" content="article"><meta property="article:published_time" content="${escapeHtml(discussion.createdAt)}"><meta property="article:author" content="${escapeHtml(author.name)}"><meta property="og:image" content="${siteOrigin}/assets/galileo-symbol.png"><meta name="twitter:card" content="summary_large_image">
   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/galileo.css?v=20260821k"><script src="/site.js?v=20260821k" defer></script>
+  <link rel="stylesheet" href="/galileo.css?v=20260823d"><script src="/site.js?v=20260823d" defer></script>
 </head>
 <body data-page="post">
   <a class="skip-link" href="#main-content">Skip to content</a>
-  <header class="site-header"><div class="site-header__inner"><a class="site-brand" href="/" aria-label="Galileo home"><img src="/assets/galileo-symbol.png" alt="" width="52" height="52"><span class="site-brand__name">Galileo<span>Browser</span></span></a><nav class="site-nav" id="primary-navigation" aria-label="Primary navigation"><div class="site-nav__group" data-nav-group><button class="site-nav__trigger" id="nav-get-involved-trigger" type="button" aria-expanded="false" aria-controls="nav-get-involved-menu">Get involved <span class="site-nav__chevron" aria-hidden="true"></span></button><div class="site-nav__menu" id="nav-get-involved-menu" aria-labelledby="nav-get-involved-trigger"><a href="/get-involved/">Overview <small>Ways to help</small></a><a href="/contributing/">Contributing <small>Code + tests</small></a><a href="https://github.com/GalileoBrowser/galileoengine-site-v2/discussions">Discussions <small>GitHub ↗</small></a></div></div><div class="site-nav__group" data-nav-group><button class="site-nav__trigger" id="nav-engine-trigger" type="button" aria-expanded="false" aria-controls="nav-engine-menu">Engine <span class="site-nav__chevron" aria-hidden="true"></span></button><div class="site-nav__menu" id="nav-engine-menu" aria-labelledby="nav-engine-trigger"><a href="/platform/">Galileo Engine <small>Foundation</small></a><a href="/galileo-browser/">Galileo Browser <small>Product</small></a><a href="/roadmap/">Roadmap <small>Progress</small></a></div></div><a class="site-nav__link" href="/newsletter/" aria-current="page">Newsletter</a><div class="site-nav__group" data-nav-group><button class="site-nav__trigger" id="nav-about-trigger" type="button" aria-expanded="false" aria-controls="nav-about-menu">About <span class="site-nav__chevron" aria-hidden="true"></span></button><div class="site-nav__menu" id="nav-about-menu" aria-labelledby="nav-about-trigger"><a href="/about/">About Galileo <small>Project</small></a><a href="/contact/">Contact <small>Reach us</small></a><a href="/team/">Team <small>People</small></a><a href="/github/">GitHub <small>Public work</small></a></div></div></nav><div class="theme-switch" role="group" aria-label="Color theme"><button type="button" data-theme-choice="light" aria-pressed="true">Light</button><button type="button" data-theme-choice="dark" aria-pressed="false">Dark</button></div><button class="menu-toggle" type="button" aria-label="Open navigation" aria-controls="primary-navigation" aria-expanded="false"><span class="menu-toggle__icon"></span></button></div></header>
+  <header class="site-header"><div class="site-header__inner"><a class="site-brand" href="/" aria-label="Galileo home"><img src="/assets/galileo-symbol.png" alt="" width="52" height="52"><span class="site-brand__name">Galileo<span>Browser</span></span></a><nav class="site-nav" id="primary-navigation" aria-label="Primary navigation"><div class="site-nav__group" data-nav-group><button class="site-nav__trigger" id="nav-get-involved-trigger" type="button" aria-expanded="false" aria-controls="nav-get-involved-menu">Get involved <span class="site-nav__chevron" aria-hidden="true"></span></button><div class="site-nav__menu" id="nav-get-involved-menu" aria-labelledby="nav-get-involved-trigger"><a href="/get-involved/">Overview <small>Ways to help</small></a><a href="/contributing/">Contributing <small>Code + tests</small></a></div></div><div class="site-nav__group" data-nav-group><button class="site-nav__trigger" id="nav-engine-trigger" type="button" aria-expanded="false" aria-controls="nav-engine-menu">Engine <span class="site-nav__chevron" aria-hidden="true"></span></button><div class="site-nav__menu" id="nav-engine-menu" aria-labelledby="nav-engine-trigger"><a href="/platform/">Galileo Engine <small>Foundation</small></a><a href="/galileo-browser/">Galileo Browser <small>Product</small></a><a href="/roadmap/">Roadmap <small>Progress</small></a></div></div><a class="site-nav__link" href="/newsletter/" aria-current="page">Newsletter</a><div class="site-nav__group" data-nav-group><button class="site-nav__trigger" id="nav-about-trigger" type="button" aria-expanded="false" aria-controls="nav-about-menu">About <span class="site-nav__chevron" aria-hidden="true"></span></button><div class="site-nav__menu" id="nav-about-menu" aria-labelledby="nav-about-trigger"><a href="/about/">About Galileo <small>Project</small></a><a href="/contact/">Contact <small>Reach us</small></a><a href="/team/">Team <small>People</small></a><a href="/github/">GitHub <small>Public work</small></a></div></div></nav><div class="theme-switch" role="group" aria-label="Color theme"><button type="button" data-theme-choice="light" aria-pressed="true">Light</button><button type="button" data-theme-choice="dark" aria-pressed="false">Dark</button></div><button class="menu-toggle" type="button" aria-label="Open navigation" aria-controls="primary-navigation" aria-expanded="false"><span class="menu-toggle__icon"></span></button></div></header>
   <main id="main-content">
-    <section class="page-hero"><div class="page-hero__inner"><p class="eyebrow">Galileo Newsletter / Discussion ${discussion.number}</p><h1>${title}</h1><p class="page-hero__lead">${escapeHtml(excerpt)}</p></div><img class="page-hero__mark" src="/assets/galileo-symbol.png" alt="GalileoEngine symbol" width="1254" height="1254"></section>
+    <section class="page-hero"><div class="page-hero__inner"><p class="eyebrow">Galileo Newsletter / Update ${discussion.number}</p><h1>${title}</h1><p class="page-hero__lead">${escapeHtml(excerpt)}</p></div><img class="page-hero__mark" src="/assets/galileo-symbol.png" alt="GalileoEngine symbol" width="1254" height="1254"></section>
     <section class="page-section">
       <article class="post post--discussion">
-        <p class="post__byline"><strong><a href="${escapeHtml(author.url)}" target="_blank" rel="noopener">${escapeHtml(author.name)}</a></strong><span>${escapeHtml(date)}</span><span>${minutes} min read</span><a href="${discussionUrl}" target="_blank" rel="noopener">Original discussion ↗</a></p>
+      <p class="post__byline"><strong><a href="${escapeHtml(author.url)}" target="_blank" rel="noopener">${escapeHtml(author.name)}</a></strong><span>${escapeHtml(date)}</span><span>${minutes} min read</span><a href="${discussionUrl}" target="_blank" rel="noopener">Source on GitHub ↗</a></p>
         <div class="post__body">${discussion.bodyHtml}</div>
         <section class="post-comments" data-comments-provider="${commentsProvider}" aria-labelledby="comments-title">
-          <div class="post-comments__heading"><div><p class="eyebrow">Conversation</p><h2 id="comments-title">Questions, context, and replies.</h2></div><p>Comments are stored in the public GitHub Discussion. Sign in with GitHub to join, or open the thread directly.</p></div>
+        <div class="post-comments__heading"><div><p class="eyebrow">Comments</p><h2 id="comments-title">Questions, context, and replies.</h2></div><p>Comments are stored with the public GitHub post. Sign in with GitHub to reply, or open the source directly.</p></div>
           ${embeddedComments}
-          <p class="comments-fallback"><a class="button button--ghost" href="${discussionUrl}" target="_blank" rel="noopener">Open discussion on GitHub <span aria-hidden="true">↗</span></a></p>
+        <p class="comments-fallback"><a class="button button--ghost" href="${discussionUrl}" target="_blank" rel="noopener">Open comments on GitHub <span aria-hidden="true">↗</span></a></p>
         </section>
         <p class="post__back"><a class="text-link" href="/newsletter/">← Back to the newsletter</a></p>
       </article>
@@ -283,6 +295,8 @@ async function build() {
     await cp(path.join(projectRoot, file), path.join(outputRoot, file));
   }
   await cp(path.join(projectRoot, "assets"), path.join(outputRoot, "assets"), { recursive: true });
+  await rm(path.join(outputRoot, "assets", "human-ai-handoff.png"), { force: true });
+  await rm(path.join(outputRoot, "assets", "ai-acceleration.png"), { force: true });
   await cp(path.join(projectRoot, "journal"), path.join(outputRoot, "journal"), { recursive: true });
   await cp(path.join(projectRoot, "newsletter"), path.join(outputRoot, "newsletter"), { recursive: true });
   await cp(path.join(projectRoot, "data"), path.join(outputRoot, "data"), { recursive: true });
@@ -311,9 +325,18 @@ async function build() {
   }
 
   for (const discussion of newsletter.discussions) {
-    const routeDirectory = path.join(outputRoot, "newsletter", "discussions", String(discussion.number));
+    const publicRoute = publicDiscussionRoute(discussion);
+    const routeDirectory = path.join(outputRoot, ...publicRoute.split("/").filter(Boolean));
     await mkdir(routeDirectory, { recursive: true });
     await writeFile(path.join(routeDirectory, "index.html"), renderDiscussionPage(discussion, giscusEnabled), "utf8");
+
+    const legacyDirectory = path.join(outputRoot, "newsletter", "discussions", String(discussion.number));
+    await mkdir(legacyDirectory, { recursive: true });
+    await writeFile(
+      path.join(legacyDirectory, "index.html"),
+      renderRedirectPage({ destination: publicRoute, title: discussion.title }),
+      "utf8",
+    );
   }
 
   const sitemap = await readFile(path.join(projectRoot, "sitemap.xml"), "utf8");

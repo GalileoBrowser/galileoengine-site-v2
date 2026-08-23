@@ -70,12 +70,15 @@ ROUTE_REDIRECTS = {
     "status": "/roadmap/#current-status",
     "support": "/get-involved/",
 }
+NEWSLETTER_POST_SLUGS = {
+    1: "what-we-are-building",
+}
 REQUIRED_ASSETS = (
     "galileo.css",
     "site.js",
     "evidence-chart.js",
     "assets/galileo-symbol.png",
-    "assets/ai-acceleration.png",
+    "assets/relay-handoff.png",
     "assets/servo-ai-policy.png",
     "assets/ublock-origin-icon.png",
     "team-loren.png",
@@ -248,6 +251,8 @@ def validate_public_page(relative: str) -> list[str]:
                 errors.append(f"{relative}: public link leaks a legacy .html route: {value}")
         if tag == "img" and "alt" not in attrs:
             errors.append(f"{relative}: image is missing an alt attribute")
+        if tag == "img" and (not attrs.get("width") or not attrs.get("height")):
+            errors.append(f"{relative}: image is missing intrinsic width or height")
         if tag == "button" and not attrs.get("type"):
             errors.append(f"{relative}: button is missing an explicit type")
         if tag == "script" and attrs.get("src") and "defer" not in attrs and "async" not in attrs:
@@ -300,6 +305,8 @@ def validate_public_page(relative: str) -> list[str]:
         errors.append(f"{relative}: public page must not use a meta refresh")
     if 'name="theme-color"' not in text:
         errors.append(f"{relative}: theme color metadata is missing")
+    if 'rel="icon"' not in text or 'rel="apple-touch-icon"' not in text:
+        errors.append(f"{relative}: favicon metadata is incomplete")
     if relative != "404.html":
         expected_url = "https://galileobrowser.com" + CANONICAL_ROUTES[relative]
         if f'<link rel="canonical" href="{expected_url}">' not in text:
@@ -332,7 +339,8 @@ def validate_public_page(relative: str) -> list[str]:
         for marker in (
             "Galileo Newsletter",
             'href="/newsletter/the-browser-project/"',
-            "github.com/GalileoBrowser/galileoengine-site-v2/discussions/categories/announcements",
+            "Read the founding note",
+            'id="newsletter-updates-title"',
             "<!-- newsletter-discussion-posts -->",
             "26 July 2026",
             "The browser project",
@@ -407,7 +415,7 @@ def validate_public_page(relative: str) -> list[str]:
         for marker in (
             "A clear route for every message.",
             "contact@galileobrowser.com",
-            "GitHub Discussions",
+            "Galileo Newsletter",
             "website issue tracker",
             'href="/team/"',
             'href="/contributing/"',
@@ -434,7 +442,7 @@ def validate_public_page(relative: str) -> list[str]:
             "https://github.com/GalileoBrowser",
             "galileoengine-site-v2",
             "GalileoExtensions",
-            "GitHub Discussions",
+            "Galileo Newsletter",
             "This page links only to public work",
         ):
             if marker not in text:
@@ -443,7 +451,7 @@ def validate_public_page(relative: str) -> list[str]:
         for marker in (
             "There is more than one way to move a browser forward.",
             "Contribute where the work is public.",
-            "galileoengine-site-v2/discussions/categories/general",
+            "Open the Newsletter",
             "We are not accepting money yet",
             "GitHub Sponsors",
             "A browser costs more than code.",
@@ -457,7 +465,7 @@ def validate_public_page(relative: str) -> list[str]:
             "Leave a trail another engineer can follow.",
             "If AI assisted the work",
             "Browse the repositories",
-            "Start a discussion",
+            "Read project updates",
         ):
             if marker not in text:
                 errors.append(f"{relative}: contribution guidance is missing {marker!r}")
@@ -504,6 +512,10 @@ def validate_built_routes() -> list[str]:
     output_root = ROOT / "dist"
     if not output_root.is_dir():
         return ["dist: generated site is missing; run the build before validation"]
+    if (output_root / "assets" / "human-ai-handoff.png").exists():
+        errors.append("dist/assets/human-ai-handoff.png: unused illustration must not be published")
+    if (output_root / "assets" / "ai-acceleration.png").exists():
+        errors.append("dist/assets/ai-acceleration.png: replaced illustration must not be published")
 
     for source, route in LEGACY_CLEAN_PAGES.items():
         clean_page = output_root / route.strip("/") / "index.html"
@@ -567,26 +579,21 @@ def validate_built_routes() -> list[str]:
         for discussion in discussions
         if isinstance(discussion, dict) and isinstance(discussion.get("number"), int) and discussion["number"] > 0
     }
-    discussion_root = output_root / "newsletter" / "discussions"
-    if discussion_root.is_dir():
-        for candidate in discussion_root.glob("*/index.html"):
-            try:
-                discussion_numbers.add(int(candidate.parent.name))
-            except ValueError:
-                errors.append(f"dist/{candidate.relative_to(output_root).as_posix()}: discussion route must use a number")
-
     for number in sorted(discussion_numbers):
-        relative = f"newsletter/discussions/{number}/index.html"
+        slug = NEWSLETTER_POST_SLUGS.get(number, f"update-{number}")
+        relative = f"newsletter/{slug}/index.html"
         page_path = output_root / relative
         if not page_path.is_file():
-            errors.append(f"dist/{relative}: generated discussion post is missing")
+            errors.append(f"dist/{relative}: generated newsletter post is missing")
             continue
         text, parser = parse_page(page_path)
         for landmark in ("header", "main", "nav", "h1", "footer"):
             if parser.tags[landmark] != 1:
                 errors.append(f"dist/{relative}: expected exactly one <{landmark}>")
-        if "Open discussion on GitHub" not in text:
-            errors.append(f"dist/{relative}: discussion integration is missing the GitHub fallback link")
+        if "Open comments on GitHub" not in text:
+            errors.append(f"dist/{relative}: newsletter comments are missing the GitHub fallback link")
+        if "Galileo Journal" in text:
+            errors.append(f"dist/{relative}: retired Journal wording remains in the public newsletter post")
         for marker in ('data-nav-group', 'href="/contributing/"', 'class="site-nav__link" href="/newsletter/"'):
             if marker not in text:
                 errors.append(f"dist/{relative}: grouped navigation is missing {marker!r}")
@@ -605,6 +612,22 @@ def validate_built_routes() -> list[str]:
         else:
             errors.append(f"dist/{relative}: discussion integration has no supported comments provider")
 
+        legacy_relative = f"newsletter/discussions/{number}/index.html"
+        legacy_path = output_root / legacy_relative
+        if not legacy_path.is_file():
+            errors.append(f"dist/{legacy_relative}: legacy newsletter route is missing")
+        else:
+            legacy_text = legacy_path.read_text(encoding="utf-8")
+            public_route = f"/newsletter/{slug}/"
+            for marker in (
+                'name="robots" content="noindex"',
+                f'content="0; url={public_route}"',
+                f'<a href="{public_route}">',
+                "window.location.replace(target)",
+            ):
+                if marker not in legacy_text:
+                    errors.append(f"dist/{legacy_relative}: legacy newsletter redirect is missing {marker!r}")
+
     sitemap_path = output_root / "sitemap.xml"
     if not sitemap_path.is_file():
         return errors + ["dist/sitemap.xml: generated sitemap is missing"]
@@ -620,8 +643,12 @@ def validate_built_routes() -> list[str]:
         if f"https://galileobrowser.com/{route}/</loc>" in sitemap:
             errors.append(f"dist/sitemap.xml: retired route must not be indexed /{route}/")
     for number in sorted(discussion_numbers):
-        if f"https://galileobrowser.com/newsletter/discussions/{number}/</loc>" not in sitemap:
-            errors.append(f"dist/sitemap.xml: discussion route is missing /newsletter/discussions/{number}/")
+        slug = NEWSLETTER_POST_SLUGS.get(number, f"update-{number}")
+        public_route = f"/newsletter/{slug}/"
+        if f"https://galileobrowser.com{public_route}</loc>" not in sitemap:
+            errors.append(f"dist/sitemap.xml: newsletter route is missing {public_route}")
+        if f"https://galileobrowser.com/newsletter/discussions/{number}/</loc>" in sitemap:
+            errors.append(f"dist/sitemap.xml: legacy discussion route must not be indexed for post {number}")
     return errors
 
 
@@ -655,9 +682,14 @@ def validate_route_and_theme_runtime() -> list[str]:
             errors.append(f"pages workflow: discussion publishing is missing {marker!r}")
 
     build_script = (ROOT / "scripts/build-pages.mjs").read_text(encoding="utf-8")
-    for marker in ("NewsletterDiscussions", "newsletter-discussions.json", "renderDiscussionPage", "giscus.app/client.js"):
+    for marker in ("NewsletterDiscussions", "newsletter-discussions.json", "renderDiscussionPage", "publicDiscussionRoute", "giscus.app/client.js"):
         if marker not in build_script:
             errors.append(f"build-pages.mjs: newsletter publishing is missing {marker!r}")
+
+    styles = (ROOT / "galileo.css").read_text(encoding="utf-8")
+    for marker in ("prefers-reduced-motion: reduce", "animation-duration: .01ms", "scroll-behavior: auto"):
+        if marker not in styles:
+            errors.append(f"galileo.css: reduced-motion support is missing {marker!r}")
 
     return errors
 
@@ -897,7 +929,7 @@ def smoke_http(base_url: str) -> list[str]:
         "site.js": ("application/javascript", "text/javascript"),
         "evidence-chart.js": ("application/javascript", "text/javascript"),
         "assets/galileo-symbol.png": "image/png",
-        "assets/ai-acceleration.png": "image/png",
+        "assets/relay-handoff.png": "image/png",
         "assets/servo-ai-policy.png": "image/png",
         "team-loren.png": "image/png",
         "team-manuel.png": "image/png",
@@ -910,6 +942,10 @@ def smoke_http(base_url: str) -> list[str]:
         "data/evidence/phase0-core-series.json": "application/json",
         "data/galileo-audit.json": "application/json",
         "data/newsletter-discussions.json": "application/json",
+        **{
+            f"newsletter/{NEWSLETTER_POST_SLUGS.get(number, f'update-{number}')}/": "text/html"
+            for number in discussion_numbers
+        },
         **{
             f"newsletter/discussions/{number}/": "text/html"
             for number in discussion_numbers
@@ -956,13 +992,6 @@ def main() -> int:
         and isinstance(discussion, dict)
         and isinstance(discussion.get("number"), int)
     }
-    discussion_root = ROOT / "dist" / "newsletter" / "discussions"
-    if discussion_root.is_dir():
-        for candidate in discussion_root.glob("*/index.html"):
-            try:
-                generated_numbers.add(int(candidate.parent.name))
-            except ValueError:
-                pass
     generated_posts = len(generated_numbers)
     print(f"PASS: {len(PUBLIC_PAGES)} public pages, {generated_posts} discussion post(s), and {redirect_count} compatibility redirects passed {mode}")
     return 0
