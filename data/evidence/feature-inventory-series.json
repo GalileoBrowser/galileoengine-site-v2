@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "kind": "galileo-feature-inventory-review-series",
+  "review_status": "manual-reviewed",
+  "denominator": 68,
+  "points": [
+    {
+      "date": "2026-08-18",
+      "source_commit": "2fe12e0e8f82ee57690e31fea9db95a62a2e1592",
+      "states": {
+        "observed_partial": 54,
+        "unmeasured": 5,
+        "planned": 4,
+        "decision_required": 3,
+        "blocked": 2,
+        "focused_pass": 0
+      }
+    },
+    {
+      "date": "2026-08-30",
+      "source_commit": "99af1539f3403f163a225d24130ee8176cba337f",
+      "states": {
+        "observed_partial": 54,
+        "unmeasured": 5,
+        "planned": 4,
+        "decision_required": 3,
+        "blocked": 2,
+        "focused_pass": 0
+      },
+      "source_activity_since_previous": {
+        "rows_with_changed_declared_paths": 67,
+        "rows_without_changed_declared_paths": [
+          "A-WEBGPU-001"
+        ],
+        "matching_rule": "A row is counted when at least one changed repository path equals or is below one of that row's declared implementation_paths entries."
+      }
+    }
+  ],
+  "interpretation": {
+    "formal_state": "The canonical feature catalogue recorded no support-state or automation-state promotions between the two reviewed commits.",
+    "source_activity": "Changed files intersected declared implementation paths for 67 of 68 rows. Paths overlap and some are broad, so this records code activity, not feature completion or qualification.",
+    "next_gate": "Re-run the inventory review and promote a row only through its retained focused evidence contract."
+  }
+}

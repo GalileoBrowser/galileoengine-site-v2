@@ -7,12 +7,12 @@
     "/roadmap.html": "/roadmap/",
     "/galileo-browser.html": "/galileo-browser/",
     "/about.html": "/about/",
-    "/team.html": "/team/",
-    "/github.html": "/github/",
+    "/team.html": "/about/#team",
+    "/github.html": "https://github.com/GalileoBrowser",
     "/get-involved.html": "/get-involved/",
     "/contributing.html": "/contributing/",
     "/support.html": "/get-involved/",
-    "/contact.html": "/contact/",
+    "/contact.html": "/about/#contact",
     "/status.html": "/roadmap/#current-status",
     "/newsletter.html": "/newsletter/",
   };
@@ -109,6 +109,14 @@
       nav.appendChild(mobileThemeSwitch);
     }
 
+    var desktopGitHubLink = header.querySelector(".github-link--desktop");
+    if (desktopGitHubLink && !nav.querySelector(".github-link--mobile")) {
+      var mobileGitHubLink = desktopGitHubLink.cloneNode(true);
+      mobileGitHubLink.classList.remove("github-link--desktop");
+      mobileGitHubLink.classList.add("github-link--mobile");
+      nav.appendChild(mobileGitHubLink);
+    }
+
     header.dataset.enhanced = "true";
     header.dataset.menuOpen = "false";
     toggle.setAttribute("aria-label", "Open navigation");
@@ -201,10 +209,38 @@
     });
   }
 
+  function stabilizeHashTarget() {
+    if (!window.location.hash) return;
+
+    function alignTarget() {
+      var rawId = window.location.hash.slice(1);
+      var targetId;
+      try {
+        targetId = decodeURIComponent(rawId);
+      } catch (_error) {
+        targetId = rawId;
+      }
+
+      var target = document.getElementById(targetId);
+      if (!target) return;
+      window.requestAnimationFrame(function () {
+        target.scrollIntoView({ block: "start" });
+      });
+    }
+
+    window.addEventListener("load", alignTarget, { once: true });
+    window.addEventListener("hashchange", alignTarget);
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(alignTarget);
+    }
+    window.setTimeout(alignTarget, 1200);
+  }
+
   function enhancePage() {
     document.querySelectorAll(".site-header").forEach(enhanceHeader);
     enhanceThemeSwitch();
     enhanceDiscussionComments();
+    stabilizeHashTarget();
   }
 
   if (document.readyState === "loading") {

@@ -1,0 +1,85 @@
+{
+  "schema_version": 1,
+  "kind": "galileo-project-evolution",
+  "review_status": "manual-reviewed",
+  "reviewed_through": "2026-08-30",
+  "source_head": "99af1539f3403f163a225d24130ee8176cba337f",
+  "scale": {
+    "x": "calendar date",
+    "y": "ordered evidence checkpoints",
+    "interpretation": "The vertical position orders selected evidence checkpoints. It is not a completion percentage, quality score, or test pass rate."
+  },
+  "points": [
+    {
+      "date": "2026-07-26",
+      "short_date": "26 Jul",
+      "sequence": 1,
+      "category": "Foundation",
+      "title": "Standalone import",
+      "summary": "Galileo begins its standalone repository history while preserving the inherited Servo lineage and licences.",
+      "commit": "525533a36279",
+      "evidence_url": "https://github.com/GalileoBrowser/GalileoEngine/commit/525533a36279"
+    },
+    {
+      "date": "2026-08-01",
+      "short_date": "1 Aug",
+      "sequence": 2,
+      "category": "Real-site gate",
+      "title": "Turnstile canary",
+      "summary": "The official dummy-key canary retained 3/3 controlled modes headless and 3/3 headed.",
+      "commit": "850482f99863",
+      "evidence_url": "https://github.com/GalileoBrowser/GalileoEngine/commit/850482f99863"
+    },
+    {
+      "date": "2026-08-13",
+      "short_date": "13 Aug",
+      "sequence": 3,
+      "category": "Compatibility",
+      "title": "Fixed WPT shard",
+      "summary": "The retained Galileo run passed all 286 named subtests in the fixed three-file shard.",
+      "commit": "d0e89798d992",
+      "evidence_url": "/data/evidence/2026-W33-phase0-core-comparison.json"
+    },
+    {
+      "date": "2026-08-14",
+      "short_date": "14 Aug",
+      "sequence": 4,
+      "category": "Media journey",
+      "title": "YouTube qualification",
+      "summary": "A clean-profile real-site journey completed HD playback and 5/5 seeks; later replay evidence also exposed one 4.056-second stall.",
+      "commit": "860361519dd6",
+      "evidence_url": "https://github.com/GalileoBrowser/GalileoEngine/commit/860361519dd6"
+    },
+    {
+      "date": "2026-08-18",
+      "short_date": "18 Aug",
+      "sequence": 5,
+      "category": "Product review",
+      "title": "Feature inventory",
+      "summary": "The reviewed catalogue recorded observed partial behaviour in 54 of 68 tracked product areas.",
+      "commit": "2fe12e0e8f82",
+      "evidence_url": "/data/evidence/feature-inventory-series.json"
+    },
+    {
+      "date": "2026-08-25",
+      "short_date": "25 Aug",
+      "sequence": 6,
+      "category": "Media contracts",
+      "title": "WebCodecs expanded",
+      "summary": "Raw VideoFrame, copy and structured transfer, and encoded chunk contracts became implemented and testable code paths.",
+      "commit": "3fe5fc70fd6d",
+      "evidence_url": "https://github.com/GalileoBrowser/GalileoEngine/commit/3fe5fc70fd6d"
+    },
+    {
+      "date": "2026-08-30",
+      "short_date": "30 Aug",
+      "sequence": 7,
+      "category": "Current source",
+      "title": "Extension runtime checkpoint",
+      "summary": "The reviewed head includes modular extension runtime work, receiver-liveness checks, responsiveness changes, and bounded network decisions.",
+      "commit": "99af1539f340",
+      "evidence_url": "https://github.com/GalileoBrowser/GalileoEngine/commit/99af1539f340"
+    }
+  ],
+  "boundary": "This is a selected chronology of major evidence-backed Galileo checkpoints through the reviewed source head. It does not count every commit, and it does not turn implementation activity into release readiness. Older measured results retain their original dates."
+}
