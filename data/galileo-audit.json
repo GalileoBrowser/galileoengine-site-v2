@@ -31,5 +31,58 @@
     "process isolation and product security",
     "startup, speed, and memory measurement",
     "release packaging and updates"
-  ]
+  ],
+  "repositoryCheckpoint": {
+    "captured": "2026-08-31",
+    "sourceCommit": "99af1539f3403f163a225d24130ee8176cba337f",
+    "commitsSinceStandaloneImport": 5099,
+    "shellRustTestDefinitions": 1021,
+    "galileoHarnessPythonTestDefinitions": 3598,
+    "extensionFixtureManifests": 82,
+    "currentCodeSlices": [
+      "dedicated profile, history, bookmark, settings, favicon, and content-blocking stores",
+      "browser-owned WebExtensions archive, store, and runtime paths with extracted action, messaging, port, storage, and tab modules",
+      "constellation sandbox process work and expanded DevTools storage, network, accessibility, and debugging actors",
+      "Android browser history, bookmarks, downloads, modes, themes, media, and permission work",
+      "pre-alpha receipts, artifact validation, and live and offline smoke tooling"
+    ],
+    "interpretation": "Counts describe source history and test definitions at the reviewed commit. They are not passing-test or release-readiness counts."
+  },
+  "progressSinceMeasuredSnapshot": {
+    "reviewed": "2026-08-31",
+    "compatibility": {
+      "progress": "Web API and compatibility implementation continued across the source tree.",
+      "qualificationBoundary": "No newer comparable retained WPT run was found; 286 of 286 remains the last narrow measured result."
+    },
+    "featureInventory": {
+      "progress": "Between source commits 2fe12e0e8f82 and 99af1539f340, changed files intersected declared implementation paths for 67 of the 68 catalogue rows.",
+      "qualificationBoundary": "The canonical catalogue recorded no support-state or automation-state promotions. Declared paths overlap and can be broad, so source-path activity is not feature completion or qualification.",
+      "evidence": "data/evidence/feature-inventory-series.json"
+    },
+    "media": {
+      "progress": "Work after the retained YouTube milestone covered MSE initialization ordering, GStreamer helper and WebRTC runtime handling, replay and callback re-entrancy, Android media sessions, preservesPitch, and WebCodecs contracts.",
+      "qualificationBoundary": "The retained 14 August YouTube journeys remain the latest bounded playback evidence."
+    },
+    "security": {
+      "progress": "Fail-closed bounds, Android origin-and-mode permission checks, cookie partitioning and expiry work, private extension-resource contexts, host-permission scope, and sandbox paths were added or expanded.",
+      "qualificationBoundary": "The complete threat model and process-isolation qualification remain open."
+    },
+    "extensions": {
+      "progress": "Manifest V2 runtime, store, and archive paths expanded; actions, context, messaging, ports, storage, and tabs were modularized; receiver-liveness, failure handling, content DOM helpers, downloads, and hot paths were strengthened.",
+      "qualificationBoundary": "uBlock Origin 1.73.0 has a bounded package result, not a full-compatibility claim."
+    },
+    "performance": {
+      "progress": "Large-page responsiveness, task batching, incremental streamed text, native-input priority, and extension-network deadlines were improved.",
+      "qualificationBoundary": "Startup, page-load, memory, and long-session baselines have not been published."
+    },
+    "releaseEngineering": {
+      "progress": "Source-bound release receipts, artifact, licence and credential validation, and live and offline smoke paths now exist.",
+      "qualificationBoundary": "The package remains unsigned and the latest hosted qualification produced no step-level evidence."
+    }
+  },
+  "latestHostedQualification": {
+    "reviewed": "2026-08-31",
+    "status": "unavailable-pre-execution",
+    "interpretation": "The latest main, Galileo static, and pre-alpha workflow jobs ended without running steps, so they provide no fresh passing qualification signal for the reviewed head."
+  }
 }

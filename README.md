@@ -53,15 +53,12 @@ The build produces `dist/`, including clean route directories and noindex compat
 - `/galileo-browser/` — the browser product
 - `/roadmap/` — milestones, current evidence, and the engineering boundary
 - `/newsletter/` — project writing and Discussion-backed updates
-- `/newsletter/discussions/<number>/` — generated update with its public conversation
-- `/about/` — project identity, Servo foundation, and engineering principles
-- `/contact/` — shared project email and the right channel for each message
-- `/team/` — co-founders, responsibilities, direct email, and GitHub profiles
-- `/github/` — public organization, repositories, Discussions, and issue trackers
+- `/newsletter/<slug>/` — generated update with its public conversation
+- `/about/` — project story, engineering principles, team, and contact details
 - `/get-involved/` — code, testing, discussion, and future funding information
 - `/contributing/` — contribution scope, review expectations, and evidence guidelines
 
-Former `/status/` and `/support/` URLs are retained only as noindex compatibility redirects to the relevant section above. They are not separate pages or navigation items. Legacy `.html` addresses also redirect to their clean routes.
+Former `/status/`, `/support/`, `/contact/`, and `/team/` URLs are retained only as noindex compatibility redirects to the relevant section above. `/github/` redirects to the GalileoBrowser organization. They are not separate pages or navigation items. Legacy `.html` addresses also redirect to their clean routes.
 
 ## Deployment
 

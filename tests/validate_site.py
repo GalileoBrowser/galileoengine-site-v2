@@ -21,9 +21,6 @@ PUBLIC_PAGES = (
     "roadmap.html",
     "galileo-browser.html",
     "about.html",
-    "contact.html",
-    "team.html",
-    "github.html",
     "get-involved.html",
     "contributing.html",
     "newsletter.html",
@@ -36,9 +33,6 @@ CLEAN_ROUTES = {
     "roadmap.html": "/roadmap/",
     "galileo-browser.html": "/galileo-browser/",
     "about.html": "/about/",
-    "contact.html": "/contact/",
-    "team.html": "/team/",
-    "github.html": "/github/",
     "get-involved.html": "/get-involved/",
     "contributing.html": "/contributing/",
     "newsletter.html": "/newsletter/",
@@ -56,19 +50,25 @@ CANONICAL_ROUTES = {
 REDIRECT_PAGES = {
     "status.html": "/roadmap/#current-status",
     "support.html": "/get-involved/",
+    "contact.html": "/about/#contact",
+    "team.html": "/about/#team",
+    "github.html": "https://github.com/GalileoBrowser",
     "Home.dc.html": "/",
     "About.dc.html": "/about/",
     "Build.dc.html": "/platform/",
     "Goals.dc.html": "/roadmap/",
     "Contribute.dc.html": "/get-involved/",
     "Status.dc.html": "/roadmap/#current-status",
-    "Team.dc.html": "/team/",
+    "Team.dc.html": "/about/#team",
     "products.html": "/galileo-browser/",
     "journal/index.html": "/newsletter/",
 }
 ROUTE_REDIRECTS = {
     "status": "/roadmap/#current-status",
     "support": "/get-involved/",
+    "contact": "/about/#contact",
+    "team": "/about/#team",
+    "github": "https://github.com/GalileoBrowser",
 }
 NEWSLETTER_POST_SLUGS = {
     1: "what-we-are-building",
@@ -91,6 +91,8 @@ REQUIRED_ASSETS = (
     "data/evidence/2026-W30-phase0-core-fork-base.json",
     "data/evidence/2026-W33-phase0-core-comparison.json",
     "data/evidence/phase0-core-series.json",
+    "data/evidence/feature-inventory-series.json",
+    "data/evidence/galileo-project-timeline.json",
     "data/galileo-audit.json",
     "data/newsletter-discussions.json",
 )
@@ -266,10 +268,7 @@ def validate_public_page(relative: str) -> list[str]:
         ("/galileo-browser/", "Galileo Browser"),
         ("/roadmap/", "Roadmap"),
         ("/newsletter/", "Newsletter"),
-        ("/about/", "About Galileo"),
-        ("/contact/", "Contact"),
-        ("/team/", "Team"),
-        ("/github/", "GitHub"),
+        ("/about/", "About"),
         ("/get-involved/", "Overview"),
         ("/contributing/", "Contributing"),
     ):
@@ -279,11 +278,11 @@ def validate_public_page(relative: str) -> list[str]:
         'class="site-nav__group" data-nav-group',
         'class="site-nav__trigger" id="nav-get-involved-trigger"',
         'class="site-nav__trigger" id="nav-engine-trigger"',
-        'class="site-nav__trigger" id="nav-about-trigger"',
         'aria-controls="nav-get-involved-menu"',
         'aria-controls="nav-engine-menu"',
-        'aria-controls="nav-about-menu"',
         'class="site-nav__link" href="/newsletter/"',
+        'class="site-nav__link" href="/about/"',
+        'class="github-link github-link--desktop" href="https://github.com/GalileoBrowser"',
     ):
         if marker not in text:
             errors.append(f"{relative}: grouped navigation is missing {marker!r}")
@@ -294,7 +293,7 @@ def validate_public_page(relative: str) -> list[str]:
         errors.append(f"{relative}: Home must be represented by the brand, not a separate navigation link")
     if not (nav_text.find("Get involved") < nav_text.find("Engine") < nav_text.find("Newsletter") < nav_text.find("About")):
         errors.append(f"{relative}: primary navigation order is incorrect")
-    for retired_route in ("/status/", "/support/"):
+    for retired_route in ("/status/", "/support/", "/contact/", "/team/", "/github/"):
         if f'href="{retired_route}"' in text:
             errors.append(f"{relative}: retired navigation route remains: {retired_route}")
     if "family=Manrope" not in text:
@@ -380,73 +379,107 @@ def validate_public_page(relative: str) -> list[str]:
         for marker in (
             "A browser moves through gates.",
             "26 July 2026",
+            "initial standalone import",
+            "Verified lineage:",
+            "5,099 commits follow the import",
+            "source-history count, not a quality score",
+            "Inspect the lineage record",
             "Cloudflare Turnstile",
+            "official dummy-key canary",
+            "3/3 headless and 3/3 headed",
+            "Retained revalidation:",
+            "127/127 expected results",
+            "local cross-origin click-delivery probe",
+            "production acceptance remains Cloudflare's decision",
             "YouTube, working",
+            "clean-profile, no-WebDriver journey",
+            "completed 5/5 seeks",
+            "Second retained run:",
+            "3/3 seeks",
+            "4.056-second freeze",
+            "bounded playback",
+            "Source progress through 30 August:",
+            "no newer comparable sustained YouTube run was retained",
             "Baseline and product shell",
             "Security foundation",
             "Extensions and ecosystem",
             "Engineering pre-alpha package",
             "Public pre-alpha",
             "Alpha and release qualification",
-            "54 / 68 observed",
-            "286 / 286 subtests",
+            "5,099",
+            "1,021",
+            "3,598",
+            "82 extension manifests",
+            "286 / 286 selected subtests",
             "Security qualification",
             "Performance baseline",
+            "54 / 68 observed partial",
+            "67 / 68 declared scopes touched",
+            "No formal state was promoted.",
+            "feature-inventory-series.json",
+            "10 focused Rust checks",
+            "17 WPT files",
+            "Five implementation paths improved",
+            "Last comparable run · 13 Aug",
+            "Source progress through 30 Aug",
+            "current reviewed head",
+            "Progress after the snapshot",
+            "Next proof",
+            "One month. Seven verified checkpoints.",
+            "Galileo only",
+            "Source reviewed through 30 Aug 2026",
+            "7 evidence checkpoints",
+            "Line graph showing seven evidence-backed Galileo checkpoints",
+            "Chronology",
+            "not a completion score",
+            "Inspect the complete checkpoint data",
+            "galileo-project-timeline.json",
+            "Progress since then:",
+            "preservesPitch",
             "next · gates open",
-            "Useful progress. Not a finished browser.",
-            "What works is not yet what we can guarantee.",
+            "Useful progress. Clear open gates.",
+            "The code moved. The gates remain.",
+            "The architecture is already much larger.",
+            "Code exists. Qualification still has to catch up.",
             'id="current-status"',
         ):
             if marker not in text:
                 errors.append(f"{relative}: evidence boundary is missing {marker!r}")
+        for stale_marker in (
+            "Line graph comparing Servo",
+            '<th scope="col">Servo</th>',
+            "Servo and GalileoEngine Phase 0 Core history",
+        ):
+            if stale_marker in text:
+                errors.append(f"{relative}: Galileo-only graph still contains {stale_marker!r}")
     elif relative == "about.html":
         for marker in (
-            "Build the browser. Keep the work open.",
-            "One foundation. Two Galileo layers.",
+            "We wanted to build differently.",
+            "The route from a shared foundation to our own project.",
             "Servo",
             "Galileo Engine",
             "Galileo Browser",
-            "Browser work should remain inspectable.",
-            "The roadmap is the source of truth.",
-        ):
-            if marker not in text:
-                errors.append(f"{relative}: About Galileo marker is missing {marker!r}")
-    elif relative == "contact.html":
-        for marker in (
-            "A clear route for every message.",
-            "contact@galileobrowser.com",
-            "Galileo Newsletter",
-            "website issue tracker",
-            'href="/team/"',
-            'href="/contributing/"',
-        ):
-            if marker not in text:
-                errors.append(f"{relative}: professional contact marker is missing {marker!r}")
-    elif relative == "team.html":
-        for person in ("Loren Bufanu", "Ionel Silviu Ghimpau", "Manuel Ionasel"):
-            if person not in text:
-                errors.append(f"{relative}: team member is missing {person!r}")
-        for email in (
+            "Servo drew a clear line around AI-generated contributions.",
+            "We chose to continue independently.",
+            "AI can carry volume. People still own the engineering.",
+            "https://book.servo.org/contributing/getting-started#ai-contributions",
+            "Three co-founders. Shared responsibility.",
+            "Loren Bufanu",
+            "Ionel Silviu Ghimpau",
+            "Manuel Ionasel",
             "loren@galileobrowser.com",
             "silviu@galileobrowser.com",
             "manuel@galileobrowser.com",
-        ):
-            if f'href="mailto:{email}"' not in text:
-                errors.append(f"{relative}: team contact is missing {email!r}")
-        for marker in ("Three people. One engineering responsibility.", "Fast work still needs a named owner.", 'href="/contact/"'):
-            if marker not in text:
-                errors.append(f"{relative}: team boundary is missing {marker!r}")
-    elif relative == "github.html":
-        for marker in (
-            "The public record of the project.",
-            "https://github.com/GalileoBrowser",
-            "galileoengine-site-v2",
-            "GalileoExtensions",
-            "Galileo Newsletter",
-            "This page links only to public work",
+            "contact@galileobrowser.com",
+            'id="team"',
+            'id="contact"',
+            "The next goal is a genuinely usable alpha.",
         ):
             if marker not in text:
-                errors.append(f"{relative}: public GitHub marker is missing {marker!r}")
+                errors.append(f"{relative}: About Galileo marker is missing {marker!r}")
+        for card_marker in ('class="founder-card"', 'class="contact-card"', 'class="callout'):
+            if card_marker in text:
+                errors.append(f"{relative}: editorial About page still contains card UI {card_marker!r}")
     elif relative == "get-involved.html":
         for marker in (
             "There is more than one way to move a browser forward.",
@@ -552,7 +585,7 @@ def validate_built_routes() -> list[str]:
                 errors.append(f"dist/{source}: compatibility redirect is missing {marker!r}")
 
     for route, destination in ROUTE_REDIRECTS.items():
-        canonical = f"https://galileobrowser.com{destination}"
+        canonical = destination if urlparse(destination).scheme else f"https://galileobrowser.com{destination}"
         for relative in (f"{route}/index.html", f"{route}.html"):
             redirect_path = output_root / relative
             if not redirect_path.is_file():
@@ -672,6 +705,10 @@ def validate_route_and_theme_runtime() -> list[str]:
         'event.key !== "ArrowDown"',
         "syncGiscusTheme",
         'theme === "dark" ? "dark_dimmed" : "light"',
+        "stabilizeHashTarget",
+        "document.fonts.ready",
+        'scrollIntoView({ block: "start" })',
+        "window.setTimeout(alignTarget, 1200)",
     ):
         if marker not in script:
             errors.append(f"site.js: route normalization is missing {marker!r}")
@@ -804,22 +841,25 @@ def validate_progress_snapshot() -> list[str]:
                 if periods != sorted(periods) or len(periods) != len(set(periods)):
                     errors.append(f"{series_relative}: checkpoints must be unique and ordered")
                 first, latest = points[0], points[-1]
-                if (first.get("servo", {}).get("passed"), first.get("galileo", {}).get("passed")) != (246, 246):
-                    errors.append(f"{series_relative}: fork checkpoint must start both lines at 246")
+                if first.get("galileo", {}).get("passed") != 246:
+                    errors.append(f"{series_relative}: Galileo starting checkpoint must remain 246")
                 if first.get("galileo", {}).get("measurement_kind") != "inherited-identical-source-baseline":
                     errors.append(f"{series_relative}: first Galileo point must remain visibly inherited")
-                if (latest.get("servo", {}).get("passed"), latest.get("galileo", {}).get("passed")) != (246, 286):
-                    errors.append(f"{series_relative}: latest verified checkpoint is inconsistent")
+                if first.get("galileo", {}).get("independent_execution") is not False:
+                    errors.append(f"{series_relative}: Galileo starting checkpoint must not claim an independent execution")
+                if latest.get("galileo", {}).get("passed") != 286:
+                    errors.append(f"{series_relative}: latest verified Galileo checkpoint is inconsistent")
+                if latest.get("galileo", {}).get("independent_execution") is not True:
+                    errors.append(f"{series_relative}: latest point must identify the separate Galileo run")
                 for point in points:
-                    for project in ("servo", "galileo"):
-                        value = point.get(project, {}).get("passed")
-                        if not isinstance(value, int) or not 0 <= value <= 286:
-                            errors.append(f"{series_relative}: {project} value is outside the denominator")
-            boundary = series.get("comparison_boundary", {})
+                    value = point.get("galileo", {}).get("passed")
+                    if not isinstance(value, int) or not 0 <= value <= 286:
+                        errors.append(f"{series_relative}: Galileo value is outside the denominator")
+            boundary = series.get("measurement_boundary", {})
             if boundary.get("test_identifiers_identical_across_points") is not True or boundary.get("subtest_names_identical_across_points") is not True:
                 errors.append(f"{series_relative}: shared test identity checks are missing")
-            if boundary.get("current_execution_environment_identical") is not False:
-                errors.append(f"{series_relative}: current environment difference must remain explicit")
+            if "narrow compatibility shard" not in boundary.get("interpretation", ""):
+                errors.append(f"{series_relative}: Galileo-only scope limitation is missing")
             if series.get("operation", {}).get("weekly_automation_active") is not False:
                 errors.append(f"{series_relative}: weekly automation must not be claimed before it exists")
 
@@ -828,6 +868,49 @@ def validate_progress_snapshot() -> list[str]:
         errors.append(f"{relative}: current integrated base must remain null until recorded")
     if "not a GalileoEngine behind count" not in upstream.get("interpretation", ""):
         errors.append(f"{relative}: upstream interpretation boundary is missing")
+
+    timeline_relative = "data/evidence/galileo-project-timeline.json"
+    timeline_path = ROOT / timeline_relative
+    if not timeline_path.is_file():
+        errors.append(f"{timeline_relative}: current Galileo timeline is missing")
+    else:
+        try:
+            timeline = json.loads(timeline_path.read_text(encoding="utf-8"))
+        except (UnicodeDecodeError, json.JSONDecodeError) as exc:
+            errors.append(f"{timeline_relative}: invalid UTF-8 JSON: {exc}")
+        else:
+            points = timeline.get("points", [])
+            if timeline.get("kind") != "galileo-project-evolution":
+                errors.append(f"{timeline_relative}: unexpected timeline kind")
+            if timeline.get("reviewed_through") != "2026-08-30":
+                errors.append(f"{timeline_relative}: reviewed-through date is not current")
+            if timeline.get("source_head") != "99af1539f3403f163a225d24130ee8176cba337f":
+                errors.append(f"{timeline_relative}: current reviewed source head is missing")
+            if not isinstance(points, list) or len(points) != 7:
+                errors.append(f"{timeline_relative}: seven selected checkpoints are required")
+            else:
+                dates = [point.get("date") for point in points]
+                sequences = [point.get("sequence") for point in points]
+                if dates != sorted(dates) or len(dates) != len(set(dates)):
+                    errors.append(f"{timeline_relative}: checkpoint dates must be unique and ordered")
+                if sequences != list(range(1, len(points) + 1)):
+                    errors.append(f"{timeline_relative}: checkpoint sequence must be contiguous")
+                if dates[0] != "2026-07-26" or dates[-1] != "2026-08-30":
+                    errors.append(f"{timeline_relative}: timeline must span the standalone import through the current reviewed head")
+                expected_commits = {
+                    "525533a36279",
+                    "850482f99863",
+                    "d0e89798d992",
+                    "860361519dd6",
+                    "2fe12e0e8f82",
+                    "3fe5fc70fd6d",
+                    "99af1539f340",
+                }
+                if {point.get("commit") for point in points} != expected_commits:
+                    errors.append(f"{timeline_relative}: checkpoint commit set is incomplete")
+            scale = timeline.get("scale", {})
+            if scale.get("y") != "ordered evidence checkpoints" or "not a completion percentage" not in scale.get("interpretation", ""):
+                errors.append(f"{timeline_relative}: the non-score chart boundary is missing")
 
     lineage = snapshot.get("lineage", {})
     if lineage.get("merge_base") != upstream.get("declared_initial_base"):
@@ -940,6 +1023,8 @@ def smoke_http(base_url: str) -> list[str]:
         "data/evidence/2026-W30-phase0-core-fork-base.json": "application/json",
         "data/evidence/2026-W33-phase0-core-comparison.json": "application/json",
         "data/evidence/phase0-core-series.json": "application/json",
+        "data/evidence/feature-inventory-series.json": "application/json",
+        "data/evidence/galileo-project-timeline.json": "application/json",
         "data/galileo-audit.json": "application/json",
         "data/newsletter-discussions.json": "application/json",
         **{
