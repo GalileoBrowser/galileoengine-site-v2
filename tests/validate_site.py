@@ -477,6 +477,13 @@ def validate_public_page(relative: str) -> list[str]:
         ):
             if marker not in text:
                 errors.append(f"{relative}: About Galileo marker is missing {marker!r}")
+        for email in (
+            "loren@galileobrowser.com",
+            "silviu@galileobrowser.com",
+            "manuel@galileobrowser.com",
+        ):
+            if f'>{email}</a>' not in text:
+                errors.append(f"{relative}: team email must be visible as link text: {email!r}")
         for card_marker in ('class="founder-card"', 'class="contact-card"', 'class="callout'):
             if card_marker in text:
                 errors.append(f"{relative}: editorial About page still contains card UI {card_marker!r}")
